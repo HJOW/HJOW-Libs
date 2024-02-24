@@ -18,6 +18,7 @@ limitations under the License.
 
 package hjow.common.util;
 
+import java.lang.reflect.Method;
 import java.security.MessageDigest;
 
 import javax.crypto.Cipher;
@@ -119,7 +120,30 @@ public class SecurityUtil
     
     /** 바이너리를 BASE64 문자열로 변환합니다. */
     public static String base64String(byte[] bytes) {
-    	return javax.xml.bind.DatatypeConverter.printBase64Binary(bytes);
+    	try {
+    		// JDK 11 에서 javax.xml.bind 가 빠짐 (별도 라이브러리로 분리됨)
+    		// 시도는 하되, 없으면 apache common codec 액세스 시도
+    		Class<?> javaxXml = Class.forName("javax.xml.bind.DatatypeConverter");
+        	Method mthd = javaxXml.getMethod("printBase64Binary", byte[].class);
+        	Object res = mthd.invoke(null, bytes);
+        	return res.toString();
+    	} catch(Throwable t) {
+    		if((t instanceof ClassNotFoundException) || (t instanceof NoSuchMethodException)) {
+    			try {
+    				Class<?> apacheCodec = Class.forName("org.apache.commons.codec.binary.Base64");
+    				Method mthd = apacheCodec.getMethod("encodeBase64String", byte[].class);
+    				Object res = mthd.invoke(null, bytes);
+    				return res.toString();
+    			} catch(Throwable t2) {
+    				if(t instanceof ClassNotFoundException) {
+    					throw new RuntimeException("Cannot run BASE64. Please add Apache Commons Codec, or JAXB Library.", t2);
+    				}
+    				throw new RuntimeException(t.getMessage(), t2);
+    			}
+    		} else {
+    			throw new RuntimeException(t.getMessage(), t);
+    		}
+    	}
     }
     
     /**
