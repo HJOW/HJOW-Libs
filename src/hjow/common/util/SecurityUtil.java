@@ -117,6 +117,11 @@ public class SecurityUtil
     	return results;
     }
     
+    /** 바이너리를 BASE64 문자열로 변환합니다. */
+    public static String base64String(byte[] bytes) {
+    	return javax.xml.bind.DatatypeConverter.printBase64Binary(bytes);
+    }
+    
     /**
      * <p>텍스트를 암호화합니다.</p>
      * 
