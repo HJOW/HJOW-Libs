@@ -222,6 +222,7 @@ public class JsonObject extends PublicMethodOpenedClass implements JsonInstance 
             List<Integer> delimiterPoints = SyntaxUtil.getDelimiterLocations(insides, ',');
             
             if(delimiterPoints.isEmpty()) {
+            	if(insides.equals("")) return arrayObj;
                 arrayObj.add(parseJson(insides));
                 return arrayObj;
             }
