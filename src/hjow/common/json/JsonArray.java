@@ -27,6 +27,7 @@ import java.util.Map;
 import java.util.Set;
 
 import hjow.common.util.DataUtil;
+import hjow.common.util.SyntaxUtil;
 
 /** JSON 형식의 데이터를 다룰 수 있는 클래스입니다. 이 클래스의 인스턴스는 하나의 JSON 배열의 정보를 포함합니다. */
 public class JsonArray implements JsonInstance {
@@ -140,7 +141,7 @@ public class JsonArray implements JsonInstance {
         resultString = resultString.append("]");
         String res = resultString.toString();
         resultString = null;
-        if(! allowLineJump) res = res.replace("\n", "\\" + "n");
+        if(! allowLineJump) res = SyntaxUtil.lineSinglize(res);
         return res;
     }
     

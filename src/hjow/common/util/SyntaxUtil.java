@@ -143,4 +143,119 @@ public class SyntaxUtil {
         }
         return delimiterPoints;
     }
+	
+	/**
+	 * 한 줄로 통합된 문자열을 여러 줄로 나눕니다. (\n을 인식합니다.)
+	 * 
+	 * @param originals 한 줄로 통합된 문자열
+	 * @return 여러 줄로 나뉜 문자열
+	 */
+	public static String lineMultilize(String originals) {
+		if(originals == null) return null;
+		StringBuilder res = new StringBuilder("");
+		
+		// System.out.println("lineMultilize");
+		// System.out.println("BEFORE");
+		// System.out.println(originals);
+		
+		char[] chars = originals.toCharArray();
+		originals = null;
+		
+		char current;
+		int revSlashCount = 0;
+		boolean quoteArea = false;
+		for(int idx=0; idx<chars.length; idx++) {
+			current = chars[idx];
+			
+			if(current == '"') {
+				for(int rdx=0; rdx<Math.ceil(revSlashCount / 2.0); rdx++) {
+					res = res.append("\\");
+				}
+				if(revSlashCount >= 1 && revSlashCount % 2 == 0) {
+					if(quoteArea) res = res.append("\\");
+				}
+				res = res.append("\"");
+				quoteArea = (! quoteArea);
+				continue;
+			} else if(current == '\\') {
+				revSlashCount++;
+				
+				if(revSlashCount >= 3) {
+					res = res.append("\\");
+					revSlashCount = 1;
+				}
+				
+				continue;
+			} else if(revSlashCount >= 1 && current != '\\') {
+				if(current == 'n') {
+					res = res.append("\n");
+				} else if(current == '"') {
+					res = res.append("\\").append("\"");
+				} else {
+					for(int rdx=0; rdx<Math.ceil(revSlashCount / 2.0); rdx++) {
+						res = res.append("\\");
+					}
+					res = res.append(current);
+				}
+				revSlashCount = 0;
+				continue;
+			}
+			
+			res = res.append(current);
+		}
+		
+		// System.out.println("AFTER");
+		// System.out.println(res);
+		
+		return res.toString().trim();
+	}
+	
+	/**
+	 * 여러 줄 문자열을 한줄로 합칩니다. (줄 나눔 위치에는 \n 이 들어갑니다.)
+	 * 
+	 * @param originals 기존 문자열
+	 * @return 한 줄로 변환된 문자열
+	 */
+	public static String lineSinglize(String originals) {
+		if(originals == null) return null;
+		StringBuilder res = new StringBuilder("");
+		// System.out.println("lineSinglize");
+		// System.out.println("BEFORE");
+		// System.out.println(originals);
+		
+		char[] chars = originals.toCharArray();
+		originals = null;
+		
+		char current;
+		int revSlashCount = 0;
+		for(int idx=0; idx<chars.length; idx++) {
+			current = chars[idx];
+			
+			if(current == '\\') {
+				revSlashCount++;
+				continue;
+			} else {
+				for(int rdx=0; rdx<revSlashCount; rdx++) {
+					res = res.append("\\");
+				}
+				revSlashCount = 0;
+				
+				if(current == '\r') {
+					continue;
+				}
+				
+				if(current == '\n') {
+					res = res.append("\\").append("n");
+					continue;
+				}
+			}
+			
+			res = res.append(current);
+		}
+		
+		// System.out.println("AFTER");
+		// System.out.println(res);
+		
+		return res.toString().trim();
+	}
 }

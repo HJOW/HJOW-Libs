@@ -147,7 +147,7 @@ public class JsonObject extends PublicMethodOpenedClass implements JsonInstance 
         resultString = resultString.append("}");
         String res = resultString.toString();
         resultString = null;
-        if(! allowLineJump) res = res.replace("\n", "\\" + "n");
+        if(! allowLineJump) res = SyntaxUtil.lineSinglize(res);
         return res;
     }
     
@@ -197,6 +197,7 @@ public class JsonObject extends PublicMethodOpenedClass implements JsonInstance 
         if(jsonStr == null) return null;
         
         String jsonTrim = jsonStr.trim();
+        jsonTrim = SyntaxUtil.lineMultilize(jsonTrim);
         
         // Primitive 처리
         if(jsonTrim.equals("")) return null;
