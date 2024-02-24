@@ -22,6 +22,8 @@ import java.io.Serializable;
 public interface JsonInstance extends Serializable, Iterable<Object> {
     /** JSON 형식의 문자열을 생성합니다. */
     public String toJSON();
+    /** JSON 형식의 문자열을 생성합니다. */
+    public String toJSON(boolean allowLineJump);
     /** 복제하여 새 객체를 만듭니다. */
 	public JsonInstance cloneObject();
 }

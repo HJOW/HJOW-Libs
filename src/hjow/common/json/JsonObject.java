@@ -120,9 +120,14 @@ public class JsonObject extends PublicMethodOpenedClass implements JsonInstance 
     public void clear() {
         data.clear();
     }
-
+    
     @Override
     public String toJSON() {
+    	return toJSON(false);
+    }
+
+    @Override
+    public String toJSON(boolean allowLineJump) {
         Set<String> keys = keySet();
         StringBuilder resultString = new StringBuilder("");
         resultString = resultString.append("{");
@@ -140,7 +145,10 @@ public class JsonObject extends PublicMethodOpenedClass implements JsonInstance 
             isFirst = false;
         }
         resultString = resultString.append("}");
-        return resultString.toString();
+        String res = resultString.toString();
+        resultString = null;
+        if(! allowLineJump) res = res.replace("\n", "\\" + "n");
+        return res;
     }
     
     @Override
