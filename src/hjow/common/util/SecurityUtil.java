@@ -130,15 +130,25 @@ public class SecurityUtil
     	} catch(Throwable t) {
     		if((t instanceof ClassNotFoundException) || (t instanceof NoSuchMethodException)) {
     			try {
-    				Class<?> apacheCodec = Class.forName("org.apache.commons.codec.binary.Base64");
-    				Method mthd = apacheCodec.getMethod("encodeBase64String", byte[].class);
-    				Object res = mthd.invoke(null, bytes);
-    				return res.toString();
+    				Class<?> javaxXml = Class.forName("jakarta.xml.bind.DatatypeConverter");
+    	        	Method mthd = javaxXml.getMethod("printBase64Binary", byte[].class);
+    	        	Object res = mthd.invoke(null, bytes);
+    	        	return res.toString();
     			} catch(Throwable t2) {
-    				if(t instanceof ClassNotFoundException) {
-    					throw new RuntimeException("Cannot run BASE64. Please add Apache Commons Codec, or JAXB Library.", t2);
+    				if((t2 instanceof ClassNotFoundException) || (t2 instanceof NoSuchMethodException)) {
+    					try {
+    	    				Class<?> apacheCodec = Class.forName("org.apache.commons.codec.binary.Base64");
+    	    				Method mthd = apacheCodec.getMethod("encodeBase64String", byte[].class);
+    	    				Object res = mthd.invoke(null, bytes);
+    	    				return res.toString();
+    	    			} catch(Throwable t3) {
+    	    				if(t instanceof ClassNotFoundException) {
+    	    					throw new RuntimeException("Cannot run BASE64. Please add Apache Commons Codec, or JAXB Library.", t3);
+    	    				}
+    	    				throw new RuntimeException(t3.getMessage(), t3);
+    	    			}
     				}
-    				throw new RuntimeException(t.getMessage(), t2);
+    				throw new RuntimeException(t2.getMessage(), t2);
     			}
     		} else {
     			throw new RuntimeException(t.getMessage(), t);
