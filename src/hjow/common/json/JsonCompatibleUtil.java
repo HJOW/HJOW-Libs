@@ -69,6 +69,7 @@ public class JsonCompatibleUtil {
     	throw new RuntimeException("Unsupported parameter type");
     }
     
+    private static boolean warnJsonParsingOther = true;
     /** 문자열을 Json 객체로 변환. json.simple 라이브러리 사용 가능 시 해당 라이브러리로 변환 시도 */
     public static Object parseJson(String jsonStr) {
     	if(isJsonSimpleAvail()) {
@@ -78,8 +79,11 @@ public class JsonCompatibleUtil {
         		Method parseMthd  = classParser.getMethod("parse", String.class);
         		Object parsed = parseMthd.invoke(parserInst, jsonStr);
         		return toJsonInstance(parsed);
-    		} catch(Exception ex) {
-    			System.out.println("Exception when JSON parsing by json.simple libs. " + ex.getMessage() + " Trying to parse other method...");
+    		} catch(ClassNotFoundException ex) {
+    			if(warnJsonParsingOther) System.out.println("Exception when JSON parsing by json.simple libs. " + ex.getMessage() + " Trying to parse other method...");
+    			warnJsonParsingOther = false;
+    		} catch(Throwable ex) {
+    			throw new RuntimeException(ex.getMessage(), ex);
     		}
     	}
     	return JsonObject.parseJson(jsonStr);
