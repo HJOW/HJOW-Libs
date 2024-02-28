@@ -21,6 +21,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -33,7 +34,7 @@ import hjow.common.util.DataUtil;
 import hjow.common.util.SyntaxUtil;
 
 /** JSON 형식의 데이터를 다룰 수 있는 클래스입니다. 이 클래스의 인스턴스는 하나의 JSON 객체의 정보를 포함합니다. */
-public class JsonObject extends PublicMethodOpenedClass implements JsonInstance {
+public class JsonObject extends PublicMethodOpenedClass implements JsonInstance, Map<String, Object> {
     private static final long serialVersionUID = 461225513560905903L;
     protected Map<String, Object> data;
     
@@ -41,15 +42,18 @@ public class JsonObject extends PublicMethodOpenedClass implements JsonInstance 
         data = new HashMap<String, Object>();
     }
     
-    /** 객체 내에 원소를 삽입합니다. */
-    public void put(String key, Object obj) {
+    /** 객체 내에 원소를 삽입합니다. 컬렉션 객체인 경우, JsonObject 혹은 JsonArray 로 변환되어 들어갑니다. */
+    @Override
+    public Object put(String key, Object obj) {
+    	Object bef = null;
+    	if(data != null) bef = get(key);
         if(obj == null) {
             data.put(key, null);
-            return;
+            return bef;
         }
         if(obj instanceof JsonInstance) {
             data.put(key, obj);
-            return;
+            return bef;
         }
         if(obj instanceof Number) {
             if(obj instanceof Integer || obj instanceof Long || obj instanceof BigInteger) {
@@ -58,15 +62,15 @@ public class JsonObject extends PublicMethodOpenedClass implements JsonInstance 
                 obj = ((Number) obj).doubleValue();
             }
             data.put(key, obj);
-            return;
+            return bef;
         }
         if(obj instanceof Boolean) {
             data.put(key, obj);
-            return;
+            return bef;
         }
         if(obj instanceof CharSequence) {
             data.put(key, obj.toString());
-            return;
+            return bef;
         }
         if(obj instanceof List<?>) {
             JsonArray newArr = new JsonArray();
@@ -74,7 +78,7 @@ public class JsonObject extends PublicMethodOpenedClass implements JsonInstance 
                 newArr.add(objOne);
             }
             data.put(key, newArr);
-            return;
+            return bef;
         }
         if(obj instanceof Map<?, ?>) {
             JsonObject newObj = new JsonObject();
@@ -84,19 +88,23 @@ public class JsonObject extends PublicMethodOpenedClass implements JsonInstance 
             }
             
             data.put(key, newObj);
-            return;
+            return bef;
         }
         if(obj instanceof Date) {
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             obj = formatter.format((Date) obj);
             data.put(key, obj);
-            return;
+            return bef;
         }
         put(key, String.valueOf(obj));
+        return bef;
     }
     
     /** 객체 내에서 키를 이용해 원소를 찾아 반환합니다. */
-    public Object get(String key) {
+    @Override
+    public Object get(Object key) {
+    	if(key == null) return null;
+    	key = key.toString();
     	if(! data.containsKey(key)) return null;
         return data.get(key);
     }
@@ -327,5 +335,44 @@ public class JsonObject extends PublicMethodOpenedClass implements JsonInstance 
 			iteratorList.add(newEntry);
 		}
 		return iteratorList.iterator();
+	}
+
+	@Override
+	public int size() {
+		return data.size();
+	}
+
+	@Override
+	public boolean containsKey(Object key) {
+		return data.containsKey(key);
+	}
+
+	@Override
+	public boolean containsValue(Object value) {
+		return data.containsValue(value);
+	}
+
+	@Override
+	public Object remove(Object key) {
+		return data.remove(key);
+	}
+
+	@Override
+	public void putAll(Map<? extends String, ? extends Object> m) {
+		if(m == null) return;
+		Set<? extends String> keys = m.keySet();
+		for(String k : keys) {
+			put(k, m.get(k));
+		}
+	}
+
+	@Override
+	public Collection<Object> values() {
+		return data.values();
+	}
+
+	@Override
+	public Set<Entry<String, Object>> entrySet() {
+		return data.entrySet();
 	}
 }
