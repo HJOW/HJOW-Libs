@@ -154,10 +154,6 @@ public class SyntaxUtil {
 		if(originals == null) return null;
 		StringBuilder res = new StringBuilder("");
 		
-		// System.out.println("lineMultilize");
-		// System.out.println("BEFORE");
-		// System.out.println(originals);
-		
 		char[] chars = originals.toCharArray();
 		originals = null;
 		
@@ -167,15 +163,20 @@ public class SyntaxUtil {
 		for(int idx=0; idx<chars.length; idx++) {
 			current = chars[idx];
 			
+			// System.out.println(idx + "\t" + current + "\t" + revSlashCount + "\t" + quoteArea + "\t" + res);
+			
 			if(current == '"') {
 				for(int rdx=0; rdx<Math.ceil(revSlashCount / 2.0); rdx++) {
 					res = res.append("\\");
 				}
 				if(revSlashCount >= 1 && revSlashCount % 2 == 0) {
-					if(quoteArea) res = res.append("\\");
+					if(quoteArea) {
+						res = res.append("\\");
+					}
 				}
 				res = res.append("\"");
 				quoteArea = (! quoteArea);
+				revSlashCount = 0;
 				continue;
 			} else if(current == '\\') {
 				revSlashCount++;
@@ -189,6 +190,8 @@ public class SyntaxUtil {
 			} else if(revSlashCount >= 1 && current != '\\') {
 				if(current == 'n') {
 					res = res.append("\n");
+				} else if(current == 't') {
+					res = res.append("\t");
 				} else if(current == '"') {
 					res = res.append("\\").append("\"");
 				} else {
@@ -204,9 +207,6 @@ public class SyntaxUtil {
 			res = res.append(current);
 		}
 		
-		// System.out.println("AFTER");
-		// System.out.println(res);
-		
 		return res.toString().trim();
 	}
 	
@@ -219,9 +219,6 @@ public class SyntaxUtil {
 	public static String lineSinglize(String originals) {
 		if(originals == null) return null;
 		StringBuilder res = new StringBuilder("");
-		// System.out.println("lineSinglize");
-		// System.out.println("BEFORE");
-		// System.out.println(originals);
 		
 		char[] chars = originals.toCharArray();
 		originals = null;
@@ -252,9 +249,6 @@ public class SyntaxUtil {
 			
 			res = res.append(current);
 		}
-		
-		// System.out.println("AFTER");
-		// System.out.println(res);
 		
 		return res.toString().trim();
 	}

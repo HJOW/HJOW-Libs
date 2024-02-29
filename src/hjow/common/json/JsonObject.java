@@ -146,8 +146,11 @@ public class JsonObject extends PublicMethodOpenedClass implements JsonInstance,
             resultString = resultString.append("\"" + DataUtil.castQuote(true, k) + "\"").append(":");
             
             Object target = get(k);
-            if(target instanceof JsonInstance) target = ((JsonInstance) target).toJSON();
-            else if(target instanceof CharSequence) target = "\"" + DataUtil.castQuote(true, target.toString()) + "\"";
+            if(target instanceof JsonInstance) {
+            	target = ((JsonInstance) target).toJSON();
+            } else if(target instanceof CharSequence) {
+            	target = "\"" + DataUtil.castQuote(true, target.toString()) + "\"";
+            }
             resultString = resultString.append(target);
             
             isFirst = false;
@@ -217,6 +220,7 @@ public class JsonObject extends PublicMethodOpenedClass implements JsonInstance,
                 indexOfBlock = jsonTrim.lastIndexOf("'");
             }
             String insides = jsonTrim.substring(1, indexOfBlock);
+            
             return DataUtil.reCastQuote(jsonTrim.startsWith("\""), insides);
         } else if(! (jsonTrim.startsWith("{") || jsonTrim.startsWith("["))) {
         	if(jsonTrim.equals("null")) return null;
@@ -268,6 +272,7 @@ public class JsonObject extends PublicMethodOpenedClass implements JsonInstance,
         if(jsonTrim.startsWith("{")) {
             int indexOfBlock = jsonTrim.lastIndexOf("}");
             String insides = jsonTrim.substring(1, indexOfBlock);
+            
             List<Integer> delimiterPoints = SyntaxUtil.getDelimiterLocations(insides, ',');
             JsonObject objects = new JsonObject();
             

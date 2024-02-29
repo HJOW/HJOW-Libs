@@ -23,6 +23,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.List;
 import java.util.Properties;
 
 import hjow.common.core.Core;
@@ -243,5 +244,21 @@ public class FileUtil {
         
         Core.log("Deleting file : " + file.getAbsolutePath());
         file.delete();
+    }
+    
+    /** 스트림을 순서대로 닫습니다. 하나 이상 예외가 발생하더라도 일단 모두 닫기를 시도합니다. */
+    public static void closeAll(java.io.Closeable ... closeables) {
+    	if(closeables == null) return;
+    	for(java.io.Closeable c : closeables) {
+    		try { c.close(); } catch(Throwable t) { System.out.println("Warn ! Exception occured when closing " + c.getClass().getName() + " - ( " + t.getClass().getName() + ") " + t.getMessage()); }
+    	}
+    }
+    
+    /** 스트림을 순서대로 닫습니다. 하나 이상 예외가 발생하더라도 일단 모두 닫기를 시도합니다. */
+    public static void closeAll(List<java.io.Closeable> closeables) {
+    	if(closeables == null) return;
+    	for(java.io.Closeable c : closeables) {
+    		try { c.close(); } catch(Throwable t) { System.out.println("Warn ! Exception occured when closing " + c.getClass().getName() + " - ( " + t.getClass().getName() + ") " + t.getMessage()); }
+    	}
     }
 }

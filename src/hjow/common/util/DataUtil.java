@@ -303,14 +303,19 @@ public class DataUtil
      */
     public static String castQuote(boolean isDoubleQuote, String target)
     {
+    	String res = target;
+    	// res = res.replace("\n", "\\" + "n");
+    	// res = res.replace("\t", "\\" + "t");
+    	res = res.replace("\\", "\\" + "\\");
         if(isDoubleQuote)
         {
-            return target.replace("\"", "\\" + "\"");
+        	res = res.replace("\"", "\\" + "\"");
         }
         else
         {
-            return target.replace("'", "\'");
+            res = res.replace("'", "\'");
         }
+        return res;
     }
     
     /**
@@ -322,16 +327,6 @@ public class DataUtil
      */
     public static String reCastQuote(boolean isDoubleQuote, String target)
     {
-        /*
-        if(isDoubleQuote)
-        {
-            return target.replace("\\" + "\"", "\"");
-        }
-        else
-        {
-            return target.replace("\'", "'");
-        }
-        */
         char[] chars = target.toCharArray();
         StringBuffer results = new StringBuffer("");
         boolean useDefault = true;
@@ -361,6 +356,7 @@ public class DataUtil
                     }
                     else
                     {
+                    	if(chars[i] != '\\' && chars[i - 1] == '\\') results = results.append(String.valueOf('\\'));
                         useDefault = true;
                     }
                 }
@@ -379,7 +375,11 @@ public class DataUtil
                     {
                         continue;
                     }
-                    else useDefault = true;
+                    else
+                    {
+                    	if(chars[i] != '\\' && chars[i - 1] == '\\') results = results.append(String.valueOf('\\'));
+                    	useDefault = true;
+                    }
                 }
                 else
                 {
@@ -409,6 +409,7 @@ public class DataUtil
                     }
                     else
                     {
+                    	if(chars[i] != '\\' && chars[i - 1] == '\\') results = results.append(String.valueOf('\\'));
                         useDefault = true;
                     }
                 }
@@ -427,7 +428,11 @@ public class DataUtil
                     {
                         continue;
                     }
-                    else useDefault = true;
+                    else
+                    {
+                    	if(chars[i] != '\\' && chars[i - 1] == '\\') results = results.append(String.valueOf('\\'));
+                    	useDefault = true;
+                    }
                 }
                 else
                 {
@@ -440,6 +445,7 @@ public class DataUtil
                 results = results.append(chars[i]);
             }
         }
+        
         return results.toString();
     }
     
