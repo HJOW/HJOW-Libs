@@ -125,27 +125,43 @@ public class JsonArray implements JsonInstance, List<Object> {
     
     @Override
     public String toJSON() {
-    	return toJSON(false);
+    	return toJSON(false, false);
     }
 
     @Override
-    public String toJSON(boolean allowLineJump) {
-        StringBuilder resultString = new StringBuilder("");
-        resultString = resultString.append("[");
+    public String toJSON(boolean allowLineJumpString, boolean lookFine) {
+    	return toJSON("", allowLineJumpString, lookFine);
+    }
+    
+    @Override
+    public String toJSON(String indent, boolean allowLineJumpString, boolean lookFine) {
+    	if(indent == null) indent = "";
+    	String indentNext = "";
+    	if(indent.equals("")) indentNext = indent + "    ";
+    	
+    	StringBuilder resultString = new StringBuilder("");
+        resultString = resultString.append(indent).append("[");
         boolean isFirst = true;
         for(Object target : data) {
-            if(! isFirst) resultString = resultString.append(",");
+        	if(lookFine) resultString = resultString.append("\n");
+        	resultString = resultString.append(indentNext);
+        	if(! isFirst) resultString = resultString.append(",");
             
-            if(target instanceof JsonInstance) target = ((JsonInstance) target).toJSON();
-            else if(target instanceof CharSequence) target = "\"" + DataUtil.castQuote(true, target.toString()) + "\"";
+            if(target instanceof JsonInstance) {
+            	target = ((JsonInstance) target).toJSON(indentNext, allowLineJumpString, lookFine);
+            } else if(target instanceof CharSequence) {
+            	String content = DataUtil.castQuote(true, target.toString());
+            	if(! allowLineJumpString) content = SyntaxUtil.lineSinglize(content);
+            	target = "\"" + content + "\"";
+            }
             resultString = resultString.append(target);
             
             isFirst = false;
         }
-        resultString = resultString.append("]");
+        if(lookFine) resultString = resultString.append("\n");
+        resultString = resultString.append(indent).append("]");
         String res = resultString.toString();
         resultString = null;
-        if(! allowLineJump) res = SyntaxUtil.lineSinglize(res);
         return res;
     }
     

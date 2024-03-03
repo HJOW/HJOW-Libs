@@ -131,35 +131,48 @@ public class JsonObject extends PublicMethodOpenedClass implements JsonInstance,
     
     @Override
     public String toJSON() {
-    	return toJSON(false);
+    	return toJSON(false, false);
     }
 
     @Override
-    public String toJSON(boolean allowLineJump) {
-        Set<String> keys = keySet();
+    public String toJSON(boolean allowLineJumpString, boolean lookFine) {
+        return toJSON("", allowLineJumpString, lookFine);
+    }
+    
+    @Override
+    public String toJSON(String indent, boolean allowLineJumpString, boolean lookFine) {
+    	if(indent == null) indent = "";
+    	String indentNext = "";
+    	if(indent.equals("")) indentNext = indent + "    ";
+    	
+    	Set<String> keys = keySet();
         StringBuilder resultString = new StringBuilder("");
-        resultString = resultString.append("{");
+        resultString = resultString.append(indent).append("{");
         boolean isFirst = true;
         for(String k : keys) {
-            if(! isFirst) resultString = resultString.append(",");
+        	if(lookFine) resultString = resultString.append("\n");
+        	resultString = resultString.append(indentNext);
+        	if(! isFirst) resultString = resultString.append(",");
             
             resultString = resultString.append("\"" + DataUtil.castQuote(true, k) + "\"").append(":");
             
             Object target = get(k);
             if(target instanceof JsonInstance) {
-            	target = ((JsonInstance) target).toJSON();
+            	target = ((JsonInstance) target).toJSON(indentNext, allowLineJumpString, lookFine);
             } else if(target instanceof CharSequence) {
-            	target = "\"" + DataUtil.castQuote(true, target.toString()) + "\"";
+            	String content = DataUtil.castQuote(true, target.toString());
+            	if(! allowLineJumpString) content = SyntaxUtil.lineSinglize(content);
+            	target = "\"" + content + "\"";
             }
             resultString = resultString.append(target);
             
             isFirst = false;
         }
-        resultString = resultString.append("}");
+        if(lookFine) resultString = resultString.append("\n");
+        resultString = resultString.append(indent).append("}");
         String res = resultString.toString();
         resultString = null;
-        if(! allowLineJump) res = SyntaxUtil.lineSinglize(res);
-        return res;
+        return indent + res;
     }
     
     @Override
@@ -237,7 +250,7 @@ public class JsonObject extends PublicMethodOpenedClass implements JsonInstance,
         // 배열 처리
         if(jsonTrim.startsWith("[")) {
             int indexOfBlock = jsonTrim.lastIndexOf("]");
-            String insides = jsonTrim.substring(1, indexOfBlock);
+            String insides = jsonTrim.substring(1, indexOfBlock).trim();
             
             JsonArray arrayObj = new JsonArray();
             List<Integer> delimiterPoints = SyntaxUtil.getDelimiterLocations(insides, ',');
@@ -271,7 +284,7 @@ public class JsonObject extends PublicMethodOpenedClass implements JsonInstance,
         // 객체 처리
         if(jsonTrim.startsWith("{")) {
             int indexOfBlock = jsonTrim.lastIndexOf("}");
-            String insides = jsonTrim.substring(1, indexOfBlock);
+            String insides = jsonTrim.substring(1, indexOfBlock).trim();
             
             List<Integer> delimiterPoints = SyntaxUtil.getDelimiterLocations(insides, ',');
             JsonObject objects = new JsonObject();
