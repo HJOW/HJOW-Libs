@@ -218,10 +218,15 @@ public class JsonObject extends PublicMethodOpenedClass implements JsonInstance,
     
     /** JSON 형식의 문자열을 객체 형태로 변환합니다. ignorePrimitiveCaseQuotion 가 true 이면, Primitive 값이 들어왔을 때 문자열(숫자가 아닌)이면서 따옴표로 둘러싸이지 않으면 문자열로 취급합니다. */
     protected static Object parseJson(String jsonStr, boolean ignorePrimitiveCaseQuotion) {
+    	return parseJson(jsonStr, ignorePrimitiveCaseQuotion, false);
+    }
+    
+    /** JSON 형식의 문자열을 객체 형태로 변환합니다. ignorePrimitiveCaseQuotion 가 true 이면, Primitive 값이 들어왔을 때 문자열(숫자가 아닌)이면서 따옴표로 둘러싸이지 않으면 문자열로 취급합니다. */
+    protected static Object parseJson(String jsonStr, boolean ignorePrimitiveCaseQuotion, boolean noLineMultilize) {
         if(jsonStr == null) return null;
         
         String jsonTrim = jsonStr.trim();
-        jsonTrim = SyntaxUtil.lineMultilize(jsonTrim);
+        if(! noLineMultilize) jsonTrim = SyntaxUtil.lineMultilize(jsonTrim);
         
         // Primitive 처리
         if(jsonTrim.equals("")) return null;
@@ -257,14 +262,14 @@ public class JsonObject extends PublicMethodOpenedClass implements JsonInstance,
             
             if(delimiterPoints.isEmpty()) {
             	if(insides.equals("")) return arrayObj;
-                arrayObj.add(parseJson(insides));
+                arrayObj.add(parseJson(insides, false, true));
                 return arrayObj;
             }
             String one = insides.substring(0, delimiterPoints.get(0).intValue());
-            arrayObj.add(parseJson(one.trim()));
+            arrayObj.add(parseJson(one.trim(), false, true));
             if(delimiterPoints.size() == 1) {
                 String others = insides.substring(delimiterPoints.get(0).intValue() + 1);
-                arrayObj.add(parseJson(others.trim()));
+                arrayObj.add(parseJson(others.trim(), false, true));
                 return arrayObj;
             }
             
@@ -275,7 +280,7 @@ public class JsonObject extends PublicMethodOpenedClass implements JsonInstance,
                 } else {
                     others = insides.substring(delimiterPoints.get(idx).intValue() + 1, delimiterPoints.get(idx + 1).intValue());
                 }
-                arrayObj.add(parseJson(others.trim()));
+                arrayObj.add(parseJson(others.trim(), false, true));
             }
             
             return arrayObj;
@@ -292,9 +297,9 @@ public class JsonObject extends PublicMethodOpenedClass implements JsonInstance,
             if(delimiterPoints.isEmpty()) {
                 List<Integer> insidesColonDelimPoints = SyntaxUtil.getDelimiterLocations(insides, ':');
                 if(insidesColonDelimPoints.isEmpty()) {
-                    objects.put(String.valueOf(parseJson(insides, true)), "true");
+                    objects.put(String.valueOf(parseJson(insides, true, true)), "true");
                 } else {
-                    objects.put(String.valueOf(parseJson(insides.substring(0, insidesColonDelimPoints.get(0).intValue()).trim(), true)), parseJson(insides.substring(insidesColonDelimPoints.get(0).intValue() + 1).trim()));
+                    objects.put(String.valueOf(parseJson(insides.substring(0, insidesColonDelimPoints.get(0).intValue()).trim(), true, true)), parseJson(insides.substring(insidesColonDelimPoints.get(0).intValue() + 1).trim(), false, true));
                 }
                 
                 return objects;
@@ -311,7 +316,7 @@ public class JsonObject extends PublicMethodOpenedClass implements JsonInstance,
                 keyOf   = one.substring(0, oneColonDelimPoints.get(0).intValue()).trim();
                 valueOf = one.substring(oneColonDelimPoints.get(0).intValue() + 1).trim();
             }
-            objects.put(String.valueOf(parseJson(keyOf, true)), parseJson(valueOf));
+            objects.put(String.valueOf(parseJson(keyOf, true, true)), parseJson(valueOf, false, true));
             
             for(int idx=0; idx<delimiterPoints.size(); idx++) {
                 String others = null;
@@ -333,7 +338,7 @@ public class JsonObject extends PublicMethodOpenedClass implements JsonInstance,
                     valueOf = others.substring(colonLocation + 1).trim();
                 }
                 
-                objects.put(String.valueOf(parseJson(keyOf, true)), parseJson(valueOf));
+                objects.put(String.valueOf(parseJson(keyOf, true, true)), parseJson(valueOf));
             }
             
             return objects;

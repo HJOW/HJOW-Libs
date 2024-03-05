@@ -188,6 +188,12 @@ public class SyntaxUtil {
 				
 				continue;
 			} else if(revSlashCount >= 1 && current != '\\') {
+				if(revSlashCount == 2) {
+					res = res.append("\\");
+					res = res.append(current);
+					revSlashCount = 0;
+					continue;
+				}
 				if(current == 'n') {
 					res = res.append("\n");
 				} else if(current == 't') {
