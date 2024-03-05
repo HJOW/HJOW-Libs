@@ -17,12 +17,14 @@ limitations under the License.
  */
 package hjow.common.util;
 
+import java.io.Closeable;
 import java.io.File;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -160,5 +162,61 @@ public class ClassUtil {
 			resultFirst = resultFirst.substring(1);
 		}
 		return resultFirst;
+    }
+    
+    /** 
+     * 
+     * 스트림을 순서대로 닫습니다. 하나 이상 예외가 발생하더라도 일단 모두 닫기를 시도합니다. 
+     *     Closeable 인터페이스 구현체이거나, java.sql.Connection 객체인 경우 close 메소드를 호출합니다.
+     *     그 외의 경우, close 메소드를 리플렉션으로 접근해 호출합니다.
+     *     close 메소드가 없는 경우, dispose 메소드를 리플렉션으로 접근해 호출합니다.
+     *     이 메소드도 없다면 표준 출력으로 경고가 출력되고 다음으로 넘어갑니다.
+     */
+    public static void closeAll(Object ... closeables) {
+    	if(closeables == null) return;
+    	for(Object c : closeables) {
+    		try { 
+    			if(c instanceof Closeable) { ((Closeable) c).close(); continue; } 
+    			if(c instanceof java.sql.Connection)  { ((java.sql.Connection) c).close(); continue; }
+    			Method mthd = null;
+    			
+    			try {
+    				mthd = c.getClass().getMethod("close");
+    				mthd.invoke(c);
+    			} catch(NoSuchMethodException e) {
+    				mthd = c.getClass().getMethod("dispose");
+    				mthd.invoke(c);
+    			}
+    			
+    		} catch(Throwable t) { System.out.println("Warn ! Exception occured when closing " + c.getClass().getName() + " - ( " + t.getClass().getName() + ") " + t.getMessage()); }
+    	}
+    }
+    
+    /** 
+     * 
+     * 스트림을 순서대로 닫습니다. 하나 이상 예외가 발생하더라도 일단 모두 닫기를 시도합니다. 
+     *     Closeable 인터페이스 구현체이거나, java.sql.Connection 객체인 경우 close 메소드를 호출합니다.
+     *     그 외의 경우, close 메소드를 리플렉션으로 접근해 호출합니다.
+     *     close 메소드가 없는 경우, dispose 메소드를 리플렉션으로 접근해 호출합니다.
+     *     이 메소드도 없다면 표준 출력으로 경고가 출력되고 다음으로 넘어갑니다.
+     */
+    public static void closeAll(List<java.io.Closeable> closeables) {
+    	if(closeables == null) return;
+    	for(Object c : closeables) {
+    		try { 
+    			if(c instanceof Closeable) { ((Closeable) c).close(); continue; } 
+    			if(c instanceof java.sql.Connection)  { ((java.sql.Connection) c).close(); continue; }
+    			Method mthd = null;
+    			
+    			try {
+    				mthd = c.getClass().getMethod("close");
+    				mthd.invoke(c);
+    			} catch(NoSuchMethodException e) {
+    				mthd = c.getClass().getMethod("dispose");
+    				mthd.invoke(c);
+    			}
+    			
+    		} catch(Throwable t) { System.out.println("Warn ! Exception occured when closing " + c.getClass().getName() + " - ( " + t.getClass().getName() + ") " + t.getMessage()); }
+    	}
     }
 }

@@ -250,15 +250,13 @@ public class FileUtil {
     public static void closeAll(java.io.Closeable ... closeables) {
     	if(closeables == null) return;
     	for(java.io.Closeable c : closeables) {
-    		try { c.close(); } catch(Throwable t) { System.out.println("Warn ! Exception occured when closing " + c.getClass().getName() + " - ( " + t.getClass().getName() + ") " + t.getMessage()); }
+    		ClassUtil.closeAll(c);
     	}
     }
     
     /** 스트림을 순서대로 닫습니다. 하나 이상 예외가 발생하더라도 일단 모두 닫기를 시도합니다. */
     public static void closeAll(List<java.io.Closeable> closeables) {
     	if(closeables == null) return;
-    	for(java.io.Closeable c : closeables) {
-    		try { c.close(); } catch(Throwable t) { System.out.println("Warn ! Exception occured when closing " + c.getClass().getName() + " - ( " + t.getClass().getName() + ") " + t.getMessage()); }
-    	}
+    	ClassUtil.closeAll(closeables);
     }
 }
