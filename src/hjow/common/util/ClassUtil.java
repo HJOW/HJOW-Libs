@@ -175,6 +175,7 @@ public class ClassUtil {
     public static void closeAll(Object ... closeables) {
     	if(closeables == null) return;
     	for(Object c : closeables) {
+    		if(c == null) continue;
     		try { 
     			if(c instanceof Closeable) { ((Closeable) c).close(); continue; } 
     			if(c instanceof java.sql.Connection)  { ((java.sql.Connection) c).close(); continue; }
@@ -203,6 +204,7 @@ public class ClassUtil {
     public static void closeAll(List<java.io.Closeable> closeables) {
     	if(closeables == null) return;
     	for(Object c : closeables) {
+    		if(c == null) continue;
     		try { 
     			if(c instanceof Closeable) { ((Closeable) c).close(); continue; } 
     			if(c instanceof java.sql.Connection)  { ((java.sql.Connection) c).close(); continue; }
