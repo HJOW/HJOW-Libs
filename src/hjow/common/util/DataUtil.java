@@ -24,7 +24,9 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -669,6 +671,7 @@ public class DataUtil
     /**
      * <p>예외, 혹은 오류 객체의 내용을 텍스트로 반환합니다. 자바의 스택 추적 형식을 따릅니다.</p>
      * 
+     * @see DataUtil.traceException
      * @param t : 예외, 혹은 오류 객체
      * @return 텍스트 내용
      */
@@ -682,6 +685,25 @@ public class DataUtil
             results = results.append("\tat " +  String.valueOf(e) + "\n");
         }        
         return results.toString();
+    }
+    
+    /**
+     * 예외 객체의 스택 트레이스 메시지를 문자열로 반환합니다. 자바의 기본 스택 트레이스 출력을 그대로 문자열로 반환합니다.
+     * 
+     * @see DataUtil.stackTrace
+     */
+    public static String traceException(Throwable t) {
+        StringWriter fakeWriter = new StringWriter();
+        PrintWriter writer = null;
+        try {
+            writer = new PrintWriter(fakeWriter);
+            t.printStackTrace(writer);
+            writer.close();
+            return fakeWriter.toString();
+        } catch(Throwable ignores) {  } finally {
+            try { writer.close(); } catch(Throwable ignoreTwo) {}
+        }
+        return null;
     }
 
     /**
@@ -708,7 +730,6 @@ public class DataUtil
         return new String(newChar);
     }
     
-    
     /**
      * <p>데이터 용량 단위를 텍스트로 변환합니다.</p>
      * 
@@ -717,37 +738,54 @@ public class DataUtil
      */
     public static String toByteUnit(long values)
     {
+        return toByteUnit(values, 3);
+    }
+    
+    
+    /**
+     * <p>데이터 용량 단위를 텍스트로 변환합니다.</p>
+     * 
+     * @param values : 데이트 용량 값 (byte 단위)
+     * @return 단위 적용한 텍스트
+     */
+    public static String toByteUnit(long values, int digit)
+    {
+    	if(digit <= 0) throw new RuntimeException("On 'toByteUnit', digit must bigger  than 1.");
+    	if(digit >= 7) throw new RuntimeException("On 'toByteUnit', digit must smaller than 6.");
+    	
         double calcs = 0.0;
         
         if(values == 0) return "0";
         if(values == 1) return "1 byte";
         if(values < 1024) return String.valueOf(values) + " bytes";
         
+        String formats = "%." + digit + "f";
+        
         calcs = values / 1024.0;
-        if(calcs < 1024.0) return String.format("%.3f KB", calcs);
+        if(calcs < 1024.0) return String.format(formats + " KB", calcs);
         
         calcs = calcs / 1024.0;
-        if(calcs < 1024.0) return String.format("%.3f MB", calcs);
+        if(calcs < 1024.0) return String.format(formats + " MB", calcs);
         
         calcs = calcs / 1024.0;
-        if(calcs < 1024.0) return String.format("%.3f GB", calcs);
+        if(calcs < 1024.0) return String.format(formats + " GB", calcs);
         
         calcs = calcs / 1024.0;
-        if(calcs < 1024.0) return String.format("%.3f TB", calcs);
+        if(calcs < 1024.0) return String.format(formats + " TB", calcs);
         
         calcs = calcs / 1024.0;
-        if(calcs < 1024.0) return String.format("%.3f PB", calcs);
+        if(calcs < 1024.0) return String.format(formats + " PB", calcs);
         
         calcs = calcs / 1024.0;
-        if(calcs < 1024.0) return String.format("%.3f EB", calcs);
+        if(calcs < 1024.0) return String.format(formats + " EB", calcs);
         
         calcs = calcs / 1024.0;
-        if(calcs < 1024.0) return String.format("%.3f ZB", calcs);
+        if(calcs < 1024.0) return String.format(formats + " ZB", calcs);
         
         calcs = calcs / 1024.0;
-        if(calcs < 1024.0) return String.format("%.3f YB", calcs);
+        if(calcs < 1024.0) return String.format(formats + " YB", calcs);
         
-        return String.format("%.3f YB", calcs);
+        return String.format(formats + " YB", calcs);
     }
     
     /**
@@ -885,20 +923,159 @@ public class DataUtil
     	return JsonObject.parseJson(jsonStr);
     }
     
+    /** 문자열 하나의 블록을 나눕니다. 따옴표를 인식합니다. */
+    public static List<String> parseBlocks(String str) {
+    	if(str == null) return new ArrayList<String>();
+    	List<String> res = new ArrayList<String>();
+    	
+    	int len = str.length();
+    	int idx = 0;
+    	char quote = ' ';
+    	int  revSlice = 0;
+    	StringBuilder collector = new StringBuilder("");
+    	for(idx=0; idx<len; idx++) {
+    		char current = str.charAt(idx);
+    		
+    		if(quote != ' ') {
+				if(current == quote) {
+					if(revSlice % 2 == 0) {
+						quote = ' ';
+						for(int qdx=0; qdx<revSlice / 2; qdx++) {
+							collector = collector.append('\\');
+						}
+						revSlice = 0;
+						collector = collector.append(current);
+					} else {
+						for(int qdx=0; qdx<revSlice / 2; qdx++) {
+							collector = collector.append('\\');
+						}
+						revSlice = 0;
+						collector = collector.append('\\');
+						collector = collector.append(current);
+					}
+				} else if(current == '\\') {
+					revSlice++;
+					if(revSlice >= 2) {
+						collector = collector.append('\\');
+						revSlice -= 2;
+					}
+				} else {
+					collector = collector.append(current);
+				}
+				continue;
+			} else if(current == '\'' || current == '"') {
+				if(revSlice % 2 == 1) {
+					collector = collector.append('\\');
+					collector = collector.append(current);
+					continue;
+				} else {
+					quote = current;
+					collector = collector.append(current);
+					continue;
+				}
+			} else if(current != ' ' && current != '\t') {
+				if(current == '\\') {
+					revSlice++;
+					if(revSlice >= 2) {
+						collector = collector.append('\\');
+						revSlice -= 2;
+					}
+					continue;
+				} else {
+					collector = collector.append(current);
+					continue;
+				}
+			} else {
+				res.add(collector.toString().trim());
+				collector.setLength(0);
+				continue;
+			}
+    	}
+    	
+    	if(collector.length() >= 1) {
+    		res.add(collector.toString().trim());
+			collector.setLength(0);
+    	}
+    	
+    	for(idx=0; idx<res.size(); idx++) {
+    		String s = res.get(idx);
+    		if(s.startsWith("'")) s = DataUtil.removeQuote(s);
+    		res.set(idx, s);
+    	}
+    	
+    	return res;
+    }
+    
     /**
-     * 예외 객체의 스택 트레이스 메시지를 문자열로 반환합니다.
+     * <pre>
+     * 하나의 문자열로부터, 명령과 주 매개변수, 옵션을 추출합니다.
+     *     하나의 Map 객체로 반환하며, 명령과 주 매개변수 또한 옵션으로 취급하여 Map 에 같이 담아 반환합니다.
+     *     이 때, 키로 명령은 ORDER, 주 매개변수는 PARAMETER 를 사용합니다.
+     *     
+     * 예)
+     *     // 입력
+     *     cat text.xml -l 1024 --comment nothing
+     *     
+     *     // 결과
+     *     ORDER     : cat
+     *     PARAMETER : text.xml
+     *     l         : 1024
+     *     comment   : nothing
+     * 
+     * </pre>
      */
-    public static String traceException(Throwable t) {
-        StringWriter fakeWriter = new StringWriter();
-        PrintWriter writer = null;
-        try {
-            writer = new PrintWriter(fakeWriter);
-            t.printStackTrace(writer);
-            writer.close();
-            return fakeWriter.toString();
-        } catch(Throwable ignores) {  } finally {
-            try { writer.close(); } catch(Throwable ignoreTwo) {}
-        }
-        return null;
+    public static Map<String, String> parseParameter(String str) {
+    	if(str == null) return new HashMap<String, String>();
+    	Map<String, String> res = new HashMap<String, String>();
+    	if(str.contains("\n")) str = str.replace("\n", " ");
+    	str = str.trim();
+    	
+    	String order  = null;
+    	String mParam = null;
+    	String pKey   = null;
+    	
+    	List<String> blocks = parseBlocks(str);
+    	StringBuilder collector = new StringBuilder("");
+    	for(String b : blocks) {
+    		b = b.trim();
+    		if(order == null) {
+    			order = b;
+    			continue;
+    		} else {
+    			if(b.startsWith("-")) {
+    				if(pKey != null) {
+    					res.put(pKey, collector.toString().trim());
+    					pKey = null;
+    					collector.setLength(0);
+    				}
+    				
+    				if(b.startsWith("--")) {
+    					pKey = b.substring(2);
+    				} else {
+    					pKey = b.substring(1);
+    					if(pKey.length() >= 2) throw new RuntimeException("Wrong length of parameter block " + b);
+    				}
+    			} else if(pKey == null) {
+    				if(mParam == null) mParam = "";
+    				mParam += " " + b;
+    				continue;
+    			} else {
+    				collector = collector.append(" ").append(b);
+    			}
+    		}
+    	}
+    	
+    	if(pKey != null) {
+			res.put(pKey, collector.toString().trim());
+			pKey = null;
+			collector.setLength(0);
+		}
+    	
+    	if(mParam != null) mParam = mParam.trim();
+    	
+    	res.put("ORDER"    , order.trim());
+    	res.put("PARAMETER", mParam);
+    	
+    	return res;
     }
 }
