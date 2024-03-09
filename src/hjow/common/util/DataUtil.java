@@ -999,7 +999,7 @@ public class DataUtil
     	
     	for(idx=0; idx<res.size(); idx++) {
     		String s = res.get(idx);
-    		if(s.startsWith("'")) s = DataUtil.removeQuote(s);
+    		if(s.startsWith("'") || s.startsWith("\"")) s = DataUtil.removeQuote(s);
     		res.set(idx, s);
     	}
     	
