@@ -71,7 +71,14 @@ public class JsonCompatibleUtil {
     
     private static boolean warnJsonParsingOther = true;
     /** 문자열을 Json 객체로 변환. json.simple 라이브러리 사용 가능 시 해당 라이브러리로 변환 시도 */
-    public static Object parseJson(String jsonStr) {
+    public static Object parseJson(Object jsonobj) {
+    	if(jsonobj == null) return null;
+    	
+    	if(jsonobj instanceof JsonObject) return jsonobj;
+    	if(jsonobj instanceof JsonArray ) return jsonobj;
+    	
+    	String jsonStr = jsonobj.toString().trim();
+    	
     	if(isJsonSimpleAvail()) {
     		try {
     			Class<?> classParser = Class.forName("org.json.simple.parser.JSONParser");
