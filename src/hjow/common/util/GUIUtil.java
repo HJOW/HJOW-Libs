@@ -672,7 +672,210 @@ public class GUIUtil
         return bs64str;
     }
     
+    /** Create captcha for command line environment. Only 0, 1, 2 available. */
     public static String createTextCaptcha(String code) {
-    	return code;
+    	if(code == null) return "";
+    	StringBuilder res = new StringBuilder("");
+    	
+    	int idx, cdx;
+    	
+    	String nCode = code;
+    	int clen = nCode.length();
+    	int widths = clen * 7;
+    	
+    	// Print header
+        for(idx=0; idx<2; idx++) {
+        	for(cdx=0; cdx<widths + 2; cdx++) {
+        		res = res.append("□");
+        	}
+        	res = res.append("\n");
+        }
+        
+        // Print characters
+        // 1st line
+        res = res.append("□");
+        for(cdx=0; cdx<clen; cdx++) {
+        	char charOne = nCode.charAt(cdx);
+        	res = res.append("□");
+        	switch(charOne) {
+        	case '0':
+        		res = res.append("□■■■□");
+        		break;
+        	case '1':
+        		res = res.append("□□■□□");
+        		break;
+        	case '2':
+        		res = res.append("□■■■□");
+        		break;
+        	case '3':
+        		res = res.append("□■■■□");
+        		break;
+        	default:
+        		res = res.append("□□□□□");
+        	}
+        	res = res.append("□");
+        }
+        res = res.append("□");
+        res = res.append("\n");
+        // 2nd line
+        res = res.append("□");
+        for(cdx=0; cdx<clen; cdx++) {
+        	char charOne = nCode.charAt(cdx);
+        	res = res.append("□");
+        	switch(charOne) {
+        	case '0':
+        		res = res.append("■■□■■");
+        		break;
+        	case '1':
+        		res = res.append("□■■□□");
+        		break;
+        	case '2':
+        		res = res.append("■□□□■");
+        		break;
+        	case '3':
+        		res = res.append("■□□□■");
+        		break;
+        	default:
+        		res = res.append("□□□□□");
+        	}
+        	res = res.append("□");
+        }
+        res = res.append("□");
+        res = res.append("\n");
+        // 3rd line
+        res = res.append("□");
+        for(cdx=0; cdx<clen; cdx++) {
+        	char charOne = nCode.charAt(cdx);
+        	res = res.append("□");
+        	switch(charOne) {
+        	case '0':
+        		res = res.append("■□□□■");
+        		break;
+        	case '1':
+        		res = res.append("□□■□□");
+        		break;
+        	case '2':
+        		res = res.append("□□□□■");
+        		break;
+        	case '3':
+        		res = res.append("□□□□■");
+        		break;
+        	default:
+        		res = res.append("□□□□□");
+        	}
+        	res = res.append("□");
+        }
+        res = res.append("□");
+        res = res.append("\n");
+        // 4th line
+        res = res.append("□");
+        for(cdx=0; cdx<clen; cdx++) {
+        	char charOne = nCode.charAt(cdx);
+        	res = res.append("□");
+        	switch(charOne) {
+        	case '0':
+        		res = res.append("■□□□■");
+        		break;
+        	case '1':
+        		res = res.append("□□■□□");
+        		break;
+        	case '2':
+        		res = res.append("□□□■□");
+        		break;
+        	case '3':
+        		res = res.append("□□□■□");
+        		break;
+        	default:
+        		res = res.append("□□□□□");
+        	}
+        	res = res.append("□");
+        }
+        res = res.append("□");
+        res = res.append("\n");
+        // 5th line
+        res = res.append("□");
+        for(cdx=0; cdx<clen; cdx++) {
+        	char charOne = nCode.charAt(cdx);
+        	res = res.append("□");
+        	switch(charOne) {
+        	case '0':
+        		res = res.append("■□□□■");
+        		break;
+        	case '1':
+        		res = res.append("□□■□□");
+        		break;
+        	case '2':
+        		res = res.append("□□■□□");
+        		break;
+        	case '3':
+        		res = res.append("□□□□■");
+        		break;
+        	default:
+        		res = res.append("□□□□□");
+        	}
+        	res = res.append("□");
+        }
+        res = res.append("□");
+        res = res.append("\n");
+        // 6th line
+        res = res.append("□");
+        for(cdx=0; cdx<clen; cdx++) {
+        	char charOne = nCode.charAt(cdx);
+        	res = res.append("□");
+        	switch(charOne) {
+        	case '0':
+        		res = res.append("■■□■■");
+        		break;
+        	case '1':
+        		res = res.append("□□■□□");
+        		break;
+        	case '2':
+        		res = res.append("□■□□□");
+        		break;
+        	case '3':
+        		res = res.append("■□□□■");
+        		break;
+        	default:
+        		res = res.append("□□□□□");
+        	}
+        	res = res.append("□");
+        }
+        res = res.append("□");
+        res = res.append("\n");
+        // 7th line
+        res = res.append("□");
+        for(cdx=0; cdx<clen; cdx++) {
+        	char charOne = nCode.charAt(cdx);
+        	res = res.append("□");
+        	switch(charOne) {
+        	case '0':
+        		res = res.append("□■■■□");
+        		break;
+        	case '1':
+        		res = res.append("□□■□□");
+        		break;
+        	case '2':
+        		res = res.append("■■■■■");
+        		break;
+        	case '3':
+        		res = res.append("□■■■□");
+        		break;
+        	default:
+        		res = res.append("□□□□□");
+        	}
+        	res = res.append("□");
+        }
+        res = res.append("□");
+        res = res.append("\n");
+        
+        // Print footer
+        for(idx=0; idx<2; idx++) {
+        	for(cdx=0; cdx<widths + 2; cdx++) {
+        		res = res.append("□");
+        	}
+        	res = res.append("\n");
+        }
+    	
+    	return res.toString();
     }
 }
