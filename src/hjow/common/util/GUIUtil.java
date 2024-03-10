@@ -672,7 +672,7 @@ public class GUIUtil
         return bs64str;
     }
     
-    /** Create captcha for command line environment. Only 0, 1, 2 available. */
+    /** Create captcha for command line environment. Only space, 0, 1, 2, 3, 4, 5, 6, 7 available. */
     public static String createTextCaptcha(String code) {
     	if(code == null) return "";
     	StringBuilder res = new StringBuilder("");
@@ -710,6 +710,18 @@ public class GUIUtil
         	case '3':
         		res = res.append("□■■■□");
         		break;
+        	case '4':
+        		res = res.append("□□□■□");
+        		break;
+        	case '5':
+        		res = res.append("■■■■■");
+        		break;
+        	case '6':
+        		res = res.append("□■■■□");
+        		break;
+        	case '7':
+        		res = res.append("■■■■■");
+        		break;
         	default:
         		res = res.append("□□□□□");
         	}
@@ -734,6 +746,18 @@ public class GUIUtil
         		break;
         	case '3':
         		res = res.append("■□□□■");
+        		break;
+        	case '4':
+        		res = res.append("□□□■□");
+        		break;
+        	case '5':
+        		res = res.append("■□□□□");
+        		break;
+        	case '6':
+        		res = res.append("■□□□■");
+        		break;
+        	case '7':
+        		res = res.append("□□□□■");
         		break;
         	default:
         		res = res.append("□□□□□");
@@ -760,6 +784,18 @@ public class GUIUtil
         	case '3':
         		res = res.append("□□□□■");
         		break;
+        	case '4':
+        		res = res.append("□□■■□");
+        		break;
+        	case '5':
+        		res = res.append("■■■■□");
+        		break;
+        	case '6':
+        		res = res.append("■□□□□");
+        		break;
+        	case '7':
+        		res = res.append("□□□■□");
+        		break;
         	default:
         		res = res.append("□□□□□");
         	}
@@ -783,6 +819,18 @@ public class GUIUtil
         		res = res.append("□□□■□");
         		break;
         	case '3':
+        		res = res.append("□□□■□");
+        		break;
+        	case '4':
+        		res = res.append("□■□■□");
+        		break;
+        	case '5':
+        		res = res.append("■□□□■");
+        		break;
+        	case '6':
+        		res = res.append("■■■■□");
+        		break;
+        	case '7':
         		res = res.append("□□□■□");
         		break;
         	default:
@@ -810,6 +858,18 @@ public class GUIUtil
         	case '3':
         		res = res.append("□□□□■");
         		break;
+        	case '4':
+        		res = res.append("■■■■■");
+        		break;
+        	case '5':
+        		res = res.append("□□□□■");
+        		break;
+        	case '6':
+        		res = res.append("■□□□■");
+        		break;
+        	case '7':
+        		res = res.append("□□■□□");
+        		break;
         	default:
         		res = res.append("□□□□□");
         	}
@@ -835,6 +895,18 @@ public class GUIUtil
         	case '3':
         		res = res.append("■□□□■");
         		break;
+        	case '4':
+        		res = res.append("□□□■□");
+        		break;
+        	case '5':
+        		res = res.append("■□□□■");
+        		break;
+        	case '6':
+        		res = res.append("■□□□■");
+        		break;
+        	case '7':
+        		res = res.append("□□■□□");
+        		break;
         	default:
         		res = res.append("□□□□□");
         	}
@@ -859,6 +931,18 @@ public class GUIUtil
         		break;
         	case '3':
         		res = res.append("□■■■□");
+        		break;
+        	case '4':
+        		res = res.append("□□□■□");
+        		break;
+        	case '5':
+        		res = res.append("□■■■□");
+        		break;
+        	case '6':
+        		res = res.append("□■■■□");
+        		break;
+        	case '7':
+        		res = res.append("□□■□□");
         		break;
         	default:
         		res = res.append("□□□□□");
