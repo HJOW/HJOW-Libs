@@ -540,6 +540,12 @@ public class GUIUtil
         	fontFamily.add("Helvetica");
         }
         
+        List<Font> fonts = new ArrayList<Font>();
+        for(String ff : fontFamily) {
+        	fonts.add(new Font(ff, Font.BOLD, fontSize));
+        }
+        fontFamily = null;
+        
         BufferedImage image    = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         Graphics2D    graphics = image.createGraphics();
         
@@ -564,7 +570,7 @@ public class GUIUtil
         int calcr, calcg, calcb, colorChangeRange, fontRand, fontFamilyCnt, fontStyle;
         
         colorChangeRange = 80;
-        fontFamilyCnt = fontFamily.size();
+        fontFamilyCnt = fonts.size();
         fontStyle = Font.BOLD;
 
         // 방해물 출력
@@ -655,7 +661,7 @@ public class GUIUtil
             if(Math.random() >= 0.5) fontStyle = Font.BOLD;
             else                     fontStyle = Font.BOLD | Font.ITALIC;
             
-            graphics.setFont(new Font(fontFamily.get(fontRand), fontStyle, fontSize + ((int) Math.random() * 4) - 2));
+            graphics.setFont(fonts.get(fontRand).deriveFont(fontStyle, fontSize + ((int) Math.random() * 4) - 2));
             graphics.drawString(String.valueOf(charNow), nowX, y + ((int) ((Math.random() * height) / 3.0)));
             graphics.rotate(Math.toRadians(ang) * (-1), nowX, y);
             
@@ -674,13 +680,32 @@ public class GUIUtil
     
     /** Create captcha for command line environment. Only space, numbers, A to N (upper cases) are available. */
     public static String createTextCaptcha(String code) {
+    	int idx = 0;
+    	String nCode = "";
+    	int fakeSpaces = 0;
+    	int clen = code.length();
+    	for(idx=0; idx<clen; idx++) {
+    		if(idx >= 1 && idx < clen - 1 && fakeSpaces < 2) {
+    			if(Math.random() > 0.5) { nCode += " "; fakeSpaces++; }
+    		}
+    		if(idx == clen - 3 && fakeSpaces == 0) { nCode += " "; fakeSpaces++; }
+    		if(idx == clen - 2 && fakeSpaces == 1) { nCode += " "; fakeSpaces++; }
+    		nCode += code.charAt(idx);
+    	}
+    	nCode = nCode.toUpperCase();
+    	
+    	return createShapenText(nCode);
+    }
+    
+    /** Create text with just □ and ■. Only space, numbers, A to N (upper cases) are available. */
+    public static String createShapenText(String code) {
     	if(code == null) return "";
     	StringBuilder res = new StringBuilder("");
     	
     	int idx, cdx;
     	
     	String nCode = code.toUpperCase();
-    	int clen = nCode.length();
+    	int clen = code.length();
     	int widths = clen * 7;
     	
     	// Print header
