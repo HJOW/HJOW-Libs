@@ -678,7 +678,10 @@ public class GUIUtil
         return bs64str;
     }
     
-    /** Create captcha for command line environment. Only space, numbers, A to N (upper cases) are available. */
+    /** 
+     * Create captcha for command line environment.
+     * @see GUIUtil.createShapenText
+     */
     public static String createTextCaptcha(String code) {
     	int idx = 0;
     	String nCode = "";
@@ -1322,5 +1325,15 @@ public class GUIUtil
         }
     	
     	return res.toString();
+    }
+    
+    /** Create text with just two characters.
+     * @see GUIUtil.createShapenText
+     */
+    public static String createShapenText(String code, char empty, char fill) {
+    	String res = createShapenText(code);
+    	res = res.replace("□", String.valueOf(empty));
+    	res = res.replace("■", String.valueOf(fill));
+    	return res;
     }
 }

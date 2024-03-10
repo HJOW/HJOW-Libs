@@ -30,6 +30,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Random;
 import java.util.Vector;
 
 import hjow.common.json.JsonObject;
@@ -1077,5 +1078,25 @@ public class DataUtil
     	res.put("PARAMETER", mParam);
     	
     	return res;
+    }
+    
+    /** Make random string. Numbers, and big alphabets. */
+    public static String randomSerial(int digit) {
+    	StringBuilder res = new StringBuilder("");
+    	
+    	int rand;
+    	Random r = new Random();
+    	for(int idx=0; idx<digit; idx++) {
+    		rand = r.nextInt(10 + 26);
+    		if(rand >= 0 && rand < 10) {
+    			res = res.append(String.valueOf(rand));
+    		} else {
+    			rand = rand - 10;
+    			char c = (char) (((int) 'A') + rand);
+    			res = res.append(String.valueOf(c));
+    		}
+    	}
+    	
+    	return res.toString();
     }
 }
