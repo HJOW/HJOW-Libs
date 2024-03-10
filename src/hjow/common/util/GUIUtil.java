@@ -672,7 +672,7 @@ public class GUIUtil
         return bs64str;
     }
     
-    /** Create captcha for command line environment. Only space, numbers, A to G (upper cases) are available. */
+    /** Create captcha for command line environment. Only space, numbers, A to N (upper cases) are available. */
     public static String createTextCaptcha(String code) {
     	if(code == null) return "";
     	StringBuilder res = new StringBuilder("");
@@ -749,6 +749,27 @@ public class GUIUtil
         	case 'G':
         		res = res.append("□■■■□");
         		break;
+        	case 'H':
+        		res = res.append("■□□□■");
+        		break;
+        	case 'I':
+        		res = res.append("□■■■□");
+        		break;
+        	case 'J':
+        		res = res.append("■■■■■");
+        		break;
+        	case 'K':
+        		res = res.append("■□□□■");
+        		break;
+        	case 'L':
+        		res = res.append("■□□□□");
+        		break;
+        	case 'M':
+        		res = res.append("■□□□■");
+        		break;
+        	case 'N':
+        		res = res.append("■□□□■");
+        		break;
         	default:
         		res = res.append("□□□□□");
         	}
@@ -811,6 +832,27 @@ public class GUIUtil
         		res = res.append("■□□□□");
         		break;
         	case 'G':
+        		res = res.append("■□□□■");
+        		break;
+        	case 'H':
+        		res = res.append("■□□□■");
+        		break;
+        	case 'I':
+        		res = res.append("□□■□□");
+        		break;
+        	case 'J':
+        		res = res.append("□□□■□");
+        		break;
+        	case 'K':
+        		res = res.append("■□□■□");
+        		break;
+        	case 'L':
+        		res = res.append("■□□□□");
+        		break;
+        	case 'M':
+        		res = res.append("■□□□■");
+        		break;
+        	case 'N':
         		res = res.append("■□□□■");
         		break;
         	default:
@@ -877,6 +919,27 @@ public class GUIUtil
         	case 'G':
         		res = res.append("■□□□□");
         		break;
+        	case 'H':
+        		res = res.append("■□□□■");
+        		break;
+        	case 'I':
+        		res = res.append("□□■□□");
+        		break;
+        	case 'J':
+        		res = res.append("□□□■□");
+        		break;
+        	case 'K':
+        		res = res.append("■□■□□");
+        		break;
+        	case 'L':
+        		res = res.append("■□□□□");
+        		break;
+        	case 'M':
+        		res = res.append("■■□■■");
+        		break;
+        	case 'N':
+        		res = res.append("■■□□■");
+        		break;
         	default:
         		res = res.append("□□□□□");
         	}
@@ -940,6 +1003,27 @@ public class GUIUtil
         		break;
         	case 'G':
         		res = res.append("■□■■■");
+        		break;
+        	case 'H':
+        		res = res.append("■■■■■");
+        		break;
+        	case 'I':
+        		res = res.append("□□■□□");
+        		break;
+        	case 'J':
+        		res = res.append("□□□■□");
+        		break;
+        	case 'K':
+        		res = res.append("■■□□□");
+        		break;
+        	case 'L':
+        		res = res.append("■□□□□");
+        		break;
+        	case 'M':
+        		res = res.append("■□■□■");
+        		break;
+        	case 'N':
+        		res = res.append("■□■□■");
         		break;
         	default:
         		res = res.append("□□□□□");
@@ -1005,6 +1089,27 @@ public class GUIUtil
         	case 'G':
         		res = res.append("■□□□■");
         		break;
+        	case 'H':
+        		res = res.append("■□□□■");
+        		break;
+        	case 'I':
+        		res = res.append("□□■□□");
+        		break;
+        	case 'J':
+        		res = res.append("□□□■□");
+        		break;
+        	case 'K':
+        		res = res.append("■□■□□");
+        		break;
+        	case 'L':
+        		res = res.append("■□□□□");
+        		break;
+        	case 'M':
+        		res = res.append("■□■□■");
+        		break;
+        	case 'N':
+        		res = res.append("■□□■■");
+        		break;
         	default:
         		res = res.append("□□□□□");
         	}
@@ -1067,6 +1172,27 @@ public class GUIUtil
         		res = res.append("■□□□□");
         		break;
         	case 'G':
+        		res = res.append("■□□□■");
+        		break;
+        	case 'H':
+        		res = res.append("■□□□■");
+        		break;
+        	case 'I':
+        		res = res.append("□□■□□");
+        		break;
+        	case 'J':
+        		res = res.append("■□□■□");
+        		break;
+        	case 'K':
+        		res = res.append("■□□■□");
+        		break;
+        	case 'L':
+        		res = res.append("■□□□□");
+        		break;
+        	case 'M':
+        		res = res.append("■□□□■");
+        		break;
+        	case 'N':
         		res = res.append("■□□□■");
         		break;
         	default:
@@ -1132,6 +1258,27 @@ public class GUIUtil
         		break;
         	case 'G':
         		res = res.append("□■■■□");
+        		break;
+        	case 'H':
+        		res = res.append("■□□□■");
+        		break;
+        	case 'I':
+        		res = res.append("□■■■□");
+        		break;
+        	case 'J':
+        		res = res.append("□■■□□");
+        		break;
+        	case 'K':
+        		res = res.append("■□□□■");
+        		break;
+        	case 'L':
+        		res = res.append("■■■■■");
+        		break;
+        	case 'M':
+        		res = res.append("■□□□■");
+        		break;
+        	case 'N':
+        		res = res.append("■□□□■");
         		break;
         	default:
         		res = res.append("□□□□□");
