@@ -700,7 +700,7 @@ public class GUIUtil
     	return createShapenText(nCode);
     }
     
-    /** Create text with just □ and ■. Only space, numbers, A to N (upper cases) are available. */
+    /** Create text with just □ and ■. Only space, numbers, big alphabets, and special characters (+-×÷=!?.,'<>) are available. */
     public static String createShapenText(String code) {
     	if(code == null) return "";
     	StringBuilder res = new StringBuilder("");
@@ -798,6 +798,66 @@ public class GUIUtil
         	case 'N':
         		res = res.append("■□□□■");
         		break;
+        	case 'O':
+        		res = res.append("□■■■□");
+        		break;
+        	case 'P':
+        		res = res.append("■■■■□");
+        		break;
+        	case 'Q':
+        		res = res.append("□■■■□");
+        		break;
+        	case 'R':
+        		res = res.append("■■■■□");
+        		break;
+        	case 'S':
+        		res = res.append("□■■■□");
+        		break;
+        	case 'T':
+        		res = res.append("■■■■■");
+        		break;
+        	case 'U':
+        		res = res.append("■□□□■");
+        		break;
+        	case 'V':
+        		res = res.append("■□□□■");
+        		break;
+        	case 'W':
+        		res = res.append("■□□□■");
+        		break;
+        	case 'X':
+        		res = res.append("■□□□■");
+        		break;
+        	case 'Y':
+        		res = res.append("■□□□■");
+        		break;
+        	case 'Z':
+        		res = res.append("■■■■■");
+        		break;
+        	case '?':
+        		res = res.append("□■■■□");
+        		break;
+        	case '!':
+        		res = res.append("□□■□□");
+        		break;
+        	case '\'':
+        		res = res.append("□□■□□");
+        		break;
+        	case '"':
+        		res = res.append("□■□■□");
+        		break;
+        	case '(':
+        		res = res.append("□■□□□");
+        		break;
+        	case ')':
+        		res = res.append("□□□■□");
+        		break;
+        	case '<':
+        		res = res.append("□□□□■");
+        		break;
+        	case '>':
+        		res = res.append("■□□□□");
+        		break;
         	default:
         		res = res.append("□□□□□");
         	}
@@ -882,6 +942,78 @@ public class GUIUtil
         		break;
         	case 'N':
         		res = res.append("■□□□■");
+        		break;
+        	case 'O':
+        		res = res.append("■□□□■");
+        		break;
+        	case 'P':
+        		res = res.append("■□□□■");
+        		break;
+        	case 'Q':
+        		res = res.append("■□□□■");
+        		break;
+        	case 'R':
+        		res = res.append("■□□□■");
+        		break;
+        	case 'S':
+        		res = res.append("■□□□■");
+        		break;
+        	case 'T':
+        		res = res.append("□□■□□");
+        		break;
+        	case 'U':
+        		res = res.append("■□□□■");
+        		break;
+        	case 'V':
+        		res = res.append("■□□□■");
+        		break;
+        	case 'W':
+        		res = res.append("■□■□■");
+        		break;
+        	case 'X':
+        		res = res.append("■□□□■");
+        		break;
+        	case 'Y':
+        		res = res.append("■□□□■");
+        		break;
+        	case 'Z':
+        		res = res.append("□□□□■");
+        		break;
+        	case '+':
+        		res = res.append("□□■□□");
+        		break;
+        	case '×':
+        		res = res.append("■□□□■");
+        		break;
+        	case '÷':
+        		res = res.append("□□■□□");
+        		break;
+        	case '?':
+        		res = res.append("■□□□■");
+        		break;
+        	case '!':
+        		res = res.append("□□■□□");
+        		break;
+        	case '\'':
+        		res = res.append("□□■□□");
+        		break;
+        	case '"':
+        		res = res.append("□■□■□");
+        		break;
+        	case '(':
+        		res = res.append("■□□□□");
+        		break;
+        	case ')':
+        		res = res.append("□□□□■");
+        		break;
+        	case '<':
+        		res = res.append("□□□■□");
+        		break;
+        	case '>':
+        		res = res.append("□■□□□");
+        		break;
+        	case '/':
+        		res = res.append("□□□□■");
         		break;
         	default:
         		res = res.append("□□□□□");
@@ -968,6 +1100,72 @@ public class GUIUtil
         	case 'N':
         		res = res.append("■■□□■");
         		break;
+        	case 'O':
+        		res = res.append("■□□□■");
+        		break;
+        	case 'P':
+        		res = res.append("■□□□■");
+        		break;
+        	case 'Q':
+        		res = res.append("■□□□■");
+        		break;
+        	case 'R':
+        		res = res.append("■□□□■");
+        		break;
+        	case 'S':
+        		res = res.append("■□□□□");
+        		break;
+        	case 'T':
+        		res = res.append("□□■□□");
+        		break;
+        	case 'U':
+        		res = res.append("■□□□■");
+        		break;
+        	case 'V':
+        		res = res.append("■□□□■");
+        		break;
+        	case 'W':
+        		res = res.append("■□■□■");
+        		break;
+        	case 'X':
+        		res = res.append("□■□■□");
+        		break;
+        	case 'Y':
+        		res = res.append("□■□■□");
+        		break;
+        	case 'Z':
+        		res = res.append("□□□■□");
+        		break;
+        	case '+':
+        		res = res.append("□□■□□");
+        		break;
+        	case '×':
+        		res = res.append("□■□■□");
+        		break;
+        	case '=':
+        		res = res.append("■■■■■");
+        		break;
+        	case '?':
+        		res = res.append("□□□■□");
+        		break;
+        	case '!':
+        		res = res.append("□□■□□");
+        		break;
+        	case '(':
+        		res = res.append("■□□□□");
+        		break;
+        	case ')':
+        		res = res.append("□□□□■");
+        		break;
+        	case '<':
+        		res = res.append("□□■□□");
+        		break;
+        	case '>':
+        		res = res.append("□□■□□");
+        		break;
+        	case '/':
+        		res = res.append("□□□■□");
+        		break;
         	default:
         		res = res.append("□□□□□");
         	}
@@ -982,7 +1180,7 @@ public class GUIUtil
         	res = res.append("□");
         	switch(charOne) {
         	case '0':
-        		res = res.append("■□□□■");
+        		res = res.append("■□■□■");
         		break;
         	case '1':
         		res = res.append("□□■□□");
@@ -991,7 +1189,7 @@ public class GUIUtil
         		res = res.append("□□□■□");
         		break;
         	case '3':
-        		res = res.append("□□□■□");
+        		res = res.append("□□■■□");
         		break;
         	case '4':
         		res = res.append("□■□■□");
@@ -1052,6 +1250,75 @@ public class GUIUtil
         		break;
         	case 'N':
         		res = res.append("■□■□■");
+        		break;
+        	case 'O':
+        		res = res.append("■□□□■");
+        		break;
+        	case 'P':
+        		res = res.append("■■■■□");
+        		break;
+        	case 'Q':
+        		res = res.append("■□□□■");
+        		break;
+        	case 'R':
+        		res = res.append("■■■■□");
+        		break;
+        	case 'S':
+        		res = res.append("□■■■□");
+        		break;
+        	case 'T':
+        		res = res.append("□□■□□");
+        		break;
+        	case 'U':
+        		res = res.append("■□□□■");
+        		break;
+        	case 'V':
+        		res = res.append("□■□■□");
+        		break;
+        	case 'W':
+        		res = res.append("■□■□■");
+        		break;
+        	case 'X':
+        		res = res.append("□□■□□");
+        		break;
+        	case 'Y':
+        		res = res.append("□□■□□");
+        		break;
+        	case 'Z':
+        		res = res.append("□□■□□");
+        		break;
+        	case '+':
+        		res = res.append("■■■■■");
+        		break;
+        	case '-':
+        		res = res.append("■■■■■");
+        		break;
+        	case '×':
+        		res = res.append("□□■□□");
+        		break;
+        	case '÷':
+        		res = res.append("■■■■■");
+        		break;
+        	case '?':
+        		res = res.append("□□■□□");
+        		break;
+        	case '!':
+        		res = res.append("□□■□□");
+        		break;
+        	case '(':
+        		res = res.append("■□□□□");
+        		break;
+        	case ')':
+        		res = res.append("□□□□■");
+        		break;
+        	case '<':
+        		res = res.append("□■□□□");
+        		break;
+        	case '>':
+        		res = res.append("□□□■□");
+        		break;
+        	case '/':
+        		res = res.append("□□■□□");
         		break;
         	default:
         		res = res.append("□□□□□");
@@ -1138,6 +1405,75 @@ public class GUIUtil
         	case 'N':
         		res = res.append("■□□■■");
         		break;
+        	case 'O':
+        		res = res.append("■□□□■");
+        		break;
+        	case 'P':
+        		res = res.append("■□□□□");
+        		break;
+        	case 'Q':
+        		res = res.append("■□■□■");
+        		break;
+        	case 'R':
+        		res = res.append("■□□□■");
+        		break;
+        	case 'S':
+        		res = res.append("□□□□■");
+        		break;
+        	case 'T':
+        		res = res.append("□□■□□");
+        		break;
+        	case 'U':
+        		res = res.append("■□□□■");
+        		break;
+        	case 'V':
+        		res = res.append("□■□■□");
+        		break;
+        	case 'W':
+        		res = res.append("□■□■□");
+        		break;
+        	case 'X':
+        		res = res.append("□■□■□");
+        		break;
+        	case 'Y':
+        		res = res.append("□□■□□");
+        		break;
+        	case 'Z':
+        		res = res.append("□■□□□");
+        		break;
+        	case '+':
+        		res = res.append("□□■□□");
+        		break;
+        	case '×':
+        		res = res.append("□■□■□");
+        		break;
+        	case '=':
+        		res = res.append("■■■■■");
+        		break;
+        	case ',':
+        		res = res.append("□□■□□");
+        		break;
+        	case '?':
+        		res = res.append("□□■□□");
+        		break;
+        	case '!':
+        		res = res.append("□□■□□");
+        		break;
+        	case '(':
+        		res = res.append("■□□□□");
+        		break;
+        	case ')':
+        		res = res.append("□□□□■");
+        		break;
+        	case '<':
+        		res = res.append("□□■□□");
+        		break;
+        	case '>':
+        		res = res.append("□□■□□");
+        		break;
+        	case '/':
+        		res = res.append("□■□□□");
+        		break;
         	default:
         		res = res.append("□□□□□");
         	}
@@ -1223,6 +1559,78 @@ public class GUIUtil
         	case 'N':
         		res = res.append("■□□□■");
         		break;
+        	case 'O':
+        		res = res.append("■□□□■");
+        		break;
+        	case 'P':
+        		res = res.append("■□□□□");
+        		break;
+        	case 'Q':
+        		res = res.append("■□□■□");
+        		break;
+        	case 'R':
+        		res = res.append("■□□□■");
+        		break;
+        	case 'S':
+        		res = res.append("■□□□■");
+        		break;
+        	case 'T':
+        		res = res.append("□□■□□");
+        		break;
+        	case 'U':
+        		res = res.append("■□□□■");
+        		break;
+        	case 'V':
+        		res = res.append("□□■□□");
+        		break;
+        	case 'W':
+        		res = res.append("□■□■□");
+        		break;
+        	case 'X':
+        		res = res.append("■□□□■");
+        		break;
+        	case 'Y':
+        		res = res.append("□□■□□");
+        		break;
+        	case 'Z':
+        		res = res.append("■□□□□");
+        		break;
+        	case '+':
+        		res = res.append("□□■□□");
+        		break;
+        	case '×':
+        		res = res.append("■□□□■");
+        		break;
+        	case '÷':
+        		res = res.append("□□■□□");
+        		break;
+        	case '.':
+        		res = res.append("□□■□□");
+        		break;
+        	case ',':
+        		res = res.append("□□■□□");
+        		break;
+        	case '?':
+        		res = res.append("□□□□□");
+        		break;
+        	case '!':
+        		res = res.append("□□□□□");
+        		break;
+        	case '(':
+        		res = res.append("■□□□□");
+        		break;
+        	case ')':
+        		res = res.append("□□□□■");
+        		break;
+        	case '<':
+        		res = res.append("□□□■□");
+        		break;
+        	case '>':
+        		res = res.append("□■□□□");
+        		break;
+        	case '/':
+        		res = res.append("■□□□□");
+        		break;
         	default:
         		res = res.append("□□□□□");
         	}
@@ -1307,6 +1715,66 @@ public class GUIUtil
         		break;
         	case 'N':
         		res = res.append("■□□□■");
+        		break;
+        	case 'O':
+        		res = res.append("□■■■□");
+        		break;
+        	case 'P':
+        		res = res.append("■□□□□");
+        		break;
+        	case 'Q':
+        		res = res.append("□■■□■");
+        		break;
+        	case 'R':
+        		res = res.append("■□□□■");
+        		break;
+        	case 'S':
+        		res = res.append("□■■■□");
+        		break;
+        	case 'T':
+        		res = res.append("□□■□□");
+        		break;
+        	case 'U':
+        		res = res.append("□■■■□");
+        		break;
+        	case 'V':
+        		res = res.append("□□■□□");
+        		break;
+        	case 'W':
+        		res = res.append("□■□■□");
+        		break;
+        	case 'X':
+        		res = res.append("■□□□■");
+        		break;
+        	case 'Y':
+        		res = res.append("□□■□□");
+        		break;
+        	case 'Z':
+        		res = res.append("■■■■■");
+        		break;
+        	case '_':
+        		res = res.append("■■■■■");
+        		break;
+        	case ',':
+        		res = res.append("□■□□□");
+        		break;
+        	case '?':
+        		res = res.append("□□■□□");
+        		break;
+        	case '!':
+        		res = res.append("□□■□□");
+        		break;
+        	case '(':
+        		res = res.append("□■□□□");
+        		break;
+        	case ')':
+        		res = res.append("□□□■□");
+        		break;
+        	case '<':
+        		res = res.append("□□□□■");
+        		break;
+        	case '>':
+        		res = res.append("■□□□□");
         		break;
         	default:
         		res = res.append("□□□□□");
