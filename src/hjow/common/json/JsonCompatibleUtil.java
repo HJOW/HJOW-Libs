@@ -77,7 +77,16 @@ public class JsonCompatibleUtil {
     	if(jsonobj instanceof JsonObject) return jsonobj;
     	if(jsonobj instanceof JsonArray ) return jsonobj;
     	
-    	String jsonStr = jsonobj.toString().trim();
+    	String jsonStr = null;
+    	
+    	// Trying to call toJSONString (just try)
+    	try {
+    	    Class<?> objClass = jsonobj.getClass();
+    	    Method mthd = objClass.getMethod("toJSONString");
+    	    jsonStr = (String) mthd.invoke(jsonobj);
+    	} catch(Throwable warn) {}
+    	
+    	if(jsonStr != null) jsonStr = jsonobj.toString().trim();
     	
     	if(isJsonSimpleAvail()) {
     		try {
