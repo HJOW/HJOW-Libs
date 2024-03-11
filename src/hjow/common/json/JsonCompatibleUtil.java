@@ -79,14 +79,19 @@ public class JsonCompatibleUtil {
     	
     	String jsonStr = null;
     	
-    	// Trying to call toJSONString (just try)
-    	try {
-    	    Class<?> objClass = jsonobj.getClass();
-    	    Method mthd = objClass.getMethod("toJSONString");
-    	    jsonStr = (String) mthd.invoke(jsonobj);
-    	} catch(Throwable warn) {}
+    	if(! (jsonobj instanceof CharSequence)) {
+    		// Trying to call toJSONString (just try)
+        	try {
+        	    Class<?> objClass = jsonobj.getClass();
+        	    Method mthd = objClass.getMethod("toJSONString");
+        	    if(mthd != null) jsonStr = (String) mthd.invoke(jsonobj);
+        	}
+        	catch(NoSuchMethodException  warn) { jsonStr = null; }
+        	catch(Throwable warn) { System.out.println("Checking object is from json.simple, exception occured - " + warn.getMessage()); jsonStr = null; }
+    	}
     	
-    	if(jsonStr != null) jsonStr = jsonobj.toString().trim();
+    	
+    	if(jsonStr == null) jsonStr = jsonobj.toString().trim();
     	
     	if(isJsonSimpleAvail()) {
     		try {
