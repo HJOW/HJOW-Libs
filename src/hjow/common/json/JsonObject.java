@@ -297,7 +297,8 @@ public class JsonObject extends PublicMethodOpenedClass implements JsonInstance,
             if(delimiterPoints.isEmpty()) {
                 List<Integer> insidesColonDelimPoints = SyntaxUtil.getDelimiterLocations(insides, ':');
                 if(insidesColonDelimPoints.isEmpty()) {
-                    objects.put(String.valueOf(parseJson(insides, true, true)), "true");
+                	if(DataUtil.isEmpty(insides)) ; // Do nothing
+                	else objects.put(String.valueOf(parseJson(insides, true, true)), "true");
                 } else {
                     objects.put(String.valueOf(parseJson(insides.substring(0, insidesColonDelimPoints.get(0).intValue()).trim(), true, true)), parseJson(insides.substring(insidesColonDelimPoints.get(0).intValue() + 1).trim(), false, true));
                 }
