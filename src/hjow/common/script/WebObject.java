@@ -20,6 +20,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 
 import hjow.common.core.Core;
+import hjow.common.script.net.ScriptHttpClient;
 
 public class WebObject extends ScriptObject {
 	private static final long serialVersionUID = 3844963995027549279L;
@@ -40,6 +41,9 @@ public class WebObject extends ScriptObject {
         initScript = initScript.append("};                                                                                                      ").append("\n");
         initScript = initScript.append("function web_server(port) {                                                                             ").append("\n");
         initScript = initScript.append("    return " + getPrefixName() + "_" + accessKey + ".createWithPort(port);                              ").append("\n");
+        initScript = initScript.append("};                                                                                                      ").append("\n");
+        initScript = initScript.append("function web_client() {                                                                                 ").append("\n");
+        initScript = initScript.append("    return " + getPrefixName() + "_" + accessKey + ".client();                                          ").append("\n");
         initScript = initScript.append("};                                                                                                      ").append("\n");
 		return initScript.toString();
 	}
@@ -76,5 +80,9 @@ public class WebObject extends ScriptObject {
 			Core.logError(e);
 			return null;
 		}
+	}
+	
+	public Object client() {
+		return new ScriptHttpClient();
 	}
 }
