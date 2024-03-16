@@ -1099,4 +1099,16 @@ public class DataUtil
     	
     	return res.toString();
     }
+    
+    /** Trying to parse string into double. If multiple '.' in string, then toss away except first. */
+    public static double parseFloatFirstBlock(String str) {
+    	try {
+            String[] splits = String.valueOf(str).split("\\.");
+            if(splits.length <= 1) return (double) Integer.parseInt(splits[0]);
+            return Double.parseDouble(splits[0] + '.' + splits[1]);
+        } catch(Throwable t) {
+        	System.out.println("Cannot convert string into double - " + str + " - (" + t.getClass().getName() + ") - " + t.getMessage());
+            return -1;
+        }
+    }
 }
