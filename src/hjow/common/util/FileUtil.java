@@ -22,7 +22,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Properties;
 
@@ -132,29 +135,70 @@ public class FileUtil {
      * @throws IOException
      */
     public static byte[] readBytes(File targetFile) throws IOException {
+        return readBytes(targetFile, null);
+    }
+    
+    /**
+     * 파일로부터 바이너리를 읽습니다.
+     * 
+     * @param targetFile 파일 객체
+     * @return byte 배열
+     * @throws IOException
+     */
+	public static byte[] readBytes(File targetFile, Class<? extends InputStream> streamFilter) throws IOException {
         FileInputStream inputStream = null;
+        InputStream finals = null;
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         
         try {
             inputStream = new FileInputStream(targetFile);
+            if(streamFilter != null) {
+            	Constructor<? extends InputStream> cons = streamFilter.getConstructor(InputStream.class);
+            	finals = cons.newInstance(inputStream);
+            } else {
+            	finals = inputStream;
+            }
             byte[] buffers = new byte[1024];
             
             int readEnds = buffers.length;
             while(true) {
-                int reads = inputStream.read(buffers, 0, readEnds);
+                int reads = finals.read(buffers, 0, readEnds);
                 if(reads < 0) break;
                 
                 outputStream.write(buffers, 0, reads);
                 if(reads < readEnds) readEnds = reads;
             }
             
+            if(finals == inputStream) finals = null;
         } catch (IOException e) {
             throw e;
-        } finally {
-            try { inputStream.close();  } catch(Throwable e) { }
-            try { outputStream.close(); } catch(Throwable e) { }
+        } catch (SecurityException e) {
+			throw new RuntimeException(e.getMessage(), e);
+		} catch (NoSuchMethodException e) {
+			throw new RuntimeException(e.getMessage(), e);
+		} catch (IllegalArgumentException e) {
+			throw new RuntimeException(e.getMessage(), e);
+		} catch (InstantiationException e) {
+			throw new RuntimeException(e.getMessage(), e);
+		} catch (IllegalAccessException e) {
+			throw new RuntimeException(e.getMessage(), e);
+		} catch (InvocationTargetException e) {
+			throw new RuntimeException(e.getMessage(), e);
+		} finally {
+			ClassUtil.closeAll(outputStream, finals, inputStream);
         }
         return outputStream.toByteArray();
+    }
+	
+	/**
+     * 바이너리를 파일로 씁니다. 파일이 이미 존재하면 덮어 씁니다.
+     * 
+     * @param targetFile 파일 객체
+     * @param byteArray  바이너리 데이터
+     * @throws IOException
+     */
+    public static void writeBytes(File targetFile, byte[] byteArray) throws IOException {
+    	writeBytes(targetFile, byteArray, null);
     }
     
     /**
@@ -164,17 +208,41 @@ public class FileUtil {
      * @param byteArray  바이너리 데이터
      * @throws IOException
      */
-    public static void writeBytes(File targetFile, byte[] byteArray) throws IOException {
+	public static void writeBytes(File targetFile, byte[] byteArray, Class<? extends OutputStream> streamFilter) throws IOException {
         OutputStream outputStream = null;
+        OutputStream finals = null;
         
         try {
             outputStream = new FileOutputStream(targetFile);
-            outputStream.write(byteArray);
-            try { outputStream.close(); } catch(Throwable e) { }
+            if(streamFilter != null) {
+            	Constructor<? extends OutputStream> cons = streamFilter.getConstructor(OutputStream.class);
+            	finals = cons.newInstance(outputStream);
+            } else {
+            	finals = outputStream;
+            }
+            finals.write(byteArray);
+            
+            if(finals != outputStream) {
+            	ClassUtil.closeAll(finals);
+            	finals = null;
+            }
+            try { outputStream.close(); outputStream = null; } catch(Throwable e) { }
         } catch (IOException e) {
             throw e;
-        } finally {
-            try { outputStream.close(); } catch(Throwable e) { }
+        } catch (SecurityException e) {
+        	throw new RuntimeException(e.getMessage(), e);
+		} catch (NoSuchMethodException e) {
+			throw new RuntimeException(e.getMessage(), e);
+		} catch (IllegalArgumentException e) {
+			throw new RuntimeException(e.getMessage(), e);
+		} catch (InstantiationException e) {
+			throw new RuntimeException(e.getMessage(), e);
+		} catch (IllegalAccessException e) {
+			throw new RuntimeException(e.getMessage(), e);
+		} catch (InvocationTargetException e) {
+			throw new RuntimeException(e.getMessage(), e);
+		} finally {
+        	ClassUtil.closeAll(finals, outputStream);
         }
     }
     
@@ -186,9 +254,21 @@ public class FileUtil {
      * @return 읽은 텍스트
      * @throws IOException
      */
-    public static String readString(File targetFile, String charSet) throws IOException {
+    public static String readString(File targetFile, String charSet, Class<? extends InputStream> streamFilter) throws IOException {
     	if(DataUtil.isEmpty(charSet)) charSet = "UTF-8";
-    	return new String(readBytes(targetFile), charSet);
+    	return new String(readBytes(targetFile, streamFilter), charSet);
+    }
+    
+    /**
+     * 텍스트를 읽습니다.
+     * 
+     * @param targetFile : 파일 객체
+     * @param charSet    : 캐릭터셋
+     * @return 읽은 텍스트
+     * @throws IOException
+     */
+    public static String readString(File targetFile, String charSet) throws IOException {
+    	return readString(targetFile, charSet, null);
     }
     
     /**
@@ -211,8 +291,20 @@ public class FileUtil {
      * @throws IOException
      */
     public static void writeString(File targetFile, String charSet, String text) throws IOException {
+    	writeString(targetFile, charSet, text, null);
+    }
+    
+    /**
+     * 텍스트를 파일에 기록합니다. 파일이 이미 존재하면 덮어 씁니다.
+     * 
+     * @param targetFile : 파일 객체
+     * @param charSet    : 캐릭터셋
+     * @param text 기록할 내용
+     * @throws IOException
+     */
+    public static void writeString(File targetFile, String charSet, String text, Class<? extends OutputStream> streamFilter) throws IOException {
     	if(DataUtil.isEmpty(charSet)) charSet = "UTF-8";
-    	writeBytes(targetFile, text.getBytes(charSet));
+    	writeBytes(targetFile, text.getBytes(charSet), streamFilter);
     }
     
     /**
@@ -230,7 +322,9 @@ public class FileUtil {
     public static void delete(File file) {
         delete(file, 0);
     }
-    private static void delete(File file, int recursiveDepth) {
+    
+    /** 파일을 삭제합니다. 디렉토리인 경우 그 안의 디렉토리까지 비우기를 시도합니다. */
+    public static void delete(File file, int recursiveDepth) {
         if(file == null) return;
         if(! file.exists()) return;
         
