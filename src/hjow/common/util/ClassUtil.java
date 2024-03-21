@@ -27,6 +27,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import hjow.common.core.Releasable;
+
 /**
  * 리플렉션을 유용하게 다루는데 사용할 만한 메소드들을 모았습니다.
  * 
@@ -177,8 +179,9 @@ public class ClassUtil {
     	for(Object c : closeables) {
     		if(c == null) continue;
     		try { 
-    			if(c instanceof Closeable) { ((Closeable) c).close(); continue; } 
-    			if(c instanceof java.sql.Connection)  { ((java.sql.Connection) c).close(); continue; }
+    			if(c instanceof Closeable          ) { ((Closeable) c).close();            continue; } 
+    			if(c instanceof java.sql.Connection) { ((java.sql.Connection) c).close();  continue; }
+    			if(c instanceof Releasable         ) { ((Releasable) c).releaseResource(); continue; }
     			Method mthd = null;
     			
     			try {
@@ -205,9 +208,10 @@ public class ClassUtil {
     	if(closeables == null) return;
     	for(Object c : closeables) {
     		if(c == null) continue;
-    		try { 
-    			if(c instanceof Closeable) { ((Closeable) c).close(); continue; } 
-    			if(c instanceof java.sql.Connection)  { ((java.sql.Connection) c).close(); continue; }
+    		try {
+    			if(c instanceof Closeable          ) { ((Closeable) c).close();            continue; } 
+    			if(c instanceof java.sql.Connection) { ((java.sql.Connection) c).close();  continue; }
+    			if(c instanceof Releasable         ) { ((Releasable) c).releaseResource(); continue; }
     			Method mthd = null;
     			
     			try {
