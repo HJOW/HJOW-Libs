@@ -24,6 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
+import hjow.common.util.ClassUtil;
+
 /**
  * 여러 유형의 Writer 스트림을 통해 데이터를 가공해야 할 경우 사용합니다.
  * 
@@ -58,20 +60,14 @@ public class ChainWriter extends Writer implements ChainObject
     }
     
     @Override
-    public void close() throws IOException
+    public synchronized void close() throws IOException
     {
+    	locked = true;
     	for(int i=chains.size()-1; i>=0; i--)
         {
-            try
-            {
-                chains.get(i).close();
-            }
-            catch(Throwable e)
-            {
-                
-            }
+    		ClassUtil.closeAll(chains.get(i));
         }
-        locked = true;
+    	chains.clear();
     }
 
 	@Override

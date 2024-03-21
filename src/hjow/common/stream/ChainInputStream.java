@@ -27,6 +27,8 @@ import java.util.Vector;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.ZipInputStream;
 
+import hjow.common.util.ClassUtil;
+
 /**
  * 여러 유형의 InputStream 스트림을 통해 데이터를 가공해야 할 경우 사용합니다.
  * 
@@ -54,30 +56,25 @@ public class ChainInputStream extends InputStream implements ChainObject
     {
         return getInputStream(true);
     }
-    private InputStream getInputStream(boolean lock)
+    private  InputStream getInputStream(boolean lock)
     {
         locked = lock;
         return chains.get(chains.size() - 1);
     }
     
     @Override
-    public void close() throws IOException
+    public synchronized void close() throws IOException
     {
+    	locked = true;
         for(int i=chains.size()-1; i>=0; i--)
         {
-            try
-            {
-                chains.get(i).close();
-            }
-            catch(Throwable e)
-            {
-                
-            }
+        	ClassUtil.closeAll(chains.get(i));
         }
-        locked = true;
+        chains.clear();
     }
 
-    public void put(String streamName) throws Exception
+    @SuppressWarnings("unchecked")
+	public void put(String streamName) throws Exception
     {
         if(streamName.equals("Data"))
         {
@@ -90,6 +87,10 @@ public class ChainInputStream extends InputStream implements ChainObject
         else if(streamName.equals("GZip"))
         {
             put(GZIPInputStream.class);
+        }
+        else
+        {
+        	put((Class<? extends InputStream>) Class.forName(streamName));
         }
     }
 
