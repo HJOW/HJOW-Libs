@@ -16,24 +16,25 @@ limitations under the License.
 package hjow.common.util;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
-import hjow.common.script.jdbc.JDBCConnection;
+public class JDBCRConnection extends hjow.common.script.jdbc.JDBCConnection {
+	private static final long serialVersionUID = -297456075878898595L;
 
-/**
- * <p>JDBC 사용을 위한 메소드들이 있습니다.</p>
- * 
- * @author HJOW
- *
- */
-public class JDBCUtil {
-    public static JDBCConnection connect(String jdbcClass, String jdbcUrl, String jdbcId, String jdbcPw) {
-    	try {
-    		Class.forName(jdbcClass);
-        	Connection rawOne = DriverManager.getConnection(jdbcUrl, jdbcId, jdbcPw);
-        	return new JDBCRConnection(rawOne);
-    	} catch(Throwable t) {
-    		throw new RuntimeException(t.getMessage(), t);
-    	}
-    }
+	public JDBCRConnection(Connection conn) {
+		super(conn);
+	}
+	
+	public Connection getRaw() {
+		return conn;
+	}
+	
+	public PreparedStatement prepareRawStatement(String sql) {
+		try {
+			return getRaw().prepareStatement(sql);
+		} catch (SQLException e) {
+			throw new RuntimeException(e.getMessage(), e);
+		}
+	}
 }

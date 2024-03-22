@@ -145,7 +145,32 @@ public class SwingUI implements UI, ActionListener {
         menuBar = new JMenuBar();
         frame.setJMenuBar(menuBar);
         
-        mFile = new JMenu(Core.trans("File"));
+        logFrame = new LogFrame();
+        propFrame = new PropertiesFrame();
+        
+        prepareMenus();
+        
+        windowEventHandler = new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                Core.exit();
+            }
+        };
+        frame.addWindowListener(windowEventHandler);
+        
+        showInternalFrame(logFrame);
+        showInternalFrame(propFrame);
+        
+        logFrame.setVisible(false);
+        propFrame.setVisible(false);
+        
+        refreshStyle();
+        initMores();
+    }
+    
+    /** 메뉴 파트를 초기화합니다. */
+    protected void prepareMenus() {
+    	mFile = new JMenu(Core.trans("File"));
         mRun  = new JMenu(Core.trans("Run"));
         
         menuBar.add(mFile);
@@ -168,9 +193,6 @@ public class SwingUI implements UI, ActionListener {
         
         mFileLog.addActionListener(this);
         
-        logFrame = new LogFrame();
-        propFrame = new PropertiesFrame();
-        
         mFile.addSeparator();
         
         mFileRestart = new JMenuItem(Core.trans("Restart"));
@@ -182,23 +204,10 @@ public class SwingUI implements UI, ActionListener {
         
         mFileRestart.addActionListener(this);
         mFileExit.addActionListener(this);
-        
-        windowEventHandler = new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                Core.exit();
-            }
-        };
-        frame.addWindowListener(windowEventHandler);
-        
-        showInternalFrame(logFrame);
-        showInternalFrame(propFrame);
-        
-        logFrame.setVisible(false);
-        propFrame.setVisible(false);
-        
-        refreshStyle();
     }
+    
+    /** 이 메소드는 초기화 후반부에 호출됩니다. 이 SwingUI 클래스를 상속받아 사용할 때 이 메소드를 오버라이드해 사용합니다. */
+    protected void initMores() {}
     
     /** 스타일을 다시 적용합니다. */
     public void refreshStyle() {
