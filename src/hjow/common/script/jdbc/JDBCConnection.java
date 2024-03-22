@@ -37,6 +37,7 @@ import hjow.common.data.Binary;
 import hjow.common.script.ScriptObject;
 import hjow.common.script.event.RowSelectListener;
 import hjow.common.script.event.RowSelectedEvent;
+import hjow.common.util.ClassUtil;
 
 /** 스크립트 내에서 JDBC 액세스를 가능하도록 해주는 인스턴스의 설계도입니다. 접속할 때마다 새 인스턴스가 생성되므로 Prefix, InitScript 는 사용하지 않습니다. */
 public class JDBCConnection extends ScriptObject {
@@ -73,20 +74,14 @@ public class JDBCConnection extends ScriptObject {
         boolean isClosedOpt = false;
         try { isClosedOpt = conn.isClosed(); } catch(Throwable ignores) {}
         if(isClosedOpt) {
-            try { 
-                conn.close();
-            } catch(Throwable t) { }
+            ClassUtil.closeAll(conn);
         } else {
             try { 
                 conn.rollback();
             } catch(Throwable t) {
                 Core.logError(t);
             }
-            try { 
-                conn.close();
-            } catch(Throwable t) {
-                Core.logError(t);
-            }
+            ClassUtil.closeAll(conn);
         }
         conn = null;
     }

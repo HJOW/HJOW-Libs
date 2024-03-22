@@ -17,6 +17,7 @@ package hjow.common.net;
 
 import java.io.InputStream;
 import java.io.Serializable;
+import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +26,7 @@ import java.util.StringTokenizer;
 
 import hjow.common.json.JsonArray;
 import hjow.common.json.JsonObject;
+import hjow.common.util.ClassUtil;
 
 public class HHttpReceiving implements Serializable {
 	private static final long serialVersionUID = 4603486992797607030L;
@@ -32,6 +34,7 @@ public class HHttpReceiving implements Serializable {
 	protected Map<String, List<String>> headers = new HashMap<String, List<String>>();
     protected int code = -1;
     protected InputStream receiving;
+    protected URLConnection connection;
     
     public HHttpReceiving() {
     	
@@ -105,5 +108,17 @@ public class HHttpReceiving implements Serializable {
 
 	public void setReceiving(InputStream receiving) {
 		this.receiving = receiving;
+	}
+	
+	public URLConnection getConnection() {
+		return connection;
+	}
+
+	public void setConnection(URLConnection connection) {
+		this.connection = connection;
+	}
+
+	public void close() {
+		ClassUtil.closeAll(connection, receiving);
 	}
 }

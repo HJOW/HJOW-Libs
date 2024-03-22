@@ -1,5 +1,5 @@
 /*
-Copyright 2019 HJOW
+Copyright 2024 HJOW
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -31,13 +31,18 @@ import javax.net.ssl.HttpsURLConnection;
 
 import hjow.common.util.ClassUtil;
 
+/**
+ * 
+ * @author HJOW
+ *
+ */
 public class HHttpClient {
     protected Map<String, String> cookies = new HashMap<String, String>();
     protected String charset = "UTF-8";
     protected String method  = "POST";
     protected String contentType = "text/html; charset=utf-8";
     
-    /** send Http Requests */
+    /** HTTP 요청을 보냅니다. */
     @SuppressWarnings("unused")
 	public HHttpReceived request(String url, String sendBodys) {
     	URLConnection conn = null;
@@ -120,7 +125,7 @@ public class HHttpClient {
     	return null;
     }
     
-    /** send Http Requests and receiving streams. Returned object has unclosed InputStream object. */
+    /** HTTP 요청을 보내고, 응답을 InputStream 객체로 받아 반환합니다. 접속 연결이 끊어지지 않은 상태이므로, 사용 종료 후 close() 를 호출해야 합니다. */
     @SuppressWarnings("unused")
 	public HHttpReceiving requestStream(String url, String sendBodys) {
     	URLConnection conn = null;
@@ -159,6 +164,7 @@ public class HHttpClient {
         		conn2.connect();
         		conn = conn1;
     		}
+    		recv.setConnection(conn);
     		
     		out1 = conn.getOutputStream();
     		if(sendBodys != null) out1.write(sendBodys.getBytes(charset));
@@ -177,12 +183,12 @@ public class HHttpClient {
     		
     		recv.setReceiving(conn.getInputStream());
     		
-    		ClassUtil.closeAll(conn, out1);
+    		ClassUtil.closeAll(out1);
     		return recv;
     	} catch(Throwable t) {
     		caught = t;
     	} finally {
-    		ClassUtil.closeAll(conn, out1);
+    		ClassUtil.closeAll(out1);
     	}
     	
     	if(caught != null) throw new RuntimeException(caught.getMessage(), caught);

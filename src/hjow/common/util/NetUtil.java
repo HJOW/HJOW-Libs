@@ -36,6 +36,7 @@ import hjow.common.stream.ChainInputStream;
  * <p>네트워킹 관련 정적 메소드들이 있습니다.</p>
  * 
  * @author HJOW
+ * @see HHttpClient
  *
  */
 public class NetUtil
