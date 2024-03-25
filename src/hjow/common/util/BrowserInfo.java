@@ -226,4 +226,18 @@ public class BrowserInfo implements Serializable {
         
         return new BrowserInfo();
     }
+	
+	public static boolean detectSupportES6(BrowserInfo browser) {
+		if(browser == null) return false;
+        if(! browser.getNm().equals("ie")) {
+            if(browser.getNm() == "safari"  && browser.getVer() >= 10) return true;
+            if(browser.getNm() == "opera"   && browser.getVer() >= 38) return true;
+            if(browser.getNm() == "chrome"  && browser.getVer() >= 51) return true;
+            if(browser.getNm() == "edge"    && browser.getVer() >= 79) return true;
+            if(browser.getNm() == "samsung" && browser.getVer() >= 79) return true;
+            if(browser.getNm() == "mypal"   && browser.getVer() >= 68) return true;
+            if(browser.getVer() >= 100) return true;
+        }
+        return false;
+    }
 }
