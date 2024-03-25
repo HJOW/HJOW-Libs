@@ -44,7 +44,7 @@ import hjow.common.json.JsonObject;
 public class DataUtil
 {
     /**
-     * <p>객체가 비었는지 여부를 반환합니다. null 이면 true 가 반환되고, 빈 텍스트인 경우도 true 가 반환됩니다.</p>
+     * <p>객체가 비었는지 여부를 반환합니다. null 이면 true 가 반환되고, 빈 텍스트인 경우도 true 가 반환됩니다. 숫자 (java.lang.Number 하위)와 java.lang.Boolean 타입인 경우 값에 관계없이 false 가 반환됩니다.</p>
      * 
      * @param ob : 검사할 텍스트
      * @return 비었는지의 여부
@@ -52,7 +52,15 @@ public class DataUtil
     public static boolean isEmpty(Object ob)
     {
         if(ob == null) return true;
-        if(ob instanceof String)
+        if(ob instanceof Number)
+        {
+        	return false;
+        }
+        else if(ob instanceof Boolean)
+        {
+        	return false;
+        }
+        else if(ob instanceof String)
         {
             if(((String) ob).trim().equals("")) return true;
             else if(((String) ob).trim().equals("null")) return true;
