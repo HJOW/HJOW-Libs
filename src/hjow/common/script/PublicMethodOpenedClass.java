@@ -15,7 +15,6 @@ limitations under the License.
  */
 package hjow.common.script;
 
-import java.io.Serializable;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -24,8 +23,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import hjow.common.xml.XMLSerializableObject;
+
 /** 이 클래스의 하위 클래스는 availables 메소드를 통해 사용 가능한 public 메소드를 항시 오픈하게 됩니다. */
-public abstract class PublicMethodOpenedClass implements Serializable {
+public abstract class PublicMethodOpenedClass extends XMLSerializableObject {
     private static final long serialVersionUID = 8642923854262326151L;
 
     /**

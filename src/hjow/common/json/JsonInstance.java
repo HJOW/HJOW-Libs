@@ -17,9 +17,9 @@ limitations under the License.
  */
 package hjow.common.json;
 
-import java.io.Serializable;
+import hjow.common.xml.XMLSerializable;
 
-public interface JsonInstance extends Serializable, Iterable<Object> {
+public interface JsonInstance extends XMLSerializable, Iterable<Object> {
     /** JSON 형식의 문자열을 생성합니다. */
     public String toJSON();
     /** JSON 형식의 문자열을 생성합니다. */

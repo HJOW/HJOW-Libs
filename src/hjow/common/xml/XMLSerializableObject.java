@@ -33,8 +33,10 @@ public class XMLSerializableObject implements XMLSerializable
             doc.appendChild(root);
 
             String classType = "class";
-            if (className.equals("byte") || className.equals("char") || className.equals("double") || className.equals("float") || className.equals("int") || className.equals("long") || className.equals("short")
-                    || className.equals("boolean"))
+            if (className.equals("byte") || className.equals("char") 
+             || className.equals("double") || className.equals("float") 
+             || className.equals("int") || className.equals("long") 
+             || className.equals("short") || className.equals("boolean"))
                 classType = "primitive";
 
             boolean islist = false;
@@ -64,7 +66,8 @@ public class XMLSerializableObject implements XMLSerializable
                     if (child != null)
                         root.appendChild(child);
                 }
-            } else if (ismap)
+            } 
+            else if (ismap)
             {
                 Element child;
                 Map<?, ?> mapObj = (Map<?, ?>) this;
@@ -76,7 +79,8 @@ public class XMLSerializableObject implements XMLSerializable
                     if (child != null)
                         root.appendChild(child);
                 }
-            } else
+            }
+            else
             {
                 Element child = null;
                 Class<?> classes = this.getClass();
@@ -88,25 +92,24 @@ public class XMLSerializableObject implements XMLSerializable
                         try
                         {
                             Object obj = f.get(this);
-
                             child = createXMLChild(doc, obj);
-                            if (child != null)
-                                root.appendChild(child);
-                        } catch (IllegalArgumentException e)
-                        {
-                        }
+                            if (child != null) root.appendChild(child);
+                        } catch (IllegalArgumentException e){}
                     }
                 }
             }
 
             return doc;
-        } catch (ParserConfigurationException e)
+        } 
+        catch (ParserConfigurationException e)
         {
             throw new RuntimeException(e.getMessage(), e);
-        } catch (IllegalArgumentException e)
+        } 
+        catch (IllegalArgumentException e)
         {
             throw new RuntimeException(e.getMessage(), e);
-        } catch (IllegalAccessException e)
+        } 
+        catch (IllegalAccessException e)
         {
             throw new RuntimeException(e.getMessage(), e);
         }

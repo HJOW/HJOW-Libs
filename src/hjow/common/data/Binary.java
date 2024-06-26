@@ -16,12 +16,21 @@ limitations under the License.
 package hjow.common.data;
 
 import java.io.ByteArrayOutputStream;
-import java.io.Serializable;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
+import hjow.common.util.SecurityUtil;
+import hjow.common.xml.XMLSerializable;
 
 /**
  * 이진 데이터를 관리하는 인스턴스를 만드는 클래스입니다/
  */
-public class Binary implements Serializable {
+public class Binary implements XMLSerializable {
     private static final long serialVersionUID = 5047947104003858791L;
     protected byte[] binaryData;
     
@@ -82,5 +91,34 @@ public class Binary implements Serializable {
             return equals(((ByteArrayOutputStream) targetObj).toByteArray());
         }
         return false;
+    }
+    @Override
+    public Document toXMLDocument()
+    {
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder;
+        try
+        {
+            builder = factory.newDocumentBuilder();
+            Document doc = builder.newDocument();
+            doc.setXmlStandalone(true);
+            
+            String className = this.getClass().getName();
+
+            Element root = doc.createElement(this.getClass().getSimpleName());
+            root.setAttribute("class", className);
+            doc.appendChild(root);
+            root.setAttribute("classType", "binary");
+            root.setNodeValue(SecurityUtil.hexString(getBinaryData()));
+            return doc;
+        }
+        catch (ParserConfigurationException e)
+        {
+            throw new RuntimeException(e.getMessage(), e);
+        } 
+        catch (IllegalArgumentException e)
+        {
+            throw new RuntimeException(e.getMessage(), e);
+        }
     }
 }

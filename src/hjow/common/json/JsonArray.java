@@ -30,9 +30,10 @@ import java.util.Set;
 
 import hjow.common.util.DataUtil;
 import hjow.common.util.SyntaxUtil;
+import hjow.common.xml.XMLSerializableObject;
 
 /** JSON 형식의 데이터를 다룰 수 있는 클래스입니다. 이 클래스의 인스턴스는 하나의 JSON 배열의 정보를 포함합니다. */
-public class JsonArray implements JsonInstance, List<Object> {
+public class JsonArray extends XMLSerializableObject implements JsonInstance, List<Object> {
     private static final long serialVersionUID = -7917612834023503642L;
     protected List<Object> data;
     
