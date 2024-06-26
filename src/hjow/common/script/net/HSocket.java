@@ -22,15 +22,15 @@ import java.net.UnknownHostException;
 import hjow.common.core.Releasable;
 
 public class HSocket extends Socket implements Releasable {
-	private static final long serialVersionUID = -8910240308523803495L;
-	public HSocket() {
-		super();
-	}
-	public HSocket(String host, int port) throws UnknownHostException, IOException {
-		super(host, port);
-	}
-	@Override
-	public void releaseResource() {
-		try { close(); } catch(Throwable t) {}
-	}
+    private static final long serialVersionUID = -8910240308523803495L;
+    public HSocket() {
+        super();
+    }
+    public HSocket(String host, int port) throws UnknownHostException, IOException {
+        super(host, port);
+    }
+    @Override
+    public void releaseResource() {
+        try { close(); } catch(Throwable t) {}
+    }
 }

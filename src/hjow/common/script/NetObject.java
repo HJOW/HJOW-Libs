@@ -48,11 +48,11 @@ public class NetObject extends ScriptObject {
     }
     @Override
     public void releaseResource() {
-    	super.releaseResource();
-    	for(Releasable r : releasables) {
-    		try { r.releaseResource(); } catch(Throwable t) {}
-    	}
-    	releasables.clear();
+        super.releaseResource();
+        for(Releasable r : releasables) {
+            try { r.releaseResource(); } catch(Throwable t) {}
+        }
+        releasables.clear();
     }
     @Override
     public String getInitScript(String accessKey) {
@@ -92,20 +92,20 @@ public class NetObject extends ScriptObject {
     }
     
     public HServerSocket openServerSocket(Object port) throws IOException {
-    	int portNo = -1;
-    	if(port instanceof Number) portNo = ((Number) port).intValue();
-    	else portNo = new BigDecimal(String.valueOf(port)).intValue();
-    	HServerSocket socket = new HServerSocket(portNo);
-    	releasables.add(socket);
-    	return socket;
+        int portNo = -1;
+        if(port instanceof Number) portNo = ((Number) port).intValue();
+        else portNo = new BigDecimal(String.valueOf(port)).intValue();
+        HServerSocket socket = new HServerSocket(portNo);
+        releasables.add(socket);
+        return socket;
     }
     
     public HSocket connectSocket(Object host, Object port) throws UnknownHostException, IOException {
-    	int portNo = -1;
-    	if(port instanceof Number) portNo = ((Number) port).intValue();
-    	else portNo = new BigDecimal(String.valueOf(port)).intValue();
-    	HSocket socket = new HSocket(String.valueOf(host), portNo);
-    	releasables.add(socket);
-    	return socket;
+        int portNo = -1;
+        if(port instanceof Number) portNo = ((Number) port).intValue();
+        else portNo = new BigDecimal(String.valueOf(port)).intValue();
+        HSocket socket = new HSocket(String.valueOf(host), portNo);
+        releasables.add(socket);
+        return socket;
     }
 }

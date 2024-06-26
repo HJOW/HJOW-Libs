@@ -22,16 +22,16 @@ import javax.swing.JSplitPane;
 import hjow.common.script.PublicMethodOpenedClass;
 
 public class HSplitPane extends JSplitPane {
-	private static final long serialVersionUID = -3306327472864054320L;
-	public HSplitPane() {
-		super();
-	}
-	
-	public HSplitPane(int orientation) {
-		super(orientation);
-	}
-	
-	public List<String> availables() {
-    	return PublicMethodOpenedClass.getAvailableMethods(this);
+    private static final long serialVersionUID = -3306327472864054320L;
+    public HSplitPane() {
+        super();
+    }
+    
+    public HSplitPane(int orientation) {
+        super(orientation);
+    }
+    
+    public List<String> availables() {
+        return PublicMethodOpenedClass.getAvailableMethods(this);
     }
 }

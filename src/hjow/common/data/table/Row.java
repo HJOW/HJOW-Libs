@@ -23,52 +23,52 @@ import java.util.Set;
 import hjow.common.json.JsonObject;
 
 public class Row extends HashMap<Column, Object> implements Serializable {
-	private static final long serialVersionUID = 2032072820408598680L;
-	
-	public Row() {
-		
-	}
-	
-	public Row(Map<Column, Object> rowData) {
-		putAll(rowData);
-	}
-	
-	@Override
-	public boolean equals(Object others) {
-		if(others == null) return false;
-		if(! (others instanceof Row)) {
-			return false;
-		}
-		
-		Row otherObj = (Row) others;
-		Set<Column> columns = keySet();
-		
-		for(Column col : columns) {
-			Object one = get(col);
-			Object other = otherObj.get(col);
-			
-			if(one == null && other != null) return false;
-			if(one != null && other == null) return false;
-			if(one != null && other != null) {
-				if(! (Column.isEqualValue(col.getType(), one, other))) {
-					return false;
-				}
-			}
-		}
-		
-		return true;
-	}
-	
-	public JsonObject toJSONObject() {
-		JsonObject obj = new JsonObject();
-		Set<Column> cols = keySet();
-		for(Column c : cols) {
-			obj.put(c.getName(), get(c));
-		}
-		return obj;
-	}
-	
-	public String toJSON() {
-		return toJSONObject().toJSON();
-	}
+    private static final long serialVersionUID = 2032072820408598680L;
+    
+    public Row() {
+        
+    }
+    
+    public Row(Map<Column, Object> rowData) {
+        putAll(rowData);
+    }
+    
+    @Override
+    public boolean equals(Object others) {
+        if(others == null) return false;
+        if(! (others instanceof Row)) {
+            return false;
+        }
+        
+        Row otherObj = (Row) others;
+        Set<Column> columns = keySet();
+        
+        for(Column col : columns) {
+            Object one = get(col);
+            Object other = otherObj.get(col);
+            
+            if(one == null && other != null) return false;
+            if(one != null && other == null) return false;
+            if(one != null && other != null) {
+                if(! (Column.isEqualValue(col.getType(), one, other))) {
+                    return false;
+                }
+            }
+        }
+        
+        return true;
+    }
+    
+    public JsonObject toJSONObject() {
+        JsonObject obj = new JsonObject();
+        Set<Column> cols = keySet();
+        for(Column c : cols) {
+            obj.put(c.getName(), get(c));
+        }
+        return obj;
+    }
+    
+    public String toJSON() {
+        return toJSONObject().toJSON();
+    }
 }

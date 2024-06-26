@@ -25,8 +25,8 @@ import java.util.Properties;
 import hjow.common.core.Core;
 
 public class ResourceManager {
-	/** 해당 클래스의 클래스 경로에 있는 리소스 읽기 스트림을 불러옵니다. */
-	public static InputStream getResourceByClass(Class<?> classObj, String name) {
+    /** 해당 클래스의 클래스 경로에 있는 리소스 읽기 스트림을 불러옵니다. */
+    public static InputStream getResourceByClass(Class<?> classObj, String name) {
         return classObj.getResourceAsStream(name);
     }
     /** 리소스에서 Properties 값을 불러옵니다. */
@@ -36,7 +36,7 @@ public class ResourceManager {
     
     /** 리소스에서 Properties 값을 불러옵니다. */
     public static Properties loadFrom(Class<?> classObj, String name) {
-    	InputStream inputStream = null;
+        InputStream inputStream = null;
         try {
             inputStream = getResourceByClass(classObj, name);
             if(inputStream == null) return null;
@@ -60,14 +60,14 @@ public class ResourceManager {
     
     /** 리소스에서 텍스트 값을 불러옵니다. */
     public static String readFrom(String name) {
-    	return readFrom(ResourceManager.class, name);
+        return readFrom(ResourceManager.class, name);
     }
     
     /** 리소스에서 텍스트 값을 불러옵니다. */
     public static String readFrom(Class<?> classObj, String name) {
-    	InputStream inputStream = null;
-    	InputStreamReader converter = null;
-    	BufferedReader reader = null;
+        InputStream inputStream = null;
+        InputStreamReader converter = null;
+        BufferedReader reader = null;
         try {
             inputStream = getResourceByClass(classObj, name);
             if(inputStream == null) return null;
@@ -79,13 +79,13 @@ public class ResourceManager {
             
             boolean isFirst = true;
             while(true) {
-            	String line = reader.readLine();
-            	if(line == null) break;
-            	
-            	if(! isFirst) results = results.append("\n");
-            	results = results.append(line);
-            	
-            	isFirst = false;
+                String line = reader.readLine();
+                if(line == null) break;
+                
+                if(! isFirst) results = results.append("\n");
+                results = results.append(line);
+                
+                isFirst = false;
             }
             
             reader.close();
@@ -102,10 +102,10 @@ public class ResourceManager {
             Core.logError(t);
             return null;
         } finally {
-        	if(reader != null) {
+            if(reader != null) {
                 try { reader.close(); } catch(Throwable ignores) {}
             }
-        	if(converter != null) {
+            if(converter != null) {
                 try { converter.close(); } catch(Throwable ignores) {}
             }
             if(inputStream != null) {

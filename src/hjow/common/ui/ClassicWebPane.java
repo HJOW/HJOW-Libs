@@ -36,151 +36,151 @@ import hjow.common.ui.extend.HPanel;
 import hjow.common.ui.extend.HTextField;
 
 public class ClassicWebPane extends HPanel implements WebPane {
-	private static final long serialVersionUID = -7433804879581765293L;
-	
-	protected JEditorPane view;
-	protected JToolBar toolBarControl;
-	protected HButton btnBack, btnForward, btnGo;
-	protected HTextField tfUrl;
-	
-	protected transient List<String> history;
-	protected transient int currentPointer = -1;
+    private static final long serialVersionUID = -7433804879581765293L;
+    
+    protected JEditorPane view;
+    protected JToolBar toolBarControl;
+    protected HButton btnBack, btnForward, btnGo;
+    protected HTextField tfUrl;
+    
+    protected transient List<String> history;
+    protected transient int currentPointer = -1;
 
-	public ClassicWebPane() {
-		this(true);
-	}
-	
-	public ClassicWebPane(boolean controlPanelOnTop) {
-		super();
-		init();
-		if(controlPanelOnTop)
-			this.add(toolBarControl, BorderLayout.NORTH);
-		else
-			this.add(toolBarControl, BorderLayout.SOUTH);
-	}
-	
-	protected void init() {
-		this.setLayout(new BorderLayout());
-		
-		view = new JEditorPane();
-		view.setEditable(false);
-		view.setContentType("text/html");
-		view.addHyperlinkListener(new HyperlinkListener() {
-			@Override
-			public void hyperlinkUpdate(HyperlinkEvent e) {
-				if(e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-					try {
-						goPage(e.getURL());
-					} catch (IOException e1) {
-						Core.logError(e1);
-					}
-				}
-			}
-		});
-		
-		this.add(new JScrollPane(view), BorderLayout.CENTER);
-		
-		toolBarControl = new JToolBar();
-		
-		btnBack = new HButton("◀");
-		btnForward = new HButton("◀");
-		btnGo = new HButton("＃");
-		tfUrl = new HTextField(15);
-		
-		toolBarControl.add(btnBack);
-		toolBarControl.add(btnForward);
-		toolBarControl.add(tfUrl);
-		toolBarControl.add(btnGo);
-		
-		history = new Vector<String>();
-	}
-	
-	public HButton getBackButton() {
-		return btnBack;
-	}
-	
-	public HButton getForwardButton() {
-		return btnForward;
-	}
-	
-	public HButton getGoButton() {
-		return btnGo;
-	}
-	
-	public HTextField getUrlTextField() {
-		return tfUrl;
-	}
-	
-	public void setEnabled(boolean e) {
-		btnBack.setEnabled(e);
-		btnForward.setEnabled(e);
-		btnGo.setEnabled(e);
-		tfUrl.setEnabled(e);
-	}
-	
-	public boolean isEnabled() {
-		return btnGo.isEnabled();
-	}
-	
-	@Override
-	public Component getComponent() {
-		return this;
-	}
-	
-	public JEditorPane getEditorPane() {
-		return view;
-	}
-	
-	public void setToolbarVisible(boolean v) {
-		toolBarControl.setVisible(v);
-	}
-	
-	public boolean isToolbarVisible() {
-		return toolBarControl.isVisible();
-	}
+    public ClassicWebPane() {
+        this(true);
+    }
+    
+    public ClassicWebPane(boolean controlPanelOnTop) {
+        super();
+        init();
+        if(controlPanelOnTop)
+            this.add(toolBarControl, BorderLayout.NORTH);
+        else
+            this.add(toolBarControl, BorderLayout.SOUTH);
+    }
+    
+    protected void init() {
+        this.setLayout(new BorderLayout());
+        
+        view = new JEditorPane();
+        view.setEditable(false);
+        view.setContentType("text/html");
+        view.addHyperlinkListener(new HyperlinkListener() {
+            @Override
+            public void hyperlinkUpdate(HyperlinkEvent e) {
+                if(e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
+                    try {
+                        goPage(e.getURL());
+                    } catch (IOException e1) {
+                        Core.logError(e1);
+                    }
+                }
+            }
+        });
+        
+        this.add(new JScrollPane(view), BorderLayout.CENTER);
+        
+        toolBarControl = new JToolBar();
+        
+        btnBack = new HButton("◀");
+        btnForward = new HButton("◀");
+        btnGo = new HButton("＃");
+        tfUrl = new HTextField(15);
+        
+        toolBarControl.add(btnBack);
+        toolBarControl.add(btnForward);
+        toolBarControl.add(tfUrl);
+        toolBarControl.add(btnGo);
+        
+        history = new Vector<String>();
+    }
+    
+    public HButton getBackButton() {
+        return btnBack;
+    }
+    
+    public HButton getForwardButton() {
+        return btnForward;
+    }
+    
+    public HButton getGoButton() {
+        return btnGo;
+    }
+    
+    public HTextField getUrlTextField() {
+        return tfUrl;
+    }
+    
+    public void setEnabled(boolean e) {
+        btnBack.setEnabled(e);
+        btnForward.setEnabled(e);
+        btnGo.setEnabled(e);
+        tfUrl.setEnabled(e);
+    }
+    
+    public boolean isEnabled() {
+        return btnGo.isEnabled();
+    }
+    
+    @Override
+    public Component getComponent() {
+        return this;
+    }
+    
+    public JEditorPane getEditorPane() {
+        return view;
+    }
+    
+    public void setToolbarVisible(boolean v) {
+        toolBarControl.setVisible(v);
+    }
+    
+    public boolean isToolbarVisible() {
+        return toolBarControl.isVisible();
+    }
 
-	@Override
-	public void goPage(Object url) throws IOException {
-		String targetUrl = null;
-		if(url instanceof URL) targetUrl = ((URL)url).toString();
-		else targetUrl = String.valueOf(url);
-		
-		history.add(targetUrl);
-		currentPointer = history.size() - 1;
-		view.setPage(targetUrl);
-		tfUrl.setText(targetUrl);
-	}
-	
-	public List<String> getHistory() {
-		List<String> newList = new ArrayList<String>();
-		for(String s : history) {
-			newList.add(s);
-		}
-		return newList;
-	}
-	
-	public void goBack() throws IOException {
-		if(currentPointer <= 0) return;
-		if(history.isEmpty()) return;
-		
-		currentPointer--;
-		goPage(history.get(currentPointer));
-	}
-	
-	public void goForward() throws IOException {
-		if(currentPointer >= history.size() - 1) return;
-		if(history.isEmpty()) return;
-		
-		currentPointer++;
-		goPage(history.get(currentPointer));
-	}
-	
-	/**
+    @Override
+    public void goPage(Object url) throws IOException {
+        String targetUrl = null;
+        if(url instanceof URL) targetUrl = ((URL)url).toString();
+        else targetUrl = String.valueOf(url);
+        
+        history.add(targetUrl);
+        currentPointer = history.size() - 1;
+        view.setPage(targetUrl);
+        tfUrl.setText(targetUrl);
+    }
+    
+    public List<String> getHistory() {
+        List<String> newList = new ArrayList<String>();
+        for(String s : history) {
+            newList.add(s);
+        }
+        return newList;
+    }
+    
+    public void goBack() throws IOException {
+        if(currentPointer <= 0) return;
+        if(history.isEmpty()) return;
+        
+        currentPointer--;
+        goPage(history.get(currentPointer));
+    }
+    
+    public void goForward() throws IOException {
+        if(currentPointer >= history.size() - 1) return;
+        if(history.isEmpty()) return;
+        
+        currentPointer++;
+        goPage(history.get(currentPointer));
+    }
+    
+    /**
      * 사용 가능한 메소드 이름 리스트를 반환합니다.
      * 
      * @return 메소드 이름 리스트
      */
     public List<String> availables() {
-    	return PublicMethodOpenedClass.getAvailableMethods(this);
+        return PublicMethodOpenedClass.getAvailableMethods(this);
     }
 }

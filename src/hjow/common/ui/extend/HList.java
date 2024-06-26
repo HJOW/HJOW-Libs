@@ -22,9 +22,9 @@ import javax.swing.JList;
 import hjow.common.script.PublicMethodOpenedClass;
 
 public class HList extends JList {
-	private static final long serialVersionUID = 3890871415345864749L;
+    private static final long serialVersionUID = 3890871415345864749L;
 
-	public List<String> availables() {
-    	return PublicMethodOpenedClass.getAvailableMethods(this);
+    public List<String> availables() {
+        return PublicMethodOpenedClass.getAvailableMethods(this);
     }
 }

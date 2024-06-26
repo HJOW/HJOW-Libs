@@ -22,9 +22,9 @@ import javax.swing.JSpinner;
 import hjow.common.script.PublicMethodOpenedClass;
 
 public class HSpinner extends JSpinner {
-	private static final long serialVersionUID = -1425365866502488587L;
-	
-	public List<String> availables() {
-    	return PublicMethodOpenedClass.getAvailableMethods(this);
+    private static final long serialVersionUID = -1425365866502488587L;
+    
+    public List<String> availables() {
+        return PublicMethodOpenedClass.getAvailableMethods(this);
     }
 }

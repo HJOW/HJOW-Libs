@@ -70,13 +70,13 @@ public abstract class BuiltinModule implements Module {
     }
     
     public void initFrame(JInternalFrame internalFrame) {
-    	
+        
     }
     
     public static final List<BuiltinModule> getBuiltinModules(Core core) {
-    	List<BuiltinModule> modules = new ArrayList<BuiltinModule>();
-    	
-    	modules.add(new ScriptModule(core));
+        List<BuiltinModule> modules = new ArrayList<BuiltinModule>();
+        
+        modules.add(new ScriptModule(core));
         modules.add(new ModuleEditor(core));
         
         /*
@@ -84,7 +84,7 @@ public abstract class BuiltinModule implements Module {
         taskManager.setThreadList(core, threads);
         modules.add(taskManager);
         */
-    	
-    	return modules;
+        
+        return modules;
     }
 }

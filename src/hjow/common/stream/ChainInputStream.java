@@ -37,8 +37,8 @@ import hjow.common.util.ClassUtil;
  */
 public class ChainInputStream extends InputStream implements ChainObject
 {
-	private static final long serialVersionUID = 3326788924330343979L;
-	protected boolean locked = false;
+    private static final long serialVersionUID = 3326788924330343979L;
+    protected boolean locked = false;
     protected List<InputStream> chains = new Vector<InputStream>();    
     
     public ChainInputStream(InputStream firstStream)
@@ -65,16 +65,16 @@ public class ChainInputStream extends InputStream implements ChainObject
     @Override
     public synchronized void close() throws IOException
     {
-    	locked = true;
+        locked = true;
         for(int i=chains.size()-1; i>=0; i--)
         {
-        	ClassUtil.closeAll(chains.get(i));
+            ClassUtil.closeAll(chains.get(i));
         }
         chains.clear();
     }
 
     @SuppressWarnings("unchecked")
-	public void put(String streamName) throws Exception
+    public void put(String streamName) throws Exception
     {
         if(streamName.equals("Data"))
         {
@@ -90,38 +90,38 @@ public class ChainInputStream extends InputStream implements ChainObject
         }
         else
         {
-        	put((Class<? extends InputStream>) Class.forName(streamName));
+            put((Class<? extends InputStream>) Class.forName(streamName));
         }
     }
 
-	@Override
-	public int read() throws IOException {
-		return getInputStream().read();
-	}
-	
-	@Override
-	public int available() throws IOException {
-		if(chains.isEmpty()) return 0;
+    @Override
+    public int read() throws IOException {
+        return getInputStream().read();
+    }
+    
+    @Override
+    public int available() throws IOException {
+        if(chains.isEmpty()) return 0;
         return getInputStream().available();
     }
-	
-	@Override
-	public synchronized void reset() throws IOException {
+    
+    @Override
+    public synchronized void reset() throws IOException {
         getInputStream().reset();
     }
-	
-	@Override
-	public List<String> getElementTypes() {
-		List<String> elements = new ArrayList<String>();
-		for(InputStream r : chains) {
-			elements.add(r.getClass().getName());
-		}
-		
-		return elements;
-	}
-	
-	@Override
-	public void releaseResource() {
-		try { close(); } catch(IOException e) { throw new RuntimeException(e); }
-	}
+    
+    @Override
+    public List<String> getElementTypes() {
+        List<String> elements = new ArrayList<String>();
+        for(InputStream r : chains) {
+            elements.add(r.getClass().getName());
+        }
+        
+        return elements;
+    }
+    
+    @Override
+    public void releaseResource() {
+        try { close(); } catch(IOException e) { throw new RuntimeException(e); }
+    }
 }

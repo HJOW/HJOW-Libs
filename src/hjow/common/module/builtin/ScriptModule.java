@@ -275,29 +275,29 @@ public class ScriptModule extends BuiltinModule implements ActionListener, KeyLi
         return true;
     }
 
-	@Override
-	public void keyTyped(KeyEvent e) {}
+    @Override
+    public void keyTyped(KeyEvent e) {}
 
-	@Override
-	public void keyPressed(KeyEvent e) {
-		Object obj = e.getSource();
-		if(obj == scriptField) {
-			if(history == null) history = new Vector<String>();
-			
-			if(e.getKeyCode() == KeyEvent.VK_UP) {
-				if(historyPoint < history.size() - 1) {
-					historyPoint++;
-					scriptField.setText(history.get(historyPoint));
-				}
-			} else if(e.getKeyCode() == KeyEvent.VK_DOWN) {
-				if(historyPoint > 0) {
-					historyPoint--;
-					scriptField.setText(history.get(historyPoint));
-				}
-			}
-		}
-	}
+    @Override
+    public void keyPressed(KeyEvent e) {
+        Object obj = e.getSource();
+        if(obj == scriptField) {
+            if(history == null) history = new Vector<String>();
+            
+            if(e.getKeyCode() == KeyEvent.VK_UP) {
+                if(historyPoint < history.size() - 1) {
+                    historyPoint++;
+                    scriptField.setText(history.get(historyPoint));
+                }
+            } else if(e.getKeyCode() == KeyEvent.VK_DOWN) {
+                if(historyPoint > 0) {
+                    historyPoint--;
+                    scriptField.setText(history.get(historyPoint));
+                }
+            }
+        }
+    }
 
-	@Override
-	public void keyReleased(KeyEvent e) {}
+    @Override
+    public void keyReleased(KeyEvent e) {}
 }

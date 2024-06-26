@@ -22,9 +22,9 @@ import javax.swing.JTabbedPane;
 import hjow.common.script.PublicMethodOpenedClass;
 
 public class HTabbedPane extends JTabbedPane {
-	private static final long serialVersionUID = -2815700831714036239L;
+    private static final long serialVersionUID = -2815700831714036239L;
 
-	public List<String> availables() {
-    	return PublicMethodOpenedClass.getAvailableMethods(this);
+    public List<String> availables() {
+        return PublicMethodOpenedClass.getAvailableMethods(this);
     }
 }

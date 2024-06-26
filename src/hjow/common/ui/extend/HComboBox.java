@@ -23,16 +23,16 @@ import javax.swing.JComboBox;
 import hjow.common.script.PublicMethodOpenedClass;
 
 public class HComboBox extends JComboBox {
-	private static final long serialVersionUID = 238077368780030634L;
-	public HComboBox() {
-		super();
-	}
-	
-	public HComboBox(Vector<?> elements) {
-		super(elements);
-	}
-	
-	public List<String> availables() {
-    	return PublicMethodOpenedClass.getAvailableMethods(this);
+    private static final long serialVersionUID = 238077368780030634L;
+    public HComboBox() {
+        super();
+    }
+    
+    public HComboBox(Vector<?> elements) {
+        super(elements);
+    }
+    
+    public List<String> availables() {
+        return PublicMethodOpenedClass.getAvailableMethods(this);
     }
 }

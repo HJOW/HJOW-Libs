@@ -16,8 +16,8 @@ limitations under the License.
 package hjow.common.data.table.exception;
 
 public class PrimaryKeyDuplicationException extends ConstraintDuplicationException {
-	private static final long serialVersionUID = 7046186051424697825L;
-	public PrimaryKeyDuplicationException() {
-		super("There is already another primary key.");
-	}
+    private static final long serialVersionUID = 7046186051424697825L;
+    public PrimaryKeyDuplicationException() {
+        super("There is already another primary key.");
+    }
 }

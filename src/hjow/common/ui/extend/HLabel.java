@@ -22,17 +22,17 @@ import javax.swing.JLabel;
 import hjow.common.script.PublicMethodOpenedClass;
 
 public class HLabel extends JLabel {
-	private static final long serialVersionUID = -7170565740061343128L;
+    private static final long serialVersionUID = -7170565740061343128L;
 
-	public HLabel() {
-		super();
-	}
-	
-	public HLabel(String text) {
-		super(text);
-	}
-	
-	public List<String> availables() {
-    	return PublicMethodOpenedClass.getAvailableMethods(this);
+    public HLabel() {
+        super();
+    }
+    
+    public HLabel(String text) {
+        super(text);
+    }
+    
+    public List<String> availables() {
+        return PublicMethodOpenedClass.getAvailableMethods(this);
     }
 }

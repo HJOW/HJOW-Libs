@@ -19,10 +19,10 @@ import java.util.Properties;
 
 public interface PropertiesEditor {
 
-	/** 컴포넌트에 입력된 Properties 를 읽어내 반환합니다. */
-	public Properties getProp();
-	
-	/** 새로운 Properties 를 입력합니다. */
-	public void setProp(Properties prop);
+    /** 컴포넌트에 입력된 Properties 를 읽어내 반환합니다. */
+    public Properties getProp();
+    
+    /** 새로운 Properties 를 입력합니다. */
+    public void setProp(Properties prop);
 
 }

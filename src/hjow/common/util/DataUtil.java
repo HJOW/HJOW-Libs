@@ -54,11 +54,11 @@ public class DataUtil
         if(ob == null) return true;
         if(ob instanceof Number)
         {
-        	return false;
+            return false;
         }
         else if(ob instanceof Boolean)
         {
-        	return false;
+            return false;
         }
         else if(ob instanceof String)
         {
@@ -288,7 +288,7 @@ public class DataUtil
      * @param lists : 리스트들
      * @return 병합된 새 리스트
      */
-	public static <T> List<T> merge(List<T> ... lists)
+    public static <T> List<T> merge(List<T> ... lists)
     {
         List<List<T>> targets = new Vector<List<T>>();
         for(List<T> othersList : lists)
@@ -314,13 +314,13 @@ public class DataUtil
      */
     public static String castQuote(boolean isDoubleQuote, String target)
     {
-    	String res = target;
-    	// res = res.replace("\n", "\\" + "n");
-    	// res = res.replace("\t", "\\" + "t");
-    	res = res.replace("\\", "\\" + "\\");
+        String res = target;
+        // res = res.replace("\n", "\\" + "n");
+        // res = res.replace("\t", "\\" + "t");
+        res = res.replace("\\", "\\" + "\\");
         if(isDoubleQuote)
         {
-        	res = res.replace("\"", "\\" + "\"");
+            res = res.replace("\"", "\\" + "\"");
         }
         else
         {
@@ -367,7 +367,7 @@ public class DataUtil
                     }
                     else
                     {
-                    	if(chars[i] != '\\' && chars[i - 1] == '\\') results = results.append(String.valueOf('\\'));
+                        if(chars[i] != '\\' && chars[i - 1] == '\\') results = results.append(String.valueOf('\\'));
                         useDefault = true;
                     }
                 }
@@ -388,8 +388,8 @@ public class DataUtil
                     }
                     else
                     {
-                    	if(chars[i] != '\\' && chars[i - 1] == '\\') results = results.append(String.valueOf('\\'));
-                    	useDefault = true;
+                        if(chars[i] != '\\' && chars[i - 1] == '\\') results = results.append(String.valueOf('\\'));
+                        useDefault = true;
                     }
                 }
                 else
@@ -420,7 +420,7 @@ public class DataUtil
                     }
                     else
                     {
-                    	if(chars[i] != '\\' && chars[i - 1] == '\\') results = results.append(String.valueOf('\\'));
+                        if(chars[i] != '\\' && chars[i - 1] == '\\') results = results.append(String.valueOf('\\'));
                         useDefault = true;
                     }
                 }
@@ -441,8 +441,8 @@ public class DataUtil
                     }
                     else
                     {
-                    	if(chars[i] != '\\' && chars[i - 1] == '\\') results = results.append(String.valueOf('\\'));
-                    	useDefault = true;
+                        if(chars[i] != '\\' && chars[i - 1] == '\\') results = results.append(String.valueOf('\\'));
+                        useDefault = true;
                     }
                 }
                 else
@@ -759,9 +759,9 @@ public class DataUtil
      */
     public static String toByteUnit(long values, int digit)
     {
-    	if(digit <= 0) throw new RuntimeException("On 'toByteUnit', digit must bigger  than 1.");
-    	if(digit >= 7) throw new RuntimeException("On 'toByteUnit', digit must smaller than 6.");
-    	
+        if(digit <= 0) throw new RuntimeException("On 'toByteUnit', digit must bigger  than 1.");
+        if(digit >= 7) throw new RuntimeException("On 'toByteUnit', digit must smaller than 6.");
+        
         double calcs = 0.0;
         
         if(values == 0) return "0";
@@ -929,90 +929,90 @@ public class DataUtil
     
     /** JSON 형식의 문자열을 인식해 JSON 지원 객체로 변환합니다. 문자열 내용이 단순 리터럴 (숫자, 문자열 등등) 이면 그 리터럴 값이 반환됩니다. */
     public static Object parseJson(String jsonStr) {
-    	return JsonObject.parseJson(jsonStr);
+        return JsonObject.parseJson(jsonStr);
     }
     
     /** 문자열 하나의 블록을 나눕니다. 따옴표를 인식합니다. */
     public static List<String> parseBlocks(String str) {
-    	if(str == null) return new ArrayList<String>();
-    	List<String> res = new ArrayList<String>();
-    	
-    	int len = str.length();
-    	int idx = 0;
-    	char quote = ' ';
-    	int  revSlice = 0;
-    	StringBuilder collector = new StringBuilder("");
-    	for(idx=0; idx<len; idx++) {
-    		char current = str.charAt(idx);
-    		
-    		if(quote != ' ') {
-				if(current == quote) {
-					if(revSlice % 2 == 0) {
-						quote = ' ';
-						for(int qdx=0; qdx<revSlice / 2; qdx++) {
-							collector = collector.append('\\');
-						}
-						revSlice = 0;
-						collector = collector.append(current);
-					} else {
-						for(int qdx=0; qdx<revSlice / 2; qdx++) {
-							collector = collector.append('\\');
-						}
-						revSlice = 0;
-						collector = collector.append('\\');
-						collector = collector.append(current);
-					}
-				} else if(current == '\\') {
-					revSlice++;
-					if(revSlice >= 2) {
-						collector = collector.append('\\');
-						revSlice -= 2;
-					}
-				} else {
-					collector = collector.append(current);
-				}
-				continue;
-			} else if(current == '\'' || current == '"') {
-				if(revSlice % 2 == 1) {
-					collector = collector.append('\\');
-					collector = collector.append(current);
-					continue;
-				} else {
-					quote = current;
-					collector = collector.append(current);
-					continue;
-				}
-			} else if(current != ' ' && current != '\t') {
-				if(current == '\\') {
-					revSlice++;
-					if(revSlice >= 2) {
-						collector = collector.append('\\');
-						revSlice -= 2;
-					}
-					continue;
-				} else {
-					collector = collector.append(current);
-					continue;
-				}
-			} else {
-				res.add(collector.toString().trim());
-				collector.setLength(0);
-				continue;
-			}
-    	}
-    	
-    	if(collector.length() >= 1) {
-    		res.add(collector.toString().trim());
-			collector.setLength(0);
-    	}
-    	
-    	for(idx=0; idx<res.size(); idx++) {
-    		String s = res.get(idx);
-    		if(s.startsWith("'") || s.startsWith("\"")) s = DataUtil.removeQuote(s);
-    		res.set(idx, s);
-    	}
-    	
-    	return res;
+        if(str == null) return new ArrayList<String>();
+        List<String> res = new ArrayList<String>();
+        
+        int len = str.length();
+        int idx = 0;
+        char quote = ' ';
+        int  revSlice = 0;
+        StringBuilder collector = new StringBuilder("");
+        for(idx=0; idx<len; idx++) {
+            char current = str.charAt(idx);
+            
+            if(quote != ' ') {
+                if(current == quote) {
+                    if(revSlice % 2 == 0) {
+                        quote = ' ';
+                        for(int qdx=0; qdx<revSlice / 2; qdx++) {
+                            collector = collector.append('\\');
+                        }
+                        revSlice = 0;
+                        collector = collector.append(current);
+                    } else {
+                        for(int qdx=0; qdx<revSlice / 2; qdx++) {
+                            collector = collector.append('\\');
+                        }
+                        revSlice = 0;
+                        collector = collector.append('\\');
+                        collector = collector.append(current);
+                    }
+                } else if(current == '\\') {
+                    revSlice++;
+                    if(revSlice >= 2) {
+                        collector = collector.append('\\');
+                        revSlice -= 2;
+                    }
+                } else {
+                    collector = collector.append(current);
+                }
+                continue;
+            } else if(current == '\'' || current == '"') {
+                if(revSlice % 2 == 1) {
+                    collector = collector.append('\\');
+                    collector = collector.append(current);
+                    continue;
+                } else {
+                    quote = current;
+                    collector = collector.append(current);
+                    continue;
+                }
+            } else if(current != ' ' && current != '\t') {
+                if(current == '\\') {
+                    revSlice++;
+                    if(revSlice >= 2) {
+                        collector = collector.append('\\');
+                        revSlice -= 2;
+                    }
+                    continue;
+                } else {
+                    collector = collector.append(current);
+                    continue;
+                }
+            } else {
+                res.add(collector.toString().trim());
+                collector.setLength(0);
+                continue;
+            }
+        }
+        
+        if(collector.length() >= 1) {
+            res.add(collector.toString().trim());
+            collector.setLength(0);
+        }
+        
+        for(idx=0; idx<res.size(); idx++) {
+            String s = res.get(idx);
+            if(s.startsWith("'") || s.startsWith("\"")) s = DataUtil.removeQuote(s);
+            res.set(idx, s);
+        }
+        
+        return res;
     }
     
     /**
@@ -1034,88 +1034,88 @@ public class DataUtil
      * </pre>
      */
     public static Map<String, String> parseParameter(String str) {
-    	if(str == null) return new HashMap<String, String>();
-    	Map<String, String> res = new HashMap<String, String>();
-    	if(str.contains("\n")) str = str.replace("\n", " ");
-    	str = str.trim();
-    	
-    	String order  = null;
-    	String mParam = null;
-    	String pKey   = null;
-    	
-    	List<String> blocks = parseBlocks(str);
-    	StringBuilder collector = new StringBuilder("");
-    	for(String b : blocks) {
-    		b = b.trim();
-    		if(order == null) {
-    			order = b;
-    			continue;
-    		} else {
-    			if(b.startsWith("-")) {
-    				if(pKey != null) {
-    					res.put(pKey, collector.toString().trim());
-    					pKey = null;
-    					collector.setLength(0);
-    				}
-    				
-    				if(b.startsWith("--")) {
-    					pKey = b.substring(2);
-    				} else {
-    					pKey = b.substring(1);
-    					if(pKey.length() >= 2) throw new RuntimeException("Wrong length of parameter block " + b);
-    				}
-    			} else if(pKey == null) {
-    				if(mParam == null) mParam = "";
-    				mParam += " " + b;
-    				continue;
-    			} else {
-    				collector = collector.append(" ").append(b);
-    			}
-    		}
-    	}
-    	
-    	if(pKey != null) {
-			res.put(pKey, collector.toString().trim());
-			pKey = null;
-			collector.setLength(0);
-		}
-    	
-    	if(mParam != null) mParam = mParam.trim();
-    	
-    	res.put("ORDER"    , order.trim());
-    	res.put("PARAMETER", mParam);
-    	
-    	return res;
+        if(str == null) return new HashMap<String, String>();
+        Map<String, String> res = new HashMap<String, String>();
+        if(str.contains("\n")) str = str.replace("\n", " ");
+        str = str.trim();
+        
+        String order  = null;
+        String mParam = null;
+        String pKey   = null;
+        
+        List<String> blocks = parseBlocks(str);
+        StringBuilder collector = new StringBuilder("");
+        for(String b : blocks) {
+            b = b.trim();
+            if(order == null) {
+                order = b;
+                continue;
+            } else {
+                if(b.startsWith("-")) {
+                    if(pKey != null) {
+                        res.put(pKey, collector.toString().trim());
+                        pKey = null;
+                        collector.setLength(0);
+                    }
+                    
+                    if(b.startsWith("--")) {
+                        pKey = b.substring(2);
+                    } else {
+                        pKey = b.substring(1);
+                        if(pKey.length() >= 2) throw new RuntimeException("Wrong length of parameter block " + b);
+                    }
+                } else if(pKey == null) {
+                    if(mParam == null) mParam = "";
+                    mParam += " " + b;
+                    continue;
+                } else {
+                    collector = collector.append(" ").append(b);
+                }
+            }
+        }
+        
+        if(pKey != null) {
+            res.put(pKey, collector.toString().trim());
+            pKey = null;
+            collector.setLength(0);
+        }
+        
+        if(mParam != null) mParam = mParam.trim();
+        
+        res.put("ORDER"    , order.trim());
+        res.put("PARAMETER", mParam);
+        
+        return res;
     }
     
     /** Make random string. Numbers, and big alphabets. */
     public static String randomSerial(int digit) {
-    	StringBuilder res = new StringBuilder("");
-    	
-    	int rand;
-    	Random r = new Random();
-    	for(int idx=0; idx<digit; idx++) {
-    		rand = r.nextInt(10 + 26);
-    		if(rand >= 0 && rand < 10) {
-    			res = res.append(String.valueOf(rand));
-    		} else {
-    			rand = rand - 10;
-    			char c = (char) (((int) 'A') + rand);
-    			res = res.append(String.valueOf(c));
-    		}
-    	}
-    	
-    	return res.toString();
+        StringBuilder res = new StringBuilder("");
+        
+        int rand;
+        Random r = new Random();
+        for(int idx=0; idx<digit; idx++) {
+            rand = r.nextInt(10 + 26);
+            if(rand >= 0 && rand < 10) {
+                res = res.append(String.valueOf(rand));
+            } else {
+                rand = rand - 10;
+                char c = (char) (((int) 'A') + rand);
+                res = res.append(String.valueOf(c));
+            }
+        }
+        
+        return res.toString();
     }
     
     /** Trying to parse string into double. If multiple '.' in string, then toss away except first. */
     public static double parseFloatFirstBlock(String str) {
-    	try {
+        try {
             String[] splits = String.valueOf(str).split("\\.");
             if(splits.length <= 1) return (double) Integer.parseInt(splits[0]);
             return Double.parseDouble(splits[0] + '.' + splits[1]);
         } catch(Throwable t) {
-        	System.out.println("Cannot convert string into double - " + str + " - (" + t.getClass().getName() + ") - " + t.getMessage());
+            System.out.println("Cannot convert string into double - " + str + " - (" + t.getClass().getName() + ") - " + t.getMessage());
             return -1;
         }
     }

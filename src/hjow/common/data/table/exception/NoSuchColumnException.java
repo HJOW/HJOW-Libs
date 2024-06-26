@@ -16,11 +16,11 @@ limitations under the License.
 package hjow.common.data.table.exception;
 
 public class NoSuchColumnException extends RuntimeException {
-	private static final long serialVersionUID = -7454876708014809204L;
-	public NoSuchColumnException() {
-		super("There is no column to match.");
-	}
-	public NoSuchColumnException(String columnName) {
-		super("There is no column to match the name '" + columnName + "'.");
-	}
+    private static final long serialVersionUID = -7454876708014809204L;
+    public NoSuchColumnException() {
+        super("There is no column to match.");
+    }
+    public NoSuchColumnException(String columnName) {
+        super("There is no column to match the name '" + columnName + "'.");
+    }
 }

@@ -21,9 +21,9 @@ import java.util.Properties;
 import hjow.common.script.HScriptEngine;
 
 public final class CustomModule extends CustomAbstractModule {
-	private static final long serialVersionUID = -2495981777714564691L;
-	public CustomModule() {
-		super();
+    private static final long serialVersionUID = -2495981777714564691L;
+    public CustomModule() {
+        super();
     }
     
     public CustomModule(File file, HScriptEngine engine, String accessKey) {
@@ -31,6 +31,6 @@ public final class CustomModule extends CustomAbstractModule {
     }
     
     public CustomModule(Properties prop, HScriptEngine engine, String accessKey) {
-    	super(prop, engine, accessKey);
+        super(prop, engine, accessKey);
     }
 }

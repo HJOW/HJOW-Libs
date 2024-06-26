@@ -16,11 +16,11 @@ limitations under the License.
 package hjow.common.data.table.exception;
 
 public class ColumnDuplicationException extends RuntimeException {
-	private static final long serialVersionUID = 1120379909272233126L;
-	public ColumnDuplicationException() {
-		super("There is already another column with same name.");
-	}
-	public ColumnDuplicationException(String colName) {
-		super("There is already another column with the name '" + colName + "'.");
-	}
+    private static final long serialVersionUID = 1120379909272233126L;
+    public ColumnDuplicationException() {
+        super("There is already another column with same name.");
+    }
+    public ColumnDuplicationException(String colName) {
+        super("There is already another column with the name '" + colName + "'.");
+    }
 }

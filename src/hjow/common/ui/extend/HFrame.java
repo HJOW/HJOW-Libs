@@ -21,20 +21,20 @@ import javax.swing.JFrame;
 import hjow.common.script.PublicMethodOpenedClass;
 
 public class HFrame extends JFrame implements AlphaRatioEditable {
-	private static final long serialVersionUID = 5966922780668967839L;
+    private static final long serialVersionUID = 5966922780668967839L;
 
-	public HFrame() {
-		super();
-	}
-	
-	public List<String> availables() {
-    	return PublicMethodOpenedClass.getAvailableMethods(this);
+    public HFrame() {
+        super();
     }
-	
-	@Override
-	public void setAlphaRatio(float alphaRatio) {
-		if(alphaRatio < 1.0) getRootPane().setOpaque(true);
-		else getRootPane().setOpaque(false);
-		getRootPane().putClientProperty("window.alpha", new Float(alphaRatio));
-	}
+    
+    public List<String> availables() {
+        return PublicMethodOpenedClass.getAvailableMethods(this);
+    }
+    
+    @Override
+    public void setAlphaRatio(float alphaRatio) {
+        if(alphaRatio < 1.0) getRootPane().setOpaque(true);
+        else getRootPane().setOpaque(false);
+        getRootPane().putClientProperty("window.alpha", new Float(alphaRatio));
+    }
 }

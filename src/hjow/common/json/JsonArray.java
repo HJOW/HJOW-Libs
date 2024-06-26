@@ -116,43 +116,43 @@ public class JsonArray implements JsonInstance, List<Object> {
     
     @Override
     public JsonInstance cloneObject() {
-    	JsonArray newArr = new JsonArray();
-    	for(Object obj : data) {
-    		newArr.add(obj);
-    	}
-    	return newArr;
+        JsonArray newArr = new JsonArray();
+        for(Object obj : data) {
+            newArr.add(obj);
+        }
+        return newArr;
     }
     
     @Override
     public String toJSON() {
-    	return toJSON(false, false);
+        return toJSON(false, false);
     }
 
     @Override
     public String toJSON(boolean allowLineJumpString, boolean lookFine) {
-    	return toJSON("", allowLineJumpString, lookFine);
+        return toJSON("", allowLineJumpString, lookFine);
     }
     
     @Override
     public String toJSON(String indent, boolean allowLineJumpString, boolean lookFine) {
-    	if(indent == null) indent = "";
-    	String indentNext = "";
-    	if(indent.equals("")) indentNext = indent + "    ";
-    	
-    	StringBuilder resultString = new StringBuilder("");
+        if(indent == null) indent = "";
+        String indentNext = "";
+        if(indent.equals("")) indentNext = indent + "    ";
+        
+        StringBuilder resultString = new StringBuilder("");
         resultString = resultString.append(indent).append("[");
         boolean isFirst = true;
         for(Object target : data) {
-        	if(lookFine) resultString = resultString.append("\n");
-        	resultString = resultString.append(indentNext);
-        	if(! isFirst) resultString = resultString.append(",");
+            if(lookFine) resultString = resultString.append("\n");
+            resultString = resultString.append(indentNext);
+            if(! isFirst) resultString = resultString.append(",");
             
             if(target instanceof JsonInstance) {
-            	target = ((JsonInstance) target).toJSON(indentNext, allowLineJumpString, lookFine);
+                target = ((JsonInstance) target).toJSON(indentNext, allowLineJumpString, lookFine);
             } else if(target instanceof CharSequence) {
-            	String content = DataUtil.castQuote(true, target.toString());
-            	if(! allowLineJumpString) content = SyntaxUtil.lineSinglize(content);
-            	target = "\"" + content + "\"";
+                String content = DataUtil.castQuote(true, target.toString());
+                if(! allowLineJumpString) content = SyntaxUtil.lineSinglize(content);
+                target = "\"" + content + "\"";
             }
             resultString = resultString.append(target);
             
@@ -167,94 +167,94 @@ public class JsonArray implements JsonInstance, List<Object> {
     
     @Override
     public String toString() {
-    	return "/* JSON Array */" + toJSON();
+        return "/* JSON Array */" + toJSON();
     }
     
     /** List 객체로 변환합니다. */
     public List<Object> toList() {
-    	List<Object> list = new ArrayList<Object>();
-    	
-    	for(Object obj : data) {
-    		Object objRes = obj;
-    		if(objRes instanceof JsonArray) {
-    			objRes = ((JsonArray) objRes).toList();
-    		} else if(obj instanceof JsonObject) {
-    			objRes = ((JsonObject) objRes).toMap();
-    		}
-    		list.add(objRes);
-    	}
-    	
-    	return list;
+        List<Object> list = new ArrayList<Object>();
+        
+        for(Object obj : data) {
+            Object objRes = obj;
+            if(objRes instanceof JsonArray) {
+                objRes = ((JsonArray) objRes).toList();
+            } else if(obj instanceof JsonObject) {
+                objRes = ((JsonObject) objRes).toMap();
+            }
+            list.add(objRes);
+        }
+        
+        return list;
     }
 
-	public List<Object> getData() {
-		return data;
-	}
+    public List<Object> getData() {
+        return data;
+    }
 
-	public void setData(List<Object> data) {
-		this.data = data;
-	}
+    public void setData(List<Object> data) {
+        this.data = data;
+    }
 
-	@Override
-	public Iterator<Object> iterator() {
-		return data.iterator();
-	}
+    @Override
+    public Iterator<Object> iterator() {
+        return data.iterator();
+    }
 
-	@Override
-	public boolean isEmpty() {
-		return data.isEmpty();
-	}
+    @Override
+    public boolean isEmpty() {
+        return data.isEmpty();
+    }
 
-	@Override
-	public boolean contains(Object o) {
-		return data.contains(o);
-	}
+    @Override
+    public boolean contains(Object o) {
+        return data.contains(o);
+    }
 
-	@Override
-	public Object[] toArray() {
-		return data.toArray();
-	}
+    @Override
+    public Object[] toArray() {
+        return data.toArray();
+    }
 
-	@Override
-	public <T> T[] toArray(T[] a) {
-		return data.toArray(a);
-	}
+    @Override
+    public <T> T[] toArray(T[] a) {
+        return data.toArray(a);
+    }
 
-	@Override
-	public boolean remove(Object o) {
-		return data.remove(o);
-	}
+    @Override
+    public boolean remove(Object o) {
+        return data.remove(o);
+    }
 
-	@Override
-	public boolean containsAll(Collection<?> c) {
-		return data.containsAll(c);
-	}
+    @Override
+    public boolean containsAll(Collection<?> c) {
+        return data.containsAll(c);
+    }
 
-	@Override
-	public boolean addAll(Collection<? extends Object> c) {
-		return data.addAll(c);
-	}
+    @Override
+    public boolean addAll(Collection<? extends Object> c) {
+        return data.addAll(c);
+    }
 
-	@Override
-	public boolean addAll(int index, Collection<? extends Object> c) {
-		return data.addAll(index, c);
-	}
+    @Override
+    public boolean addAll(int index, Collection<? extends Object> c) {
+        return data.addAll(index, c);
+    }
 
-	@Override
-	public boolean removeAll(Collection<?> c) {
-		return data.removeAll(c);
-	}
+    @Override
+    public boolean removeAll(Collection<?> c) {
+        return data.removeAll(c);
+    }
 
-	@Override
-	public boolean retainAll(Collection<?> c) {
-		return data.retainAll(c);
-	}
+    @Override
+    public boolean retainAll(Collection<?> c) {
+        return data.retainAll(c);
+    }
 
-	@Override
-	public Object set(int index, Object element) {
-		Object bef = null;
-		if(data.size() > index) bef = data.get(index);
-		if(element == null) {
+    @Override
+    public Object set(int index, Object element) {
+        Object bef = null;
+        if(data.size() > index) bef = data.get(index);
+        if(element == null) {
             data.set(index, null);
             return bef;
         }
@@ -305,11 +305,11 @@ public class JsonArray implements JsonInstance, List<Object> {
         }
         set(index, String.valueOf(element));
         return bef;
-	}
+    }
 
-	@Override
-	public void add(int index, Object element) {
-		if(element == null) {
+    @Override
+    public void add(int index, Object element) {
+        if(element == null) {
             data.add(index, null);
             return;
         }
@@ -360,32 +360,32 @@ public class JsonArray implements JsonInstance, List<Object> {
         }
         add(index, String.valueOf(element));
         return;
-	}
+    }
 
-	@Override
-	public int indexOf(Object o) {
-		return data.indexOf(o);
-	}
+    @Override
+    public int indexOf(Object o) {
+        return data.indexOf(o);
+    }
 
-	@Override
-	public int lastIndexOf(Object o) {
-		return data.lastIndexOf(o);
-	}
+    @Override
+    public int lastIndexOf(Object o) {
+        return data.lastIndexOf(o);
+    }
 
-	@Override
-	public ListIterator<Object> listIterator() {
-		return data.listIterator();
-	}
+    @Override
+    public ListIterator<Object> listIterator() {
+        return data.listIterator();
+    }
 
-	@Override
-	public ListIterator<Object> listIterator(int index) {
-		return data.listIterator(index);
-	}
+    @Override
+    public ListIterator<Object> listIterator(int index) {
+        return data.listIterator(index);
+    }
 
-	@Override
-	public List<Object> subList(int fromIndex, int toIndex) {
-		JsonArray newArr = new JsonArray();
-		newArr.setData(data.subList(fromIndex, toIndex));
-		return newArr;
-	}
+    @Override
+    public List<Object> subList(int fromIndex, int toIndex) {
+        JsonArray newArr = new JsonArray();
+        newArr.setData(data.subList(fromIndex, toIndex));
+        return newArr;
+    }
 }

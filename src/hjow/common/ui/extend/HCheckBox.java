@@ -22,9 +22,9 @@ import javax.swing.JCheckBox;
 import hjow.common.script.PublicMethodOpenedClass;
 
 public class HCheckBox extends JCheckBox {
-	private static final long serialVersionUID = 7515266626904307403L;
+    private static final long serialVersionUID = 7515266626904307403L;
 
-	public List<String> availables() {
-    	return PublicMethodOpenedClass.getAvailableMethods(this);
+    public List<String> availables() {
+        return PublicMethodOpenedClass.getAvailableMethods(this);
     }
 }

@@ -22,41 +22,41 @@ import hjow.common.json.JsonArray;
 import hjow.common.json.JsonObject;
 
 public class Help implements Serializable {
-	private static final long serialVersionUID = -9034725817479064972L;
-	
-	protected Vector<HelpPage> pages;
-	
-	public Help() {
-		pages = new Vector<HelpPage>();
-	}
-	
-	public Help(JsonArray arr) {
-		this();
-		for(Object o : arr) {
-			JsonObject obj = (JsonObject) o;
-			pages.add(new HelpPage(obj));
-		}
-	}
+    private static final long serialVersionUID = -9034725817479064972L;
+    
+    protected Vector<HelpPage> pages;
+    
+    public Help() {
+        pages = new Vector<HelpPage>();
+    }
+    
+    public Help(JsonArray arr) {
+        this();
+        for(Object o : arr) {
+            JsonObject obj = (JsonObject) o;
+            pages.add(new HelpPage(obj));
+        }
+    }
 
-	public Vector<HelpPage> getPages() {
-		return pages;
-	}
+    public Vector<HelpPage> getPages() {
+        return pages;
+    }
 
-	public void setPages(Vector<HelpPage> pages) {
-		this.pages = pages;
-	}
-	
-	public JsonArray toJSON() {
-		JsonArray arr = new JsonArray();
-		for(HelpPage page : pages) {
-			arr.add(page.toJSON());
-		}
-		return arr;
-	}
-	
-	public void setLocale(String locale) {
-		for(HelpPage page : pages) {
-			page.setLocale(locale);
-		}
-	}
+    public void setPages(Vector<HelpPage> pages) {
+        this.pages = pages;
+    }
+    
+    public JsonArray toJSON() {
+        JsonArray arr = new JsonArray();
+        for(HelpPage page : pages) {
+            arr.add(page.toJSON());
+        }
+        return arr;
+    }
+    
+    public void setLocale(String locale) {
+        for(HelpPage page : pages) {
+            page.setLocale(locale);
+        }
+    }
 }

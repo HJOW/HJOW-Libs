@@ -141,7 +141,7 @@ public class PrimitiveObject extends ScriptObject {
                 throw new RuntimeException(e);
             }
         } else if(obj instanceof Binary) {
-        	return convertString(((Binary) obj).toByteArray());
+            return convertString(((Binary) obj).toByteArray());
         }
         return String.valueOf(obj);
     }
@@ -240,9 +240,9 @@ public class PrimitiveObject extends ScriptObject {
         return Core.trans(convertString(obj));
     }
     public String getAppParam(Object keyOf) {
-    	return Core.getApplicationParameter(convertString(keyOf));
+        return Core.getApplicationParameter(convertString(keyOf));
     }
     public List<String> getAppParamKeys() {
-    	return Core.getApplicationParameterKeys();
+        return Core.getApplicationParameterKeys();
     }
 }

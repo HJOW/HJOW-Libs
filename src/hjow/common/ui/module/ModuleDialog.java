@@ -22,21 +22,21 @@ import hjow.common.ui.UI;
 import hjow.common.ui.extend.HDialog;
 
 public class ModuleDialog extends HDialog {
-	private static final long serialVersionUID = 1833120693223506595L;
-	
-	protected transient Module module;
-	public ModuleDialog(Module module) {
-		this.module = module;
-		setTitle(module.getName());
-		setSize(500, 400);
-		
-		setLayout(new BorderLayout());
-		add(module.getComponent(), BorderLayout.CENTER);
-	}
-	
-	/** 모듈 실행이 호출되었을 때 UI에서 이 메소드가 호출됩니다. */
-	public void showFromUI(UI ui) {
-		setVisible(true);
-		module.initSecond(ui);
-	}
+    private static final long serialVersionUID = 1833120693223506595L;
+    
+    protected transient Module module;
+    public ModuleDialog(Module module) {
+        this.module = module;
+        setTitle(module.getName());
+        setSize(500, 400);
+        
+        setLayout(new BorderLayout());
+        add(module.getComponent(), BorderLayout.CENTER);
+    }
+    
+    /** 모듈 실행이 호출되었을 때 UI에서 이 메소드가 호출됩니다. */
+    public void showFromUI(UI ui) {
+        setVisible(true);
+        module.initSecond(ui);
+    }
 }

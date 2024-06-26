@@ -27,5 +27,5 @@ public interface JsonInstance extends Serializable, Iterable<Object> {
     /** 이 메소드는 직접 호출하지 마세요. */
     public String toJSON(String indent, boolean allowLineJumpString, boolean lookFine);
     /** 복제하여 새 객체를 만듭니다. */
-	public JsonInstance cloneObject();
+    public JsonInstance cloneObject();
 }

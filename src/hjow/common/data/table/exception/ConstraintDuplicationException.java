@@ -16,11 +16,11 @@ limitations under the License.
 package hjow.common.data.table.exception;
 
 public class ConstraintDuplicationException extends ColumnDuplicationException {
-	private static final long serialVersionUID = -8968556288735266490L;
-	public ConstraintDuplicationException() {
-		super("There is already another constraint with same name.");
-	}
-	public ConstraintDuplicationException(String consName) {
-		super("There is already another constraint with the name '" + consName + "'.");
-	}
+    private static final long serialVersionUID = -8968556288735266490L;
+    public ConstraintDuplicationException() {
+        super("There is already another constraint with same name.");
+    }
+    public ConstraintDuplicationException(String consName) {
+        super("There is already another constraint with the name '" + consName + "'.");
+    }
 }

@@ -25,10 +25,10 @@ import hjow.common.core.Releasable;
 
 public interface ChainObject extends Closeable, Releasable
 {  
-	/**
-	 * 탑재된 하위 스트림 객체들의 클래스명을 반환합니다.
-	 * 
-	 * @return 리스트
-	 */
+    /**
+     * 탑재된 하위 스트림 객체들의 클래스명을 반환합니다.
+     * 
+     * @return 리스트
+     */
     public List<String> getElementTypes();
 }

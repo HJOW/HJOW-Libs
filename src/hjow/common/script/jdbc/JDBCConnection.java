@@ -248,7 +248,7 @@ public class JDBCConnection extends ScriptObject {
             } else if(p instanceof Boolean) {
                 pst.setBoolean(paramIndex, (Boolean) p);
             } else if(p instanceof Binary) {
-            	ByteArrayInputStream fakeStream = new ByteArrayInputStream(((Binary) p).toByteArray());
+                ByteArrayInputStream fakeStream = new ByteArrayInputStream(((Binary) p).toByteArray());
                 pst.setBlob(paramIndex, fakeStream);
             } else if(p instanceof byte[]) {
                 ByteArrayInputStream fakeStream = new ByteArrayInputStream((byte[]) p);

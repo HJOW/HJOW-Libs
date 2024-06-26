@@ -77,7 +77,7 @@ public abstract class CustomAbstractModule implements Module {
     }
     
     protected void load(File file, HScriptEngine engine, String accessKey) {
-    	Properties prop = new Properties();
+        Properties prop = new Properties();
         
         FileInputStream stream = null;
         InputStream additionalStream = null;
@@ -100,23 +100,23 @@ public abstract class CustomAbstractModule implements Module {
                 finalStream = additionalStream;
             
             if(path.endsWith(".jmodule") || path.endsWith(".zjmodule")) {
-            	readerConverter = new InputStreamReader(finalStream, "UTF-8");
-            	reader = new BufferedReader(readerConverter);
-            	
-            	StringBuilder jsonStr = new StringBuilder("");
-            	boolean isFirst = true;
-            	while(true) {
-            		String line = reader.readLine();
-            		if(line == null) break;
-            		if(! isFirst) jsonStr = jsonStr.append("\n");
-            		jsonStr = jsonStr.append(line);
-            		isFirst = false;
-            	}
-            	JsonObject jsonObj = (JsonObject) DataUtil.parseJson(jsonStr.toString());
-            	Set<String> keys = jsonObj.keySet();
-            	for(String k : keys) {
-            		prop.setProperty(k, String.valueOf(jsonObj.get(k)));
-            	}
+                readerConverter = new InputStreamReader(finalStream, "UTF-8");
+                reader = new BufferedReader(readerConverter);
+                
+                StringBuilder jsonStr = new StringBuilder("");
+                boolean isFirst = true;
+                while(true) {
+                    String line = reader.readLine();
+                    if(line == null) break;
+                    if(! isFirst) jsonStr = jsonStr.append("\n");
+                    jsonStr = jsonStr.append(line);
+                    isFirst = false;
+                }
+                JsonObject jsonObj = (JsonObject) DataUtil.parseJson(jsonStr.toString());
+                Set<String> keys = jsonObj.keySet();
+                for(String k : keys) {
+                    prop.setProperty(k, String.valueOf(jsonObj.get(k)));
+                }
             } else if(path.endsWith(".zmodule") || path.endsWith(".xmodule")) {
                 prop.loadFromXML(finalStream);
             } else {
@@ -125,10 +125,10 @@ public abstract class CustomAbstractModule implements Module {
         } catch(Throwable ex) {
             throw new RuntimeException(ex);
         } finally {
-        	if(reader != null) {
+            if(reader != null) {
                 try { reader.close(); } catch(IOException ex) {}
             }
-        	if(readerConverter != null) {
+            if(readerConverter != null) {
                 try { readerConverter.close(); } catch(IOException ex) {}
             }
             if(additionalStream != null) {
@@ -143,7 +143,7 @@ public abstract class CustomAbstractModule implements Module {
     }
     
     protected void load(Properties prop, HScriptEngine engine, String accessKey) {
-    	shortName = prop.getProperty("SHORT_NAME");
+        shortName = prop.getProperty("SHORT_NAME");
         longName = prop.getProperty("NAME");
         id = Long.parseLong(prop.getProperty("ID"));
         description = prop.getProperty("DESCRIPTION");
@@ -165,7 +165,7 @@ public abstract class CustomAbstractModule implements Module {
         
         pane = null;
         if(jsonUi != null) {
-        	pane = new ScriptJsonPane((JsonObject) DataUtil.parseJson(jsonUi));
+            pane = new ScriptJsonPane((JsonObject) DataUtil.parseJson(jsonUi));
         }
     }
     
@@ -211,11 +211,11 @@ public abstract class CustomAbstractModule implements Module {
     
     /** 모듈 사용을 중단합니다. */
     public void release() {
-    	if(this.scriptBeforeExit != null) {
-    		try { this.engine.eval(this.scriptBeforeExit); } catch(Throwable t) { Core.logError(t); }
-    	}
-    	
-    	releaseResource();
+        if(this.scriptBeforeExit != null) {
+            try { this.engine.eval(this.scriptBeforeExit); } catch(Throwable t) { Core.logError(t); }
+        }
+        
+        releaseResource();
     }
     
     @Override
@@ -225,9 +225,9 @@ public abstract class CustomAbstractModule implements Module {
             this.thread = null;
         }
         if(this.pane != null) {
-        	try { this.pane.releaseResource(); } catch(Throwable t) { Core.logError(t); }
-        	try { engine.put("module_ui", null); } catch(Throwable t) { }
-        	this.pane = null;
+            try { this.pane.releaseResource(); } catch(Throwable t) { Core.logError(t); }
+            try { engine.put("module_ui", null); } catch(Throwable t) { }
+            this.pane = null;
         }
         this.storage = null;
         this.engine = null;
@@ -305,14 +305,14 @@ public abstract class CustomAbstractModule implements Module {
     }
 
     public String getJsonUi() {
-		return jsonUi;
-	}
+        return jsonUi;
+    }
 
-	public void setJsonUi(String jsonUi) {
-		this.jsonUi = jsonUi;
-	}
+    public void setJsonUi(String jsonUi) {
+        this.jsonUi = jsonUi;
+    }
 
-	public void setCheckCode(String checkCode) {
+    public void setCheckCode(String checkCode) {
         this.checkCode = checkCode;
     }
 
@@ -392,15 +392,15 @@ public abstract class CustomAbstractModule implements Module {
 
     @Override
     public void initFirst() {
-    	if(pane != null) {
-        	try {
-        		engine.put("module_ui", pane);
+        if(pane != null) {
+            try {
+                engine.put("module_ui", pane);
                 engine.eval("f_setCustomComponents(" + this.getId() + ", module_ui)");
             } catch (ScriptException e) {
                 Core.logError(e);
             }
         }
-    	
+        
         try {
             engine.eval(getScriptInit());
         } catch (ScriptException e) {
@@ -446,9 +446,9 @@ public abstract class CustomAbstractModule implements Module {
     
     /** 모듈을 파일로 저장합니다. */
     public void saveFile(File file) {
-    	Properties prop = new Properties();
-    	
-    	prop.setProperty("SHORT_NAME" , shortName);
+        Properties prop = new Properties();
+        
+        prop.setProperty("SHORT_NAME" , shortName);
         prop.setProperty("NAME"       , longName);
         prop.setProperty("ID", String.valueOf(id));
         prop.setProperty("DESCRIPTION", description);
@@ -484,25 +484,25 @@ public abstract class CustomAbstractModule implements Module {
                 finalStream = additionalStream;
             
             if(path.endsWith(".jmodule") || path.endsWith(".zjmodule")) {
-            	writerConverter = new OutputStreamWriter(finalStream, "UTF-8");
-            	writer = new BufferedWriter(writerConverter);
-            	
-            	JsonObject jsonObj = new JsonObject();
-            	Set<String> keys = prop.stringPropertyNames();
-            	for(String k : keys) {
-            		jsonObj.put(k, String.valueOf(prop.get(k)));
-            	}
-            	StringTokenizer lineTokenizer = new StringTokenizer(jsonObj.toJSON(), "\n");
-            	boolean isFirst = true;
-            	while(lineTokenizer.hasMoreTokens()) {
-            		if(! isFirst) writer.newLine();
-            		writer.write(lineTokenizer.nextToken());
-            		isFirst = false;
-            	}
-            	writer.close();
-            	writer = null;
-            	writerConverter.close();
-            	writerConverter = null;
+                writerConverter = new OutputStreamWriter(finalStream, "UTF-8");
+                writer = new BufferedWriter(writerConverter);
+                
+                JsonObject jsonObj = new JsonObject();
+                Set<String> keys = prop.stringPropertyNames();
+                for(String k : keys) {
+                    jsonObj.put(k, String.valueOf(prop.get(k)));
+                }
+                StringTokenizer lineTokenizer = new StringTokenizer(jsonObj.toJSON(), "\n");
+                boolean isFirst = true;
+                while(lineTokenizer.hasMoreTokens()) {
+                    if(! isFirst) writer.newLine();
+                    writer.write(lineTokenizer.nextToken());
+                    isFirst = false;
+                }
+                writer.close();
+                writer = null;
+                writerConverter.close();
+                writerConverter = null;
             } else if(path.endsWith(".zmodule") || path.endsWith(".xmodule")) {
                 prop.storeToXML(finalStream, "");
             } else {
@@ -511,10 +511,10 @@ public abstract class CustomAbstractModule implements Module {
         } catch(Throwable ex) {
             throw new RuntimeException(ex);
         } finally {
-        	if(writer != null) {
+            if(writer != null) {
                 try { writer.close(); } catch(IOException ex) {}
             }
-        	if(writerConverter != null) {
+            if(writerConverter != null) {
                 try { writerConverter.close(); } catch(IOException ex) {}
             }
             if(additionalStream != null) {
@@ -528,12 +528,12 @@ public abstract class CustomAbstractModule implements Module {
     
     /** 사용자 정의 모듈의 패리티를 구합니다. */
     public String buildCheckCode() {
-    	return buildCheckCodeOf(this);
+        return buildCheckCodeOf(this);
     }
     
     /** 패리티 검사를 수행해 결과를 반환합니다. */
     public boolean isCorrect() {
-    	return buildCheckCode().equals(this.checkCode);
+        return buildCheckCode().equals(this.checkCode);
     }
     
     /** 사용자 정의 모듈의 패리티를 구합니다. */

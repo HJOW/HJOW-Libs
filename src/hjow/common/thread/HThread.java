@@ -83,7 +83,7 @@ public class HThread implements Releasable, Runnable {
     
     /** 쓰레드 중단 예약이 되어 있는지를 반환합니다. */
     public boolean isSwitchOn() {
-    	return switches;
+        return switches;
     }
     
     /** 쓰레드 객체 활성화 여부를 반환합니다. */
@@ -94,9 +94,9 @@ public class HThread implements Releasable, Runnable {
     @Override
     public void run() {
         while(switches) {
-        	if(! pauseSwitch) {
-        		try {
-        			startTimeMills = System.currentTimeMillis();
+            if(! pauseSwitch) {
+                try {
+                    startTimeMills = System.currentTimeMillis();
                     if(onThread != null) {
                         onThread.run();
                     }
@@ -113,16 +113,16 @@ public class HThread implements Releasable, Runnable {
                     countFail++;
                     lastException = t;
                 }
-        		if(countSuccess + countFail >= Integer.MAX_VALUE - 10) {
-        			countSuccess = countSuccess / 2;
-        			countFail    = countFail    / 2;
-        		}
-                if(Core.checkInterrupt(this.getClass(), "On thread " + getName())) {
-                	switches = false;
-                	aliveness = false;
-                	return; // 인터럽트 발생 시 onFinished 액션을 취하지 않고 바로 종료함
+                if(countSuccess + countFail >= Integer.MAX_VALUE - 10) {
+                    countSuccess = countSuccess / 2;
+                    countFail    = countFail    / 2;
                 }
-        	}
+                if(Core.checkInterrupt(this.getClass(), "On thread " + getName())) {
+                    switches = false;
+                    aliveness = false;
+                    return; // 인터럽트 발생 시 onFinished 액션을 취하지 않고 바로 종료함
+                }
+            }
             try { Thread.sleep(gap); } catch(Throwable t) { Core.logError(t); }
         }
         if(onFinished != null) {
@@ -134,17 +134,17 @@ public class HThread implements Releasable, Runnable {
     
     /** 마지막 회차 실행 시간을 Millisecond 단위로 반환합니다. */
     public long getLastElapsedTime() {
-    	return timeMillGap;
+        return timeMillGap;
     }
     
     /** 가장 오래 실행한 회차 실행 시간을 Millisecond 단위로 반환합니다. */
     public long getMaxElapsedTime() {
-    	return timeMillMax;
+        return timeMillMax;
     }
     
     /** 가장 짧게 실행한 회차 실행 시간을 Millisecond 단위로 반환합니다. */
     public long getMinElapsedTime() {
-    	return timeMillMin;
+        return timeMillMin;
     }
 
     /** 쓰레드 이름을 반환합니다. */
@@ -164,33 +164,33 @@ public class HThread implements Releasable, Runnable {
     
     /** 쓰레드 일시 정지 */
     public void pause() {
-    	pauseSwitch = true;
+        pauseSwitch = true;
     }
     
     /** 쓰레드 일시정지 해제 */
     public void resume() {
-    	pauseSwitch = false;
+        pauseSwitch = false;
     }
     
     /** 일시 정지 여부 반환 */
     public boolean isPaused() {
-    	return pauseSwitch;
+        return pauseSwitch;
     }
     
     /** 작업 성공률 반환 */
     public double getSuccessfulRatio() {
-    	if(countSuccess + countFail == 0) return 0.0;
-    	return ((double) countSuccess) / (((double) countSuccess) + ((double) countFail));
+        if(countSuccess + countFail == 0) return 0.0;
+        return ((double) countSuccess) / (((double) countSuccess) + ((double) countFail));
     }
     
     /** 마지막 발생한 예외 반환 */
     public Throwable getLastException() {
-    	return lastException;
+        return lastException;
     }
     
     /** 쓰레드 실행 주기를 Millisecond 단위로 설정합니다. */
     public void setGap(long gap) {
-    	if(gap < 5) gap = 5;
-    	this.gap = gap;
+        if(gap < 5) gap = 5;
+        this.gap = gap;
     }
 }

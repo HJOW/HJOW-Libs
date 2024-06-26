@@ -19,27 +19,27 @@ import java.io.Serializable;
 import java.util.Map;
 
 public class ObjectEntry<T, X> implements Map.Entry<T, X>, Serializable {
-	private static final long serialVersionUID = -6822817560553527249L;
-	protected T key;
-	protected X value;
-	
-	@Override
-	public T getKey() {
-		return key;
-	}
+    private static final long serialVersionUID = -6822817560553527249L;
+    protected T key;
+    protected X value;
+    
+    @Override
+    public T getKey() {
+        return key;
+    }
 
-	@Override
-	public X getValue() {
-		return value;
-	}
+    @Override
+    public X getValue() {
+        return value;
+    }
 
-	@Override
-	public X setValue(X value) {
-		this.value = value;
-		return value;
-	}
+    @Override
+    public X setValue(X value) {
+        this.value = value;
+        return value;
+    }
 
-	public void setKey(T k) {
-		this.key = k;
-	}
+    public void setKey(T k) {
+        this.key = k;
+    }
 }

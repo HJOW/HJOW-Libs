@@ -80,7 +80,7 @@ public class GUIUtil
      */
     public static void prepareFont() 
     {
-    	prepareFont(null);
+        prepareFont(null);
     }
     
     /**
@@ -121,8 +121,8 @@ public class GUIUtil
         ObjectInputStream objs = null;
         
         String fontPath = "";
-    	if(core != null && Core.hasPropertyKey("font_path")) fontPath = core.getConfigPath();
-    	else fontPath = Core.getProperty("font_path");
+        if(core != null && Core.hasPropertyKey("font_path")) fontPath = core.getConfigPath();
+        else fontPath = Core.getProperty("font_path");
         
         if(osName.startsWith("Windows") || osName.startsWith("windows") || osName.startsWith("WINDOWS"))
         {
@@ -504,45 +504,45 @@ public class GUIUtil
     
     /** Create captcha image and return base64 code */
     public static String createImageCaptchaBase64(String code, int width, int height, int noises, int fontSize, boolean darkMode, List<String> fontFamily) throws IOException {
-    	int backr, backg, backb, forer, foreg, foreb;
-    	
-    	if(darkMode) {
-    		backr = 0;
-    		backg = 0;
-    		backb = 0;
-    		forer = 250;
-    		foreg = 250;
-    		foreb = 250;
-    	} else {
-    		backr = 250;
-    		backg = 250;
-    		backb = 250;
-    		forer = 0;
-    		foreg = 0;
-    		foreb = 0;
-    	}
-    	
-    	return createImageCaptchaBase64(code, width, height, noises, fontSize, backr, backg, backb, forer, foreg, foreb, fontFamily);
+        int backr, backg, backb, forer, foreg, foreb;
+        
+        if(darkMode) {
+            backr = 0;
+            backg = 0;
+            backb = 0;
+            forer = 250;
+            foreg = 250;
+            foreb = 250;
+        } else {
+            backr = 250;
+            backg = 250;
+            backb = 250;
+            forer = 0;
+            foreg = 0;
+            foreb = 0;
+        }
+        
+        return createImageCaptchaBase64(code, width, height, noises, fontSize, backr, backg, backb, forer, foreg, foreb, fontFamily);
     }
     
     /** Create captcha image and return base64 code */
     public static String createImageCaptchaBase64(String code, int width, int height, int noises, int fontSize, int backr, int backg, int backb, int forer, int foreg, int foreb, List<String> fontFamily) throws IOException {
-    	if(code == null) {
+        if(code == null) {
             code = "REFRESH";
         }
         
         if(fontFamily == null) {
-        	fontFamily = new ArrayList<String>();
+            fontFamily = new ArrayList<String>();
         }
         if(fontFamily.isEmpty()) {
-        	fontFamily.add("Serif");
-        	fontFamily.add("Arial");
-        	fontFamily.add("Helvetica");
+            fontFamily.add("Serif");
+            fontFamily.add("Arial");
+            fontFamily.add("Helvetica");
         }
         
         List<Font> fonts = new ArrayList<Font>();
         for(String ff : fontFamily) {
-        	fonts.add(new Font(ff, Font.BOLD, fontSize));
+            fonts.add(new Font(ff, Font.BOLD, fontSize));
         }
         fontFamily = null;
         
@@ -591,7 +591,7 @@ public class GUIUtil
             else             calcb = foreb + (int) (Math.random() * colorChangeRange);
             
             while(Math.abs(backr - calcr) <= 15 && Math.abs(backg - calcg) <= 15 && Math.abs(backb - calcb) <= 15) {
-            	if(forer >= 128) calcr = forer - (int) (Math.random() * colorChangeRange);
+                if(forer >= 128) calcr = forer - (int) (Math.random() * colorChangeRange);
                 else             calcr = forer + (int) (Math.random() * colorChangeRange);
                 
                 if(forer >= 128) calcg = foreg - (int) (Math.random() * colorChangeRange);
@@ -628,7 +628,7 @@ public class GUIUtil
             else             calcb = foreb + (int) (Math.random() * colorChangeRange);
             
             while(Math.abs(backr - calcr) <= 15 && Math.abs(backg - calcg) <= 15 && Math.abs(backb - calcb) <= 15) {
-            	if(forer >= 128) calcr = forer - (int) (Math.random() * colorChangeRange);
+                if(forer >= 128) calcr = forer - (int) (Math.random() * colorChangeRange);
                 else             calcr = forer + (int) (Math.random() * colorChangeRange);
                 
                 if(forer >= 128) calcg = foreg - (int) (Math.random() * colorChangeRange);
@@ -683,1125 +683,1125 @@ public class GUIUtil
      * @see GUIUtil.createShapenText
      */
     public static String createTextCaptcha(String code) {
-    	int idx = 0;
-    	String nCode = "";
-    	int fakeSpaces = 0;
-    	int clen = code.length();
-    	for(idx=0; idx<clen; idx++) {
-    		if(idx >= 1 && idx < clen - 1 && fakeSpaces < 2) {
-    			if(Math.random() > 0.5) { nCode += " "; fakeSpaces++; }
-    		}
-    		if(idx == clen - 3 && fakeSpaces == 0) { nCode += " "; fakeSpaces++; }
-    		if(idx == clen - 2 && fakeSpaces == 1) { nCode += " "; fakeSpaces++; }
-    		nCode += code.charAt(idx);
-    	}
-    	nCode = nCode.toUpperCase();
-    	
-    	return createShapenText(nCode);
+        int idx = 0;
+        String nCode = "";
+        int fakeSpaces = 0;
+        int clen = code.length();
+        for(idx=0; idx<clen; idx++) {
+            if(idx >= 1 && idx < clen - 1 && fakeSpaces < 2) {
+                if(Math.random() > 0.5) { nCode += " "; fakeSpaces++; }
+            }
+            if(idx == clen - 3 && fakeSpaces == 0) { nCode += " "; fakeSpaces++; }
+            if(idx == clen - 2 && fakeSpaces == 1) { nCode += " "; fakeSpaces++; }
+            nCode += code.charAt(idx);
+        }
+        nCode = nCode.toUpperCase();
+        
+        return createShapenText(nCode);
     }
     
     /** Create text with just □ and ■. Only space, numbers, big alphabets, and special characters (+-×÷=!?.,'<>) are available. */
     public static String createShapenText(String code) {
-    	if(code == null) return "";
-    	StringBuilder res = new StringBuilder("");
-    	
-    	int idx, cdx;
-    	
-    	String nCode = code.toUpperCase();
-    	int clen = code.length();
-    	int widths = clen * 7;
-    	
-    	// Print header
+        if(code == null) return "";
+        StringBuilder res = new StringBuilder("");
+        
+        int idx, cdx;
+        
+        String nCode = code.toUpperCase();
+        int clen = code.length();
+        int widths = clen * 7;
+        
+        // Print header
         for(idx=0; idx<2; idx++) {
-        	for(cdx=0; cdx<widths + 2; cdx++) {
-        		res = res.append("□");
-        	}
-        	res = res.append("\n");
+            for(cdx=0; cdx<widths + 2; cdx++) {
+                res = res.append("□");
+            }
+            res = res.append("\n");
         }
         
         // Print characters
         // 1st line
         res = res.append("□");
         for(cdx=0; cdx<clen; cdx++) {
-        	char charOne = nCode.charAt(cdx);
-        	res = res.append("□");
-        	switch(charOne) {
-        	case '0':
-        		res = res.append("□■■■□");
-        		break;
-        	case '1':
-        		res = res.append("□□■□□");
-        		break;
-        	case '2':
-        		res = res.append("□■■■□");
-        		break;
-        	case '3':
-        		res = res.append("□■■■□");
-        		break;
-        	case '4':
-        		res = res.append("□□□■□");
-        		break;
-        	case '5':
-        		res = res.append("■■■■■");
-        		break;
-        	case '6':
-        		res = res.append("□■■■□");
-        		break;
-        	case '7':
-        		res = res.append("■■■■■");
-        		break;
-        	case '8':
-        		res = res.append("□■■■□");
-        		break;
-        	case '9':
-        		res = res.append("□■■■□");
-        		break;
-        	case 'A':
-        		res = res.append("□□■□□");
-        		break;
-        	case 'B':
-        		res = res.append("■■■■□");
-        		break;
-        	case 'C':
-        		res = res.append("□■■■□");
-        		break;
-        	case 'D':
-        		res = res.append("■■■■□");
-        		break;
-        	case 'E':
-        		res = res.append("■■■■■");
-        		break;
-        	case 'F':
-        		res = res.append("■■■■■");
-        		break;
-        	case 'G':
-        		res = res.append("□■■■□");
-        		break;
-        	case 'H':
-        		res = res.append("■□□□■");
-        		break;
-        	case 'I':
-        		res = res.append("□■■■□");
-        		break;
-        	case 'J':
-        		res = res.append("■■■■■");
-        		break;
-        	case 'K':
-        		res = res.append("■□□□■");
-        		break;
-        	case 'L':
-        		res = res.append("■□□□□");
-        		break;
-        	case 'M':
-        		res = res.append("■□□□■");
-        		break;
-        	case 'N':
-        		res = res.append("■□□□■");
-        		break;
-        	case 'O':
-        		res = res.append("□■■■□");
-        		break;
-        	case 'P':
-        		res = res.append("■■■■□");
-        		break;
-        	case 'Q':
-        		res = res.append("□■■■□");
-        		break;
-        	case 'R':
-        		res = res.append("■■■■□");
-        		break;
-        	case 'S':
-        		res = res.append("□■■■□");
-        		break;
-        	case 'T':
-        		res = res.append("■■■■■");
-        		break;
-        	case 'U':
-        		res = res.append("■□□□■");
-        		break;
-        	case 'V':
-        		res = res.append("■□□□■");
-        		break;
-        	case 'W':
-        		res = res.append("■□□□■");
-        		break;
-        	case 'X':
-        		res = res.append("■□□□■");
-        		break;
-        	case 'Y':
-        		res = res.append("■□□□■");
-        		break;
-        	case 'Z':
-        		res = res.append("■■■■■");
-        		break;
-        	case '?':
-        		res = res.append("□■■■□");
-        		break;
-        	case '!':
-        		res = res.append("□□■□□");
-        		break;
-        	case '\'':
-        		res = res.append("□□■□□");
-        		break;
-        	case '"':
-        		res = res.append("□■□■□");
-        		break;
-        	case '(':
-        		res = res.append("□■□□□");
-        		break;
-        	case ')':
-        		res = res.append("□□□■□");
-        		break;
-        	case '<':
-        		res = res.append("□□□□■");
-        		break;
-        	case '>':
-        		res = res.append("■□□□□");
-        		break;
-        	default:
-        		res = res.append("□□□□□");
-        	}
-        	res = res.append("□");
+            char charOne = nCode.charAt(cdx);
+            res = res.append("□");
+            switch(charOne) {
+            case '0':
+                res = res.append("□■■■□");
+                break;
+            case '1':
+                res = res.append("□□■□□");
+                break;
+            case '2':
+                res = res.append("□■■■□");
+                break;
+            case '3':
+                res = res.append("□■■■□");
+                break;
+            case '4':
+                res = res.append("□□□■□");
+                break;
+            case '5':
+                res = res.append("■■■■■");
+                break;
+            case '6':
+                res = res.append("□■■■□");
+                break;
+            case '7':
+                res = res.append("■■■■■");
+                break;
+            case '8':
+                res = res.append("□■■■□");
+                break;
+            case '9':
+                res = res.append("□■■■□");
+                break;
+            case 'A':
+                res = res.append("□□■□□");
+                break;
+            case 'B':
+                res = res.append("■■■■□");
+                break;
+            case 'C':
+                res = res.append("□■■■□");
+                break;
+            case 'D':
+                res = res.append("■■■■□");
+                break;
+            case 'E':
+                res = res.append("■■■■■");
+                break;
+            case 'F':
+                res = res.append("■■■■■");
+                break;
+            case 'G':
+                res = res.append("□■■■□");
+                break;
+            case 'H':
+                res = res.append("■□□□■");
+                break;
+            case 'I':
+                res = res.append("□■■■□");
+                break;
+            case 'J':
+                res = res.append("■■■■■");
+                break;
+            case 'K':
+                res = res.append("■□□□■");
+                break;
+            case 'L':
+                res = res.append("■□□□□");
+                break;
+            case 'M':
+                res = res.append("■□□□■");
+                break;
+            case 'N':
+                res = res.append("■□□□■");
+                break;
+            case 'O':
+                res = res.append("□■■■□");
+                break;
+            case 'P':
+                res = res.append("■■■■□");
+                break;
+            case 'Q':
+                res = res.append("□■■■□");
+                break;
+            case 'R':
+                res = res.append("■■■■□");
+                break;
+            case 'S':
+                res = res.append("□■■■□");
+                break;
+            case 'T':
+                res = res.append("■■■■■");
+                break;
+            case 'U':
+                res = res.append("■□□□■");
+                break;
+            case 'V':
+                res = res.append("■□□□■");
+                break;
+            case 'W':
+                res = res.append("■□□□■");
+                break;
+            case 'X':
+                res = res.append("■□□□■");
+                break;
+            case 'Y':
+                res = res.append("■□□□■");
+                break;
+            case 'Z':
+                res = res.append("■■■■■");
+                break;
+            case '?':
+                res = res.append("□■■■□");
+                break;
+            case '!':
+                res = res.append("□□■□□");
+                break;
+            case '\'':
+                res = res.append("□□■□□");
+                break;
+            case '"':
+                res = res.append("□■□■□");
+                break;
+            case '(':
+                res = res.append("□■□□□");
+                break;
+            case ')':
+                res = res.append("□□□■□");
+                break;
+            case '<':
+                res = res.append("□□□□■");
+                break;
+            case '>':
+                res = res.append("■□□□□");
+                break;
+            default:
+                res = res.append("□□□□□");
+            }
+            res = res.append("□");
         }
         res = res.append("□");
         res = res.append("\n");
         // 2nd line
         res = res.append("□");
         for(cdx=0; cdx<clen; cdx++) {
-        	char charOne = nCode.charAt(cdx);
-        	res = res.append("□");
-        	switch(charOne) {
-        	case '0':
-        		res = res.append("■■□■■");
-        		break;
-        	case '1':
-        		res = res.append("□■■□□");
-        		break;
-        	case '2':
-        		res = res.append("■□□□■");
-        		break;
-        	case '3':
-        		res = res.append("■□□□■");
-        		break;
-        	case '4':
-        		res = res.append("□□□■□");
-        		break;
-        	case '5':
-        		res = res.append("■□□□□");
-        		break;
-        	case '6':
-        		res = res.append("■□□□■");
-        		break;
-        	case '7':
-        		res = res.append("□□□□■");
-        		break;
-        	case '8':
-        		res = res.append("■□□□■");
-        		break;
-        	case '9':
-        		res = res.append("■□□□■");
-        		break;
-        	case 'A':
-        		res = res.append("□■□■□");
-        		break;
-        	case 'B':
-        		res = res.append("■□□□■");
-        		break;
-        	case 'C':
-        		res = res.append("■□□□■");
-        		break;
-        	case 'D':
-        		res = res.append("■□□□■");
-        		break;
-        	case 'E':
-        		res = res.append("■□□□□");
-        		break;
-        	case 'F':
-        		res = res.append("■□□□□");
-        		break;
-        	case 'G':
-        		res = res.append("■□□□■");
-        		break;
-        	case 'H':
-        		res = res.append("■□□□■");
-        		break;
-        	case 'I':
-        		res = res.append("□□■□□");
-        		break;
-        	case 'J':
-        		res = res.append("□□□■□");
-        		break;
-        	case 'K':
-        		res = res.append("■□□■□");
-        		break;
-        	case 'L':
-        		res = res.append("■□□□□");
-        		break;
-        	case 'M':
-        		res = res.append("■□□□■");
-        		break;
-        	case 'N':
-        		res = res.append("■□□□■");
-        		break;
-        	case 'O':
-        		res = res.append("■□□□■");
-        		break;
-        	case 'P':
-        		res = res.append("■□□□■");
-        		break;
-        	case 'Q':
-        		res = res.append("■□□□■");
-        		break;
-        	case 'R':
-        		res = res.append("■□□□■");
-        		break;
-        	case 'S':
-        		res = res.append("■□□□■");
-        		break;
-        	case 'T':
-        		res = res.append("□□■□□");
-        		break;
-        	case 'U':
-        		res = res.append("■□□□■");
-        		break;
-        	case 'V':
-        		res = res.append("■□□□■");
-        		break;
-        	case 'W':
-        		res = res.append("■□■□■");
-        		break;
-        	case 'X':
-        		res = res.append("■□□□■");
-        		break;
-        	case 'Y':
-        		res = res.append("■□□□■");
-        		break;
-        	case 'Z':
-        		res = res.append("□□□□■");
-        		break;
-        	case '+':
-        		res = res.append("□□■□□");
-        		break;
-        	case '×':
-        		res = res.append("■□□□■");
-        		break;
-        	case '÷':
-        		res = res.append("□□■□□");
-        		break;
-        	case '?':
-        		res = res.append("■□□□■");
-        		break;
-        	case '!':
-        		res = res.append("□□■□□");
-        		break;
-        	case '\'':
-        		res = res.append("□□■□□");
-        		break;
-        	case '"':
-        		res = res.append("□■□■□");
-        		break;
-        	case '(':
-        		res = res.append("■□□□□");
-        		break;
-        	case ')':
-        		res = res.append("□□□□■");
-        		break;
-        	case '<':
-        		res = res.append("□□□■□");
-        		break;
-        	case '>':
-        		res = res.append("□■□□□");
-        		break;
-        	case '/':
-        		res = res.append("□□□□■");
-        		break;
-        	default:
-        		res = res.append("□□□□□");
-        	}
-        	res = res.append("□");
+            char charOne = nCode.charAt(cdx);
+            res = res.append("□");
+            switch(charOne) {
+            case '0':
+                res = res.append("■■□■■");
+                break;
+            case '1':
+                res = res.append("□■■□□");
+                break;
+            case '2':
+                res = res.append("■□□□■");
+                break;
+            case '3':
+                res = res.append("■□□□■");
+                break;
+            case '4':
+                res = res.append("□□□■□");
+                break;
+            case '5':
+                res = res.append("■□□□□");
+                break;
+            case '6':
+                res = res.append("■□□□■");
+                break;
+            case '7':
+                res = res.append("□□□□■");
+                break;
+            case '8':
+                res = res.append("■□□□■");
+                break;
+            case '9':
+                res = res.append("■□□□■");
+                break;
+            case 'A':
+                res = res.append("□■□■□");
+                break;
+            case 'B':
+                res = res.append("■□□□■");
+                break;
+            case 'C':
+                res = res.append("■□□□■");
+                break;
+            case 'D':
+                res = res.append("■□□□■");
+                break;
+            case 'E':
+                res = res.append("■□□□□");
+                break;
+            case 'F':
+                res = res.append("■□□□□");
+                break;
+            case 'G':
+                res = res.append("■□□□■");
+                break;
+            case 'H':
+                res = res.append("■□□□■");
+                break;
+            case 'I':
+                res = res.append("□□■□□");
+                break;
+            case 'J':
+                res = res.append("□□□■□");
+                break;
+            case 'K':
+                res = res.append("■□□■□");
+                break;
+            case 'L':
+                res = res.append("■□□□□");
+                break;
+            case 'M':
+                res = res.append("■□□□■");
+                break;
+            case 'N':
+                res = res.append("■□□□■");
+                break;
+            case 'O':
+                res = res.append("■□□□■");
+                break;
+            case 'P':
+                res = res.append("■□□□■");
+                break;
+            case 'Q':
+                res = res.append("■□□□■");
+                break;
+            case 'R':
+                res = res.append("■□□□■");
+                break;
+            case 'S':
+                res = res.append("■□□□■");
+                break;
+            case 'T':
+                res = res.append("□□■□□");
+                break;
+            case 'U':
+                res = res.append("■□□□■");
+                break;
+            case 'V':
+                res = res.append("■□□□■");
+                break;
+            case 'W':
+                res = res.append("■□■□■");
+                break;
+            case 'X':
+                res = res.append("■□□□■");
+                break;
+            case 'Y':
+                res = res.append("■□□□■");
+                break;
+            case 'Z':
+                res = res.append("□□□□■");
+                break;
+            case '+':
+                res = res.append("□□■□□");
+                break;
+            case '×':
+                res = res.append("■□□□■");
+                break;
+            case '÷':
+                res = res.append("□□■□□");
+                break;
+            case '?':
+                res = res.append("■□□□■");
+                break;
+            case '!':
+                res = res.append("□□■□□");
+                break;
+            case '\'':
+                res = res.append("□□■□□");
+                break;
+            case '"':
+                res = res.append("□■□■□");
+                break;
+            case '(':
+                res = res.append("■□□□□");
+                break;
+            case ')':
+                res = res.append("□□□□■");
+                break;
+            case '<':
+                res = res.append("□□□■□");
+                break;
+            case '>':
+                res = res.append("□■□□□");
+                break;
+            case '/':
+                res = res.append("□□□□■");
+                break;
+            default:
+                res = res.append("□□□□□");
+            }
+            res = res.append("□");
         }
         res = res.append("□");
         res = res.append("\n");
         // 3rd line
         res = res.append("□");
         for(cdx=0; cdx<clen; cdx++) {
-        	char charOne = nCode.charAt(cdx);
-        	res = res.append("□");
-        	switch(charOne) {
-        	case '0':
-        		res = res.append("■□□□■");
-        		break;
-        	case '1':
-        		res = res.append("□□■□□");
-        		break;
-        	case '2':
-        		res = res.append("□□□□■");
-        		break;
-        	case '3':
-        		res = res.append("□□□□■");
-        		break;
-        	case '4':
-        		res = res.append("□□■■□");
-        		break;
-        	case '5':
-        		res = res.append("■■■■□");
-        		break;
-        	case '6':
-        		res = res.append("■□□□□");
-        		break;
-        	case '7':
-        		res = res.append("□□□■□");
-        		break;
-        	case '8':
-        		res = res.append("■□□□■");
-        		break;
-        	case '9':
-        		res = res.append("■□□□■");
-        		break;
-        	case 'A':
-        		res = res.append("■□□□■");
-        		break;
-        	case 'B':
-        		res = res.append("■□□□■");
-        		break;
-        	case 'C':
-        		res = res.append("■□□□□");
-        		break;
-        	case 'D':
-        		res = res.append("■□□□■");
-        		break;
-        	case 'E':
-        		res = res.append("■□□□□");
-        		break;
-        	case 'F':
-        		res = res.append("■□□□□");
-        		break;
-        	case 'G':
-        		res = res.append("■□□□□");
-        		break;
-        	case 'H':
-        		res = res.append("■□□□■");
-        		break;
-        	case 'I':
-        		res = res.append("□□■□□");
-        		break;
-        	case 'J':
-        		res = res.append("□□□■□");
-        		break;
-        	case 'K':
-        		res = res.append("■□■□□");
-        		break;
-        	case 'L':
-        		res = res.append("■□□□□");
-        		break;
-        	case 'M':
-        		res = res.append("■■□■■");
-        		break;
-        	case 'N':
-        		res = res.append("■■□□■");
-        		break;
-        	case 'O':
-        		res = res.append("■□□□■");
-        		break;
-        	case 'P':
-        		res = res.append("■□□□■");
-        		break;
-        	case 'Q':
-        		res = res.append("■□□□■");
-        		break;
-        	case 'R':
-        		res = res.append("■□□□■");
-        		break;
-        	case 'S':
-        		res = res.append("■□□□□");
-        		break;
-        	case 'T':
-        		res = res.append("□□■□□");
-        		break;
-        	case 'U':
-        		res = res.append("■□□□■");
-        		break;
-        	case 'V':
-        		res = res.append("■□□□■");
-        		break;
-        	case 'W':
-        		res = res.append("■□■□■");
-        		break;
-        	case 'X':
-        		res = res.append("□■□■□");
-        		break;
-        	case 'Y':
-        		res = res.append("□■□■□");
-        		break;
-        	case 'Z':
-        		res = res.append("□□□■□");
-        		break;
-        	case '+':
-        		res = res.append("□□■□□");
-        		break;
-        	case '×':
-        		res = res.append("□■□■□");
-        		break;
-        	case '=':
-        		res = res.append("■■■■■");
-        		break;
-        	case '?':
-        		res = res.append("□□□■□");
-        		break;
-        	case '!':
-        		res = res.append("□□■□□");
-        		break;
-        	case '(':
-        		res = res.append("■□□□□");
-        		break;
-        	case ')':
-        		res = res.append("□□□□■");
-        		break;
-        	case '<':
-        		res = res.append("□□■□□");
-        		break;
-        	case '>':
-        		res = res.append("□□■□□");
-        		break;
-        	case '/':
-        		res = res.append("□□□■□");
-        		break;
-        	default:
-        		res = res.append("□□□□□");
-        	}
-        	res = res.append("□");
+            char charOne = nCode.charAt(cdx);
+            res = res.append("□");
+            switch(charOne) {
+            case '0':
+                res = res.append("■□□□■");
+                break;
+            case '1':
+                res = res.append("□□■□□");
+                break;
+            case '2':
+                res = res.append("□□□□■");
+                break;
+            case '3':
+                res = res.append("□□□□■");
+                break;
+            case '4':
+                res = res.append("□□■■□");
+                break;
+            case '5':
+                res = res.append("■■■■□");
+                break;
+            case '6':
+                res = res.append("■□□□□");
+                break;
+            case '7':
+                res = res.append("□□□■□");
+                break;
+            case '8':
+                res = res.append("■□□□■");
+                break;
+            case '9':
+                res = res.append("■□□□■");
+                break;
+            case 'A':
+                res = res.append("■□□□■");
+                break;
+            case 'B':
+                res = res.append("■□□□■");
+                break;
+            case 'C':
+                res = res.append("■□□□□");
+                break;
+            case 'D':
+                res = res.append("■□□□■");
+                break;
+            case 'E':
+                res = res.append("■□□□□");
+                break;
+            case 'F':
+                res = res.append("■□□□□");
+                break;
+            case 'G':
+                res = res.append("■□□□□");
+                break;
+            case 'H':
+                res = res.append("■□□□■");
+                break;
+            case 'I':
+                res = res.append("□□■□□");
+                break;
+            case 'J':
+                res = res.append("□□□■□");
+                break;
+            case 'K':
+                res = res.append("■□■□□");
+                break;
+            case 'L':
+                res = res.append("■□□□□");
+                break;
+            case 'M':
+                res = res.append("■■□■■");
+                break;
+            case 'N':
+                res = res.append("■■□□■");
+                break;
+            case 'O':
+                res = res.append("■□□□■");
+                break;
+            case 'P':
+                res = res.append("■□□□■");
+                break;
+            case 'Q':
+                res = res.append("■□□□■");
+                break;
+            case 'R':
+                res = res.append("■□□□■");
+                break;
+            case 'S':
+                res = res.append("■□□□□");
+                break;
+            case 'T':
+                res = res.append("□□■□□");
+                break;
+            case 'U':
+                res = res.append("■□□□■");
+                break;
+            case 'V':
+                res = res.append("■□□□■");
+                break;
+            case 'W':
+                res = res.append("■□■□■");
+                break;
+            case 'X':
+                res = res.append("□■□■□");
+                break;
+            case 'Y':
+                res = res.append("□■□■□");
+                break;
+            case 'Z':
+                res = res.append("□□□■□");
+                break;
+            case '+':
+                res = res.append("□□■□□");
+                break;
+            case '×':
+                res = res.append("□■□■□");
+                break;
+            case '=':
+                res = res.append("■■■■■");
+                break;
+            case '?':
+                res = res.append("□□□■□");
+                break;
+            case '!':
+                res = res.append("□□■□□");
+                break;
+            case '(':
+                res = res.append("■□□□□");
+                break;
+            case ')':
+                res = res.append("□□□□■");
+                break;
+            case '<':
+                res = res.append("□□■□□");
+                break;
+            case '>':
+                res = res.append("□□■□□");
+                break;
+            case '/':
+                res = res.append("□□□■□");
+                break;
+            default:
+                res = res.append("□□□□□");
+            }
+            res = res.append("□");
         }
         res = res.append("□");
         res = res.append("\n");
         // 4th line
         res = res.append("□");
         for(cdx=0; cdx<clen; cdx++) {
-        	char charOne = nCode.charAt(cdx);
-        	res = res.append("□");
-        	switch(charOne) {
-        	case '0':
-        		res = res.append("■□■□■");
-        		break;
-        	case '1':
-        		res = res.append("□□■□□");
-        		break;
-        	case '2':
-        		res = res.append("□□□■□");
-        		break;
-        	case '3':
-        		res = res.append("□□■■□");
-        		break;
-        	case '4':
-        		res = res.append("□■□■□");
-        		break;
-        	case '5':
-        		res = res.append("■□□□■");
-        		break;
-        	case '6':
-        		res = res.append("■■■■□");
-        		break;
-        	case '7':
-        		res = res.append("□□□■□");
-        		break;
-        	case '8':
-        		res = res.append("□■■■□");
-        		break;
-        	case '9':
-        		res = res.append("□■■■■");
-        		break;
-        	case 'A':
-        		res = res.append("■□□□■");
-        		break;
-        	case 'B':
-        		res = res.append("■■■■□");
-        		break;
-        	case 'C':
-        		res = res.append("■□□□□");
-        		break;
-        	case 'D':
-        		res = res.append("■□□□■");
-        		break;
-        	case 'E':
-        		res = res.append("■■■■□");
-        		break;
-        	case 'F':
-        		res = res.append("■■■■□");
-        		break;
-        	case 'G':
-        		res = res.append("■□■■■");
-        		break;
-        	case 'H':
-        		res = res.append("■■■■■");
-        		break;
-        	case 'I':
-        		res = res.append("□□■□□");
-        		break;
-        	case 'J':
-        		res = res.append("□□□■□");
-        		break;
-        	case 'K':
-        		res = res.append("■■□□□");
-        		break;
-        	case 'L':
-        		res = res.append("■□□□□");
-        		break;
-        	case 'M':
-        		res = res.append("■□■□■");
-        		break;
-        	case 'N':
-        		res = res.append("■□■□■");
-        		break;
-        	case 'O':
-        		res = res.append("■□□□■");
-        		break;
-        	case 'P':
-        		res = res.append("■■■■□");
-        		break;
-        	case 'Q':
-        		res = res.append("■□□□■");
-        		break;
-        	case 'R':
-        		res = res.append("■■■■□");
-        		break;
-        	case 'S':
-        		res = res.append("□■■■□");
-        		break;
-        	case 'T':
-        		res = res.append("□□■□□");
-        		break;
-        	case 'U':
-        		res = res.append("■□□□■");
-        		break;
-        	case 'V':
-        		res = res.append("□■□■□");
-        		break;
-        	case 'W':
-        		res = res.append("■□■□■");
-        		break;
-        	case 'X':
-        		res = res.append("□□■□□");
-        		break;
-        	case 'Y':
-        		res = res.append("□□■□□");
-        		break;
-        	case 'Z':
-        		res = res.append("□□■□□");
-        		break;
-        	case '+':
-        		res = res.append("■■■■■");
-        		break;
-        	case '-':
-        		res = res.append("■■■■■");
-        		break;
-        	case '×':
-        		res = res.append("□□■□□");
-        		break;
-        	case '÷':
-        		res = res.append("■■■■■");
-        		break;
-        	case '?':
-        		res = res.append("□□■□□");
-        		break;
-        	case '!':
-        		res = res.append("□□■□□");
-        		break;
-        	case '(':
-        		res = res.append("■□□□□");
-        		break;
-        	case ')':
-        		res = res.append("□□□□■");
-        		break;
-        	case '<':
-        		res = res.append("□■□□□");
-        		break;
-        	case '>':
-        		res = res.append("□□□■□");
-        		break;
-        	case '/':
-        		res = res.append("□□■□□");
-        		break;
-        	default:
-        		res = res.append("□□□□□");
-        	}
-        	res = res.append("□");
+            char charOne = nCode.charAt(cdx);
+            res = res.append("□");
+            switch(charOne) {
+            case '0':
+                res = res.append("■□■□■");
+                break;
+            case '1':
+                res = res.append("□□■□□");
+                break;
+            case '2':
+                res = res.append("□□□■□");
+                break;
+            case '3':
+                res = res.append("□□■■□");
+                break;
+            case '4':
+                res = res.append("□■□■□");
+                break;
+            case '5':
+                res = res.append("■□□□■");
+                break;
+            case '6':
+                res = res.append("■■■■□");
+                break;
+            case '7':
+                res = res.append("□□□■□");
+                break;
+            case '8':
+                res = res.append("□■■■□");
+                break;
+            case '9':
+                res = res.append("□■■■■");
+                break;
+            case 'A':
+                res = res.append("■□□□■");
+                break;
+            case 'B':
+                res = res.append("■■■■□");
+                break;
+            case 'C':
+                res = res.append("■□□□□");
+                break;
+            case 'D':
+                res = res.append("■□□□■");
+                break;
+            case 'E':
+                res = res.append("■■■■□");
+                break;
+            case 'F':
+                res = res.append("■■■■□");
+                break;
+            case 'G':
+                res = res.append("■□■■■");
+                break;
+            case 'H':
+                res = res.append("■■■■■");
+                break;
+            case 'I':
+                res = res.append("□□■□□");
+                break;
+            case 'J':
+                res = res.append("□□□■□");
+                break;
+            case 'K':
+                res = res.append("■■□□□");
+                break;
+            case 'L':
+                res = res.append("■□□□□");
+                break;
+            case 'M':
+                res = res.append("■□■□■");
+                break;
+            case 'N':
+                res = res.append("■□■□■");
+                break;
+            case 'O':
+                res = res.append("■□□□■");
+                break;
+            case 'P':
+                res = res.append("■■■■□");
+                break;
+            case 'Q':
+                res = res.append("■□□□■");
+                break;
+            case 'R':
+                res = res.append("■■■■□");
+                break;
+            case 'S':
+                res = res.append("□■■■□");
+                break;
+            case 'T':
+                res = res.append("□□■□□");
+                break;
+            case 'U':
+                res = res.append("■□□□■");
+                break;
+            case 'V':
+                res = res.append("□■□■□");
+                break;
+            case 'W':
+                res = res.append("■□■□■");
+                break;
+            case 'X':
+                res = res.append("□□■□□");
+                break;
+            case 'Y':
+                res = res.append("□□■□□");
+                break;
+            case 'Z':
+                res = res.append("□□■□□");
+                break;
+            case '+':
+                res = res.append("■■■■■");
+                break;
+            case '-':
+                res = res.append("■■■■■");
+                break;
+            case '×':
+                res = res.append("□□■□□");
+                break;
+            case '÷':
+                res = res.append("■■■■■");
+                break;
+            case '?':
+                res = res.append("□□■□□");
+                break;
+            case '!':
+                res = res.append("□□■□□");
+                break;
+            case '(':
+                res = res.append("■□□□□");
+                break;
+            case ')':
+                res = res.append("□□□□■");
+                break;
+            case '<':
+                res = res.append("□■□□□");
+                break;
+            case '>':
+                res = res.append("□□□■□");
+                break;
+            case '/':
+                res = res.append("□□■□□");
+                break;
+            default:
+                res = res.append("□□□□□");
+            }
+            res = res.append("□");
         }
         res = res.append("□");
         res = res.append("\n");
         // 5th line
         res = res.append("□");
         for(cdx=0; cdx<clen; cdx++) {
-        	char charOne = nCode.charAt(cdx);
-        	res = res.append("□");
-        	switch(charOne) {
-        	case '0':
-        		res = res.append("■□□□■");
-        		break;
-        	case '1':
-        		res = res.append("□□■□□");
-        		break;
-        	case '2':
-        		res = res.append("□□■□□");
-        		break;
-        	case '3':
-        		res = res.append("□□□□■");
-        		break;
-        	case '4':
-        		res = res.append("■■■■■");
-        		break;
-        	case '5':
-        		res = res.append("□□□□■");
-        		break;
-        	case '6':
-        		res = res.append("■□□□■");
-        		break;
-        	case '7':
-        		res = res.append("□□■□□");
-        		break;
-        	case '8':
-        		res = res.append("■□□□■");
-        		break;
-        	case '9':
-        		res = res.append("□□□□■");
-        		break;
-        	case 'A':
-        		res = res.append("■■■■■");
-        		break;
-        	case 'B':
-        		res = res.append("■□□□■");
-        		break;
-        	case 'C':
-        		res = res.append("■□□□□");
-        		break;
-        	case 'D':
-        		res = res.append("■□□□■");
-        		break;
-        	case 'E':
-        		res = res.append("■□□□□");
-        		break;
-        	case 'F':
-        		res = res.append("■□□□□");
-        		break;
-        	case 'G':
-        		res = res.append("■□□□■");
-        		break;
-        	case 'H':
-        		res = res.append("■□□□■");
-        		break;
-        	case 'I':
-        		res = res.append("□□■□□");
-        		break;
-        	case 'J':
-        		res = res.append("□□□■□");
-        		break;
-        	case 'K':
-        		res = res.append("■□■□□");
-        		break;
-        	case 'L':
-        		res = res.append("■□□□□");
-        		break;
-        	case 'M':
-        		res = res.append("■□■□■");
-        		break;
-        	case 'N':
-        		res = res.append("■□□■■");
-        		break;
-        	case 'O':
-        		res = res.append("■□□□■");
-        		break;
-        	case 'P':
-        		res = res.append("■□□□□");
-        		break;
-        	case 'Q':
-        		res = res.append("■□■□■");
-        		break;
-        	case 'R':
-        		res = res.append("■□□□■");
-        		break;
-        	case 'S':
-        		res = res.append("□□□□■");
-        		break;
-        	case 'T':
-        		res = res.append("□□■□□");
-        		break;
-        	case 'U':
-        		res = res.append("■□□□■");
-        		break;
-        	case 'V':
-        		res = res.append("□■□■□");
-        		break;
-        	case 'W':
-        		res = res.append("□■□■□");
-        		break;
-        	case 'X':
-        		res = res.append("□■□■□");
-        		break;
-        	case 'Y':
-        		res = res.append("□□■□□");
-        		break;
-        	case 'Z':
-        		res = res.append("□■□□□");
-        		break;
-        	case '+':
-        		res = res.append("□□■□□");
-        		break;
-        	case '×':
-        		res = res.append("□■□■□");
-        		break;
-        	case '=':
-        		res = res.append("■■■■■");
-        		break;
-        	case ',':
-        		res = res.append("□□■□□");
-        		break;
-        	case '?':
-        		res = res.append("□□■□□");
-        		break;
-        	case '!':
-        		res = res.append("□□■□□");
-        		break;
-        	case '(':
-        		res = res.append("■□□□□");
-        		break;
-        	case ')':
-        		res = res.append("□□□□■");
-        		break;
-        	case '<':
-        		res = res.append("□□■□□");
-        		break;
-        	case '>':
-        		res = res.append("□□■□□");
-        		break;
-        	case '/':
-        		res = res.append("□■□□□");
-        		break;
-        	default:
-        		res = res.append("□□□□□");
-        	}
-        	res = res.append("□");
+            char charOne = nCode.charAt(cdx);
+            res = res.append("□");
+            switch(charOne) {
+            case '0':
+                res = res.append("■□□□■");
+                break;
+            case '1':
+                res = res.append("□□■□□");
+                break;
+            case '2':
+                res = res.append("□□■□□");
+                break;
+            case '3':
+                res = res.append("□□□□■");
+                break;
+            case '4':
+                res = res.append("■■■■■");
+                break;
+            case '5':
+                res = res.append("□□□□■");
+                break;
+            case '6':
+                res = res.append("■□□□■");
+                break;
+            case '7':
+                res = res.append("□□■□□");
+                break;
+            case '8':
+                res = res.append("■□□□■");
+                break;
+            case '9':
+                res = res.append("□□□□■");
+                break;
+            case 'A':
+                res = res.append("■■■■■");
+                break;
+            case 'B':
+                res = res.append("■□□□■");
+                break;
+            case 'C':
+                res = res.append("■□□□□");
+                break;
+            case 'D':
+                res = res.append("■□□□■");
+                break;
+            case 'E':
+                res = res.append("■□□□□");
+                break;
+            case 'F':
+                res = res.append("■□□□□");
+                break;
+            case 'G':
+                res = res.append("■□□□■");
+                break;
+            case 'H':
+                res = res.append("■□□□■");
+                break;
+            case 'I':
+                res = res.append("□□■□□");
+                break;
+            case 'J':
+                res = res.append("□□□■□");
+                break;
+            case 'K':
+                res = res.append("■□■□□");
+                break;
+            case 'L':
+                res = res.append("■□□□□");
+                break;
+            case 'M':
+                res = res.append("■□■□■");
+                break;
+            case 'N':
+                res = res.append("■□□■■");
+                break;
+            case 'O':
+                res = res.append("■□□□■");
+                break;
+            case 'P':
+                res = res.append("■□□□□");
+                break;
+            case 'Q':
+                res = res.append("■□■□■");
+                break;
+            case 'R':
+                res = res.append("■□□□■");
+                break;
+            case 'S':
+                res = res.append("□□□□■");
+                break;
+            case 'T':
+                res = res.append("□□■□□");
+                break;
+            case 'U':
+                res = res.append("■□□□■");
+                break;
+            case 'V':
+                res = res.append("□■□■□");
+                break;
+            case 'W':
+                res = res.append("□■□■□");
+                break;
+            case 'X':
+                res = res.append("□■□■□");
+                break;
+            case 'Y':
+                res = res.append("□□■□□");
+                break;
+            case 'Z':
+                res = res.append("□■□□□");
+                break;
+            case '+':
+                res = res.append("□□■□□");
+                break;
+            case '×':
+                res = res.append("□■□■□");
+                break;
+            case '=':
+                res = res.append("■■■■■");
+                break;
+            case ',':
+                res = res.append("□□■□□");
+                break;
+            case '?':
+                res = res.append("□□■□□");
+                break;
+            case '!':
+                res = res.append("□□■□□");
+                break;
+            case '(':
+                res = res.append("■□□□□");
+                break;
+            case ')':
+                res = res.append("□□□□■");
+                break;
+            case '<':
+                res = res.append("□□■□□");
+                break;
+            case '>':
+                res = res.append("□□■□□");
+                break;
+            case '/':
+                res = res.append("□■□□□");
+                break;
+            default:
+                res = res.append("□□□□□");
+            }
+            res = res.append("□");
         }
         res = res.append("□");
         res = res.append("\n");
         // 6th line
         res = res.append("□");
         for(cdx=0; cdx<clen; cdx++) {
-        	char charOne = nCode.charAt(cdx);
-        	res = res.append("□");
-        	switch(charOne) {
-        	case '0':
-        		res = res.append("■■□■■");
-        		break;
-        	case '1':
-        		res = res.append("□□■□□");
-        		break;
-        	case '2':
-        		res = res.append("□■□□□");
-        		break;
-        	case '3':
-        		res = res.append("■□□□■");
-        		break;
-        	case '4':
-        		res = res.append("□□□■□");
-        		break;
-        	case '5':
-        		res = res.append("■□□□■");
-        		break;
-        	case '6':
-        		res = res.append("■□□□■");
-        		break;
-        	case '7':
-        		res = res.append("□□■□□");
-        		break;
-        	case '8':
-        		res = res.append("■□□□■");
-        		break;
-        	case '9':
-        		res = res.append("■□□□■");
-        		break;
-        	case 'A':
-        		res = res.append("■□□□■");
-        		break;
-        	case 'B':
-        		res = res.append("■□□□■");
-        		break;
-        	case 'C':
-        		res = res.append("■□□□■");
-        		break;
-        	case 'D':
-        		res = res.append("■□□□■");
-        		break;
-        	case 'E':
-        		res = res.append("■□□□□");
-        		break;
-        	case 'F':
-        		res = res.append("■□□□□");
-        		break;
-        	case 'G':
-        		res = res.append("■□□□■");
-        		break;
-        	case 'H':
-        		res = res.append("■□□□■");
-        		break;
-        	case 'I':
-        		res = res.append("□□■□□");
-        		break;
-        	case 'J':
-        		res = res.append("■□□■□");
-        		break;
-        	case 'K':
-        		res = res.append("■□□■□");
-        		break;
-        	case 'L':
-        		res = res.append("■□□□□");
-        		break;
-        	case 'M':
-        		res = res.append("■□□□■");
-        		break;
-        	case 'N':
-        		res = res.append("■□□□■");
-        		break;
-        	case 'O':
-        		res = res.append("■□□□■");
-        		break;
-        	case 'P':
-        		res = res.append("■□□□□");
-        		break;
-        	case 'Q':
-        		res = res.append("■□□■□");
-        		break;
-        	case 'R':
-        		res = res.append("■□□□■");
-        		break;
-        	case 'S':
-        		res = res.append("■□□□■");
-        		break;
-        	case 'T':
-        		res = res.append("□□■□□");
-        		break;
-        	case 'U':
-        		res = res.append("■□□□■");
-        		break;
-        	case 'V':
-        		res = res.append("□□■□□");
-        		break;
-        	case 'W':
-        		res = res.append("□■□■□");
-        		break;
-        	case 'X':
-        		res = res.append("■□□□■");
-        		break;
-        	case 'Y':
-        		res = res.append("□□■□□");
-        		break;
-        	case 'Z':
-        		res = res.append("■□□□□");
-        		break;
-        	case '+':
-        		res = res.append("□□■□□");
-        		break;
-        	case '×':
-        		res = res.append("■□□□■");
-        		break;
-        	case '÷':
-        		res = res.append("□□■□□");
-        		break;
-        	case '.':
-        		res = res.append("□□■□□");
-        		break;
-        	case ',':
-        		res = res.append("□□■□□");
-        		break;
-        	case '?':
-        		res = res.append("□□□□□");
-        		break;
-        	case '!':
-        		res = res.append("□□□□□");
-        		break;
-        	case '(':
-        		res = res.append("■□□□□");
-        		break;
-        	case ')':
-        		res = res.append("□□□□■");
-        		break;
-        	case '<':
-        		res = res.append("□□□■□");
-        		break;
-        	case '>':
-        		res = res.append("□■□□□");
-        		break;
-        	case '/':
-        		res = res.append("■□□□□");
-        		break;
-        	default:
-        		res = res.append("□□□□□");
-        	}
-        	res = res.append("□");
+            char charOne = nCode.charAt(cdx);
+            res = res.append("□");
+            switch(charOne) {
+            case '0':
+                res = res.append("■■□■■");
+                break;
+            case '1':
+                res = res.append("□□■□□");
+                break;
+            case '2':
+                res = res.append("□■□□□");
+                break;
+            case '3':
+                res = res.append("■□□□■");
+                break;
+            case '4':
+                res = res.append("□□□■□");
+                break;
+            case '5':
+                res = res.append("■□□□■");
+                break;
+            case '6':
+                res = res.append("■□□□■");
+                break;
+            case '7':
+                res = res.append("□□■□□");
+                break;
+            case '8':
+                res = res.append("■□□□■");
+                break;
+            case '9':
+                res = res.append("■□□□■");
+                break;
+            case 'A':
+                res = res.append("■□□□■");
+                break;
+            case 'B':
+                res = res.append("■□□□■");
+                break;
+            case 'C':
+                res = res.append("■□□□■");
+                break;
+            case 'D':
+                res = res.append("■□□□■");
+                break;
+            case 'E':
+                res = res.append("■□□□□");
+                break;
+            case 'F':
+                res = res.append("■□□□□");
+                break;
+            case 'G':
+                res = res.append("■□□□■");
+                break;
+            case 'H':
+                res = res.append("■□□□■");
+                break;
+            case 'I':
+                res = res.append("□□■□□");
+                break;
+            case 'J':
+                res = res.append("■□□■□");
+                break;
+            case 'K':
+                res = res.append("■□□■□");
+                break;
+            case 'L':
+                res = res.append("■□□□□");
+                break;
+            case 'M':
+                res = res.append("■□□□■");
+                break;
+            case 'N':
+                res = res.append("■□□□■");
+                break;
+            case 'O':
+                res = res.append("■□□□■");
+                break;
+            case 'P':
+                res = res.append("■□□□□");
+                break;
+            case 'Q':
+                res = res.append("■□□■□");
+                break;
+            case 'R':
+                res = res.append("■□□□■");
+                break;
+            case 'S':
+                res = res.append("■□□□■");
+                break;
+            case 'T':
+                res = res.append("□□■□□");
+                break;
+            case 'U':
+                res = res.append("■□□□■");
+                break;
+            case 'V':
+                res = res.append("□□■□□");
+                break;
+            case 'W':
+                res = res.append("□■□■□");
+                break;
+            case 'X':
+                res = res.append("■□□□■");
+                break;
+            case 'Y':
+                res = res.append("□□■□□");
+                break;
+            case 'Z':
+                res = res.append("■□□□□");
+                break;
+            case '+':
+                res = res.append("□□■□□");
+                break;
+            case '×':
+                res = res.append("■□□□■");
+                break;
+            case '÷':
+                res = res.append("□□■□□");
+                break;
+            case '.':
+                res = res.append("□□■□□");
+                break;
+            case ',':
+                res = res.append("□□■□□");
+                break;
+            case '?':
+                res = res.append("□□□□□");
+                break;
+            case '!':
+                res = res.append("□□□□□");
+                break;
+            case '(':
+                res = res.append("■□□□□");
+                break;
+            case ')':
+                res = res.append("□□□□■");
+                break;
+            case '<':
+                res = res.append("□□□■□");
+                break;
+            case '>':
+                res = res.append("□■□□□");
+                break;
+            case '/':
+                res = res.append("■□□□□");
+                break;
+            default:
+                res = res.append("□□□□□");
+            }
+            res = res.append("□");
         }
         res = res.append("□");
         res = res.append("\n");
         // 7th line
         res = res.append("□");
         for(cdx=0; cdx<clen; cdx++) {
-        	char charOne = nCode.charAt(cdx);
-        	res = res.append("□");
-        	switch(charOne) {
-        	case '0':
-        		res = res.append("□■■■□");
-        		break;
-        	case '1':
-        		res = res.append("□□■□□");
-        		break;
-        	case '2':
-        		res = res.append("■■■■■");
-        		break;
-        	case '3':
-        		res = res.append("□■■■□");
-        		break;
-        	case '4':
-        		res = res.append("□□□■□");
-        		break;
-        	case '5':
-        		res = res.append("□■■■□");
-        		break;
-        	case '6':
-        		res = res.append("□■■■□");
-        		break;
-        	case '7':
-        		res = res.append("□□■□□");
-        		break;
-        	case '8':
-        		res = res.append("□■■■□");
-        		break;
-        	case '9':
-        		res = res.append("□■■■□");
-        		break;
-        	case 'A':
-        		res = res.append("■□□□■");
-        		break;
-        	case 'B':
-        		res = res.append("■■■■□");
-        		break;
-        	case 'C':
-        		res = res.append("□■■■□");
-        		break;
-        	case 'D':
-        		res = res.append("■■■■□");
-        		break;
-        	case 'E':
-        		res = res.append("■■■■■");
-        		break;
-        	case 'F':
-        		res = res.append("■□□□□");
-        		break;
-        	case 'G':
-        		res = res.append("□■■■□");
-        		break;
-        	case 'H':
-        		res = res.append("■□□□■");
-        		break;
-        	case 'I':
-        		res = res.append("□■■■□");
-        		break;
-        	case 'J':
-        		res = res.append("□■■□□");
-        		break;
-        	case 'K':
-        		res = res.append("■□□□■");
-        		break;
-        	case 'L':
-        		res = res.append("■■■■■");
-        		break;
-        	case 'M':
-        		res = res.append("■□□□■");
-        		break;
-        	case 'N':
-        		res = res.append("■□□□■");
-        		break;
-        	case 'O':
-        		res = res.append("□■■■□");
-        		break;
-        	case 'P':
-        		res = res.append("■□□□□");
-        		break;
-        	case 'Q':
-        		res = res.append("□■■□■");
-        		break;
-        	case 'R':
-        		res = res.append("■□□□■");
-        		break;
-        	case 'S':
-        		res = res.append("□■■■□");
-        		break;
-        	case 'T':
-        		res = res.append("□□■□□");
-        		break;
-        	case 'U':
-        		res = res.append("□■■■□");
-        		break;
-        	case 'V':
-        		res = res.append("□□■□□");
-        		break;
-        	case 'W':
-        		res = res.append("□■□■□");
-        		break;
-        	case 'X':
-        		res = res.append("■□□□■");
-        		break;
-        	case 'Y':
-        		res = res.append("□□■□□");
-        		break;
-        	case 'Z':
-        		res = res.append("■■■■■");
-        		break;
-        	case '_':
-        		res = res.append("■■■■■");
-        		break;
-        	case ',':
-        		res = res.append("□■□□□");
-        		break;
-        	case '?':
-        		res = res.append("□□■□□");
-        		break;
-        	case '!':
-        		res = res.append("□□■□□");
-        		break;
-        	case '(':
-        		res = res.append("□■□□□");
-        		break;
-        	case ')':
-        		res = res.append("□□□■□");
-        		break;
-        	case '<':
-        		res = res.append("□□□□■");
-        		break;
-        	case '>':
-        		res = res.append("■□□□□");
-        		break;
-        	default:
-        		res = res.append("□□□□□");
-        	}
-        	res = res.append("□");
+            char charOne = nCode.charAt(cdx);
+            res = res.append("□");
+            switch(charOne) {
+            case '0':
+                res = res.append("□■■■□");
+                break;
+            case '1':
+                res = res.append("□□■□□");
+                break;
+            case '2':
+                res = res.append("■■■■■");
+                break;
+            case '3':
+                res = res.append("□■■■□");
+                break;
+            case '4':
+                res = res.append("□□□■□");
+                break;
+            case '5':
+                res = res.append("□■■■□");
+                break;
+            case '6':
+                res = res.append("□■■■□");
+                break;
+            case '7':
+                res = res.append("□□■□□");
+                break;
+            case '8':
+                res = res.append("□■■■□");
+                break;
+            case '9':
+                res = res.append("□■■■□");
+                break;
+            case 'A':
+                res = res.append("■□□□■");
+                break;
+            case 'B':
+                res = res.append("■■■■□");
+                break;
+            case 'C':
+                res = res.append("□■■■□");
+                break;
+            case 'D':
+                res = res.append("■■■■□");
+                break;
+            case 'E':
+                res = res.append("■■■■■");
+                break;
+            case 'F':
+                res = res.append("■□□□□");
+                break;
+            case 'G':
+                res = res.append("□■■■□");
+                break;
+            case 'H':
+                res = res.append("■□□□■");
+                break;
+            case 'I':
+                res = res.append("□■■■□");
+                break;
+            case 'J':
+                res = res.append("□■■□□");
+                break;
+            case 'K':
+                res = res.append("■□□□■");
+                break;
+            case 'L':
+                res = res.append("■■■■■");
+                break;
+            case 'M':
+                res = res.append("■□□□■");
+                break;
+            case 'N':
+                res = res.append("■□□□■");
+                break;
+            case 'O':
+                res = res.append("□■■■□");
+                break;
+            case 'P':
+                res = res.append("■□□□□");
+                break;
+            case 'Q':
+                res = res.append("□■■□■");
+                break;
+            case 'R':
+                res = res.append("■□□□■");
+                break;
+            case 'S':
+                res = res.append("□■■■□");
+                break;
+            case 'T':
+                res = res.append("□□■□□");
+                break;
+            case 'U':
+                res = res.append("□■■■□");
+                break;
+            case 'V':
+                res = res.append("□□■□□");
+                break;
+            case 'W':
+                res = res.append("□■□■□");
+                break;
+            case 'X':
+                res = res.append("■□□□■");
+                break;
+            case 'Y':
+                res = res.append("□□■□□");
+                break;
+            case 'Z':
+                res = res.append("■■■■■");
+                break;
+            case '_':
+                res = res.append("■■■■■");
+                break;
+            case ',':
+                res = res.append("□■□□□");
+                break;
+            case '?':
+                res = res.append("□□■□□");
+                break;
+            case '!':
+                res = res.append("□□■□□");
+                break;
+            case '(':
+                res = res.append("□■□□□");
+                break;
+            case ')':
+                res = res.append("□□□■□");
+                break;
+            case '<':
+                res = res.append("□□□□■");
+                break;
+            case '>':
+                res = res.append("■□□□□");
+                break;
+            default:
+                res = res.append("□□□□□");
+            }
+            res = res.append("□");
         }
         res = res.append("□");
         res = res.append("\n");
         
         // Print footer
         for(idx=0; idx<2; idx++) {
-        	for(cdx=0; cdx<widths + 2; cdx++) {
-        		res = res.append("□");
-        	}
-        	res = res.append("\n");
+            for(cdx=0; cdx<widths + 2; cdx++) {
+                res = res.append("□");
+            }
+            res = res.append("\n");
         }
-    	
-    	return res.toString();
+        
+        return res.toString();
     }
     
     /** Create text with just two characters.
      * @see GUIUtil.createShapenText
      */
     public static String createShapenText(String code, char empty, char fill) {
-    	String res = createShapenText(code);
-    	res = res.replace("□", String.valueOf(empty));
-    	res = res.replace("■", String.valueOf(fill));
-    	return res;
+        String res = createShapenText(code);
+        res = res.replace("□", String.valueOf(empty));
+        res = res.replace("■", String.valueOf(fill));
+        return res;
     }
 }

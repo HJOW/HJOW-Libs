@@ -27,27 +27,27 @@ import hjow.common.ui.SwingUI;
  *
  */
 public class Application {
-	/** 응용 프로그램을 실행합니다. */
+    /** 응용 프로그램을 실행합니다. */
     public static void run(String appShortName, String appName, String version, String[] args) throws InstantiationException, IllegalAccessException {
-    	Core.restartEnabled = true;
+        Core.restartEnabled = true;
         Core.loadCore(appShortName, appName, version, args).prepareUI(SwingUI.class).show();
     }
     
     /** 응용 프로그램을 실행합니다. */
     public static void run(String appShortName, String appName, String version) throws InstantiationException, IllegalAccessException {
-    	Core.restartEnabled = true;
+        Core.restartEnabled = true;
         Core.loadCore(appShortName, appName, version).prepareUI(SwingUI.class).show();
     }
     
     /** 응용 프로그램을 실행합니다. */
     public static void run(String appShortName, String appName, String[] args) throws InstantiationException, IllegalAccessException {
-    	Core.restartEnabled = true;
+        Core.restartEnabled = true;
         Core.loadCore(appShortName, appName, args).prepareUI(SwingUI.class).show();
     }
     
     /** 응용 프로그램을 실행합니다. */
     public static void run(String appShortName, String appName) throws InstantiationException, IllegalAccessException {
-    	Core.restartEnabled = true;
+        Core.restartEnabled = true;
         Core.loadCore(appShortName, appName).prepareUI(SwingUI.class).show();
     }
 }

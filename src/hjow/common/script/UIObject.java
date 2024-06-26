@@ -120,7 +120,7 @@ public class UIObject extends ScriptObject {
         return initScript.toString();
     }
     public Object createsByJson(Object jsonText) {
-    	return new ScriptJsonPane(jsonText);
+        return new ScriptJsonPane(jsonText);
     }
     public Object create(Object componentType) {
         String compType = String.valueOf(componentType);
@@ -181,37 +181,37 @@ public class UIObject extends ScriptObject {
             return new HList();
         }
         if(compType.equals("progress")) {
-        	return new HProgressBar();
+            return new HProgressBar();
         }
         if(compType.equals("spinner")) {
-        	return new HSpinner();
+            return new HSpinner();
         }
         if(compType.equals("list_model")) {
             return new DefaultListModel();
         }
         if(compType.equals("classic_dialog")) {
-        	return new Dialog(ui.getFrame());
+            return new Dialog(ui.getFrame());
         }
         if(compType.equals("classic_panel")) {
-        	return new Panel();
+            return new Panel();
         }
         if(compType.equals("classic_label")) {
-        	return new Label();
+            return new Label();
         }
         if(compType.equals("classic_textfield")) {
-        	return new TextField();
+            return new TextField();
         }
         if(compType.equals("classic_textarea")) {
-        	return new TextArea();
+            return new TextArea();
         }
         if(compType.equals("classic_button")) {
-        	return new Button();
+            return new Button();
         }
         if(compType.equals("classic_checkbox")) {
-        	return new java.awt.Checkbox();
+            return new java.awt.Checkbox();
         }
         if(compType.equals("classic_list")) {
-        	return new java.awt.List();
+            return new java.awt.List();
         }
         if(compType.equals("layout_border")) {
             return new BorderLayout();
@@ -250,7 +250,7 @@ public class UIObject extends ScriptObject {
         final String dc  = desc;
         
         if(! (DataUtil.isEmpty(prefixes) || prefixes.equals("*"))) {
-        	DefaultFileFilter filter = new DefaultFileFilter(pfx, dc);
+            DefaultFileFilter filter = new DefaultFileFilter(pfx, dc);
             fileChooser.setFileFilter(filter);
         }
         return fileChooser;

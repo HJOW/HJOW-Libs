@@ -20,17 +20,17 @@ import javax.swing.JTable;
 import hjow.common.data.table.Table;
 
 public class HTable extends JTable {
-	private static final long serialVersionUID = -1065931820424312860L;
-	
-	public HTable() {
-		super(new HTableModel());
-	}
-	
-	public HTable(Table table) {
-		super(new HTableModel(table));
-	}
-	
-	public void setTable(Table table) {
-		setModel(new HTableModel(table));
-	}
+    private static final long serialVersionUID = -1065931820424312860L;
+    
+    public HTable() {
+        super(new HTableModel());
+    }
+    
+    public HTable(Table table) {
+        super(new HTableModel(table));
+    }
+    
+    public void setTable(Table table) {
+        setModel(new HTableModel(table));
+    }
 }

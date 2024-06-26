@@ -22,30 +22,30 @@ import hjow.common.core.Releasable;
 import hjow.common.script.HScriptEngine;
 
 public class ScriptCanvas extends HPanel implements Releasable {
-	private static final long serialVersionUID = -5404220987500881602L;
-	protected transient HScriptEngine engine;
-	protected transient String scriptPaint;
-	
-	public ScriptCanvas(HScriptEngine engine, String script) {
-		this.engine = engine;
-		this.scriptPaint = script;
-	}
-	
-	@Override
-	public void paint(Graphics g) {
-		if(engine == null) {
-			super.paint(g);
-			return;
-		}
-		ScriptGraphics gWrap = new ScriptGraphics(g);
-		engine.put("graphics", gWrap);
-		try { engine.eval(scriptPaint); } catch(Throwable t) { Core.logError(t); }
-		gWrap.releaseResource();
-		super.paint(g);
-	}
+    private static final long serialVersionUID = -5404220987500881602L;
+    protected transient HScriptEngine engine;
+    protected transient String scriptPaint;
+    
+    public ScriptCanvas(HScriptEngine engine, String script) {
+        this.engine = engine;
+        this.scriptPaint = script;
+    }
+    
+    @Override
+    public void paint(Graphics g) {
+        if(engine == null) {
+            super.paint(g);
+            return;
+        }
+        ScriptGraphics gWrap = new ScriptGraphics(g);
+        engine.put("graphics", gWrap);
+        try { engine.eval(scriptPaint); } catch(Throwable t) { Core.logError(t); }
+        gWrap.releaseResource();
+        super.paint(g);
+    }
 
-	@Override
-	public void releaseResource() {
-		this.engine = null;
-	}
+    @Override
+    public void releaseResource() {
+        this.engine = null;
+    }
 }

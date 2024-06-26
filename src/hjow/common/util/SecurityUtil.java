@@ -70,7 +70,7 @@ public class SecurityUtil
      */
     public static byte[] hashBytes(byte[] beforeBytes, String algorithm)
     {
-    	MessageDigest digest = null;
+        MessageDigest digest = null;
         String methods = algorithm;
         if(methods == null) methods = "SHA-256";
         
@@ -81,7 +81,7 @@ public class SecurityUtil
         }
         catch(Throwable e)
         {
-        	throw new RuntimeException(e);
+            throw new RuntimeException(e);
         }
     }
     
@@ -92,7 +92,7 @@ public class SecurityUtil
      * @return 16진수 문자열
      */
     public static String hexString(byte[] bytes) {
-    	StringBuffer results = new StringBuffer("");
+        StringBuffer results = new StringBuffer("");
         
         for(int i=0; i<bytes.length; i++)
         {
@@ -110,50 +110,50 @@ public class SecurityUtil
      * @return 바이너리 원본
      */
     public static  byte[] hexBytes(String hexString) {
-    	byte[] results = new byte[hexString.length() / 2];
-    	for(int idx=0; idx<hexString.length(); idx+=2) {
-    		results[(int) idx / 2] = (byte) (( Character.digit(hexString.charAt(idx), 16) << 4 ) + Character.digit(hexString.charAt(idx + 1), 16));
-    	}
-    	
-    	return results;
+        byte[] results = new byte[hexString.length() / 2];
+        for(int idx=0; idx<hexString.length(); idx+=2) {
+            results[(int) idx / 2] = (byte) (( Character.digit(hexString.charAt(idx), 16) << 4 ) + Character.digit(hexString.charAt(idx + 1), 16));
+        }
+        
+        return results;
     }
     
     /** 바이너리를 BASE64 문자열로 변환합니다. */
     public static String base64String(byte[] bytes) {
-    	try {
-    		// JDK 11 에서 javax.xml.bind 가 빠짐 (별도 라이브러리로 분리됨)
-    		// 시도는 하되, 없으면 apache common codec 액세스 시도
-    		Class<?> javaxXml = Class.forName("javax.xml.bind.DatatypeConverter");
-        	Method mthd = javaxXml.getMethod("printBase64Binary", byte[].class);
-        	Object res = mthd.invoke(null, bytes);
-        	return res.toString();
-    	} catch(Throwable t) {
-    		if((t instanceof ClassNotFoundException) || (t instanceof NoSuchMethodException)) {
-    			try {
-    				Class<?> javaxXml = Class.forName("jakarta.xml.bind.DatatypeConverter");
-    	        	Method mthd = javaxXml.getMethod("printBase64Binary", byte[].class);
-    	        	Object res = mthd.invoke(null, bytes);
-    	        	return res.toString();
-    			} catch(Throwable t2) {
-    				if((t2 instanceof ClassNotFoundException) || (t2 instanceof NoSuchMethodException)) {
-    					try {
-    	    				Class<?> apacheCodec = Class.forName("org.apache.commons.codec.binary.Base64");
-    	    				Method mthd = apacheCodec.getMethod("encodeBase64String", byte[].class);
-    	    				Object res = mthd.invoke(null, bytes);
-    	    				return res.toString();
-    	    			} catch(Throwable t3) {
-    	    				if(t instanceof ClassNotFoundException) {
-    	    					throw new RuntimeException("Cannot run BASE64. Please add Apache Commons Codec, or JAXB Library.", t3);
-    	    				}
-    	    				throw new RuntimeException(t3.getMessage(), t3);
-    	    			}
-    				}
-    				throw new RuntimeException(t2.getMessage(), t2);
-    			}
-    		} else {
-    			throw new RuntimeException(t.getMessage(), t);
-    		}
-    	}
+        try {
+            // JDK 11 에서 javax.xml.bind 가 빠짐 (별도 라이브러리로 분리됨)
+            // 시도는 하되, 없으면 apache common codec 액세스 시도
+            Class<?> javaxXml = Class.forName("javax.xml.bind.DatatypeConverter");
+            Method mthd = javaxXml.getMethod("printBase64Binary", byte[].class);
+            Object res = mthd.invoke(null, bytes);
+            return res.toString();
+        } catch(Throwable t) {
+            if((t instanceof ClassNotFoundException) || (t instanceof NoSuchMethodException)) {
+                try {
+                    Class<?> javaxXml = Class.forName("jakarta.xml.bind.DatatypeConverter");
+                    Method mthd = javaxXml.getMethod("printBase64Binary", byte[].class);
+                    Object res = mthd.invoke(null, bytes);
+                    return res.toString();
+                } catch(Throwable t2) {
+                    if((t2 instanceof ClassNotFoundException) || (t2 instanceof NoSuchMethodException)) {
+                        try {
+                            Class<?> apacheCodec = Class.forName("org.apache.commons.codec.binary.Base64");
+                            Method mthd = apacheCodec.getMethod("encodeBase64String", byte[].class);
+                            Object res = mthd.invoke(null, bytes);
+                            return res.toString();
+                        } catch(Throwable t3) {
+                            if(t instanceof ClassNotFoundException) {
+                                throw new RuntimeException("Cannot run BASE64. Please add Apache Commons Codec, or JAXB Library.", t3);
+                            }
+                            throw new RuntimeException(t3.getMessage(), t3);
+                        }
+                    }
+                    throw new RuntimeException(t2.getMessage(), t2);
+                }
+            } else {
+                throw new RuntimeException(t.getMessage(), t);
+            }
+        }
     }
     
     /**

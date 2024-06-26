@@ -45,8 +45,8 @@ public class JsonObject extends PublicMethodOpenedClass implements JsonInstance,
     /** 객체 내에 원소를 삽입합니다. 컬렉션 객체인 경우, JsonObject 혹은 JsonArray 로 변환되어 들어갑니다. */
     @Override
     public Object put(String key, Object obj) {
-    	Object bef = null;
-    	if(data != null) bef = get(key);
+        Object bef = null;
+        if(data != null) bef = get(key);
         if(obj == null) {
             data.put(key, null);
             return bef;
@@ -103,9 +103,9 @@ public class JsonObject extends PublicMethodOpenedClass implements JsonInstance,
     /** 객체 내에서 키를 이용해 원소를 찾아 반환합니다. */
     @Override
     public Object get(Object key) {
-    	if(key == null) return null;
-    	key = key.toString();
-    	if(! data.containsKey(key)) return null;
+        if(key == null) return null;
+        key = key.toString();
+        if(! data.containsKey(key)) return null;
         return data.get(key);
     }
     
@@ -131,7 +131,7 @@ public class JsonObject extends PublicMethodOpenedClass implements JsonInstance,
     
     @Override
     public String toJSON() {
-    	return toJSON(false, false);
+        return toJSON(false, false);
     }
 
     @Override
@@ -141,28 +141,28 @@ public class JsonObject extends PublicMethodOpenedClass implements JsonInstance,
     
     @Override
     public String toJSON(String indent, boolean allowLineJumpString, boolean lookFine) {
-    	if(indent == null) indent = "";
-    	String indentNext = "";
-    	if(indent.equals("")) indentNext = indent + "    ";
-    	
-    	Set<String> keys = keySet();
+        if(indent == null) indent = "";
+        String indentNext = "";
+        if(indent.equals("")) indentNext = indent + "    ";
+        
+        Set<String> keys = keySet();
         StringBuilder resultString = new StringBuilder("");
         resultString = resultString.append(indent).append("{");
         boolean isFirst = true;
         for(String k : keys) {
-        	if(lookFine) resultString = resultString.append("\n");
-        	resultString = resultString.append(indentNext);
-        	if(! isFirst) resultString = resultString.append(",");
+            if(lookFine) resultString = resultString.append("\n");
+            resultString = resultString.append(indentNext);
+            if(! isFirst) resultString = resultString.append(",");
             
             resultString = resultString.append("\"" + DataUtil.castQuote(true, k) + "\"").append(":");
             
             Object target = get(k);
             if(target instanceof JsonInstance) {
-            	target = ((JsonInstance) target).toJSON(indentNext, allowLineJumpString, lookFine);
+                target = ((JsonInstance) target).toJSON(indentNext, allowLineJumpString, lookFine);
             } else if(target instanceof CharSequence) {
-            	String content = DataUtil.castQuote(true, target.toString());
-            	if(! allowLineJumpString) content = SyntaxUtil.lineSinglize(content);
-            	target = "\"" + content + "\"";
+                String content = DataUtil.castQuote(true, target.toString());
+                if(! allowLineJumpString) content = SyntaxUtil.lineSinglize(content);
+                target = "\"" + content + "\"";
             }
             resultString = resultString.append(target);
             
@@ -177,48 +177,48 @@ public class JsonObject extends PublicMethodOpenedClass implements JsonInstance,
     
     @Override
     public String toString() {
-    	return "/* JSON Object */" + toJSON();
+        return "/* JSON Object */" + toJSON();
     }
     
     /** Map 객체로 변환합니다. */
     public Map<String, Object> toMap() {
-    	Map<String, Object> map = new HashMap<String, Object>();
-    	Set<String> keys = keySet();
-    	
-    	for(String k : keys) {
-    		Object obj = get(k);
-    		if(obj instanceof JsonArray) {
-    			obj = ((JsonArray) obj).toList();
-    		} else if(obj instanceof JsonObject) {
-    			obj = ((JsonObject) obj).toMap();
-    		}
-    		map.put(k, obj);
-    	}
-    	
-    	return map;
+        Map<String, Object> map = new HashMap<String, Object>();
+        Set<String> keys = keySet();
+        
+        for(String k : keys) {
+            Object obj = get(k);
+            if(obj instanceof JsonArray) {
+                obj = ((JsonArray) obj).toList();
+            } else if(obj instanceof JsonObject) {
+                obj = ((JsonObject) obj).toMap();
+            }
+            map.put(k, obj);
+        }
+        
+        return map;
     }
     
     @Override
     public JsonInstance cloneObject() {
-    	JsonObject map = new JsonObject();
-    	Set<String> keys = keySet();
-    	
-    	for(String k : keys) {
-    		Object obj = get(k);
-    		map.put(k, obj);
-    	}
-    	
-    	return map;
+        JsonObject map = new JsonObject();
+        Set<String> keys = keySet();
+        
+        for(String k : keys) {
+            Object obj = get(k);
+            map.put(k, obj);
+        }
+        
+        return map;
     }
     
     /** JSON 형식의 문자열을 객체 형태로 변환합니다. */
     public static Object parseJson(String jsonStr) {
-    	return parseJson(jsonStr, false);
+        return parseJson(jsonStr, false);
     }
     
     /** JSON 형식의 문자열을 객체 형태로 변환합니다. ignorePrimitiveCaseQuotion 가 true 이면, Primitive 값이 들어왔을 때 문자열(숫자가 아닌)이면서 따옴표로 둘러싸이지 않으면 문자열로 취급합니다. */
     protected static Object parseJson(String jsonStr, boolean ignorePrimitiveCaseQuotion) {
-    	return parseJson(jsonStr, ignorePrimitiveCaseQuotion, false);
+        return parseJson(jsonStr, ignorePrimitiveCaseQuotion, false);
     }
     
     /** JSON 형식의 문자열을 객체 형태로 변환합니다. ignorePrimitiveCaseQuotion 가 true 이면, Primitive 값이 들어왔을 때 문자열(숫자가 아닌)이면서 따옴표로 둘러싸이지 않으면 문자열로 취급합니다. */
@@ -241,13 +241,13 @@ public class JsonObject extends PublicMethodOpenedClass implements JsonInstance,
             
             return DataUtil.reCastQuote(jsonTrim.startsWith("\""), insides);
         } else if(! (jsonTrim.startsWith("{") || jsonTrim.startsWith("["))) {
-        	if(jsonTrim.equals("null")) return null;
+            if(jsonTrim.equals("null")) return null;
             if(jsonTrim.equals("true") || jsonTrim.equals("false")) return new Boolean(jsonTrim);
             if(jsonTrim.indexOf(".") >= 0) return new BigDecimal(jsonTrim);
             if(ignorePrimitiveCaseQuotion) {
-            	if(! DataUtil.isInteger(jsonTrim)) {
-            		return jsonTrim;
-            	}
+                if(! DataUtil.isInteger(jsonTrim)) {
+                    return jsonTrim;
+                }
             }
             return new Long(jsonTrim);
         }
@@ -261,7 +261,7 @@ public class JsonObject extends PublicMethodOpenedClass implements JsonInstance,
             List<Integer> delimiterPoints = SyntaxUtil.getDelimiterLocations(insides, ',');
             
             if(delimiterPoints.isEmpty()) {
-            	if(insides.equals("")) return arrayObj;
+                if(insides.equals("")) return arrayObj;
                 arrayObj.add(parseJson(insides, false, true));
                 return arrayObj;
             }
@@ -297,8 +297,8 @@ public class JsonObject extends PublicMethodOpenedClass implements JsonInstance,
             if(delimiterPoints.isEmpty()) {
                 List<Integer> insidesColonDelimPoints = SyntaxUtil.getDelimiterLocations(insides, ':');
                 if(insidesColonDelimPoints.isEmpty()) {
-                	if(DataUtil.isEmpty(insides)) ; // Do nothing
-                	else objects.put(String.valueOf(parseJson(insides, true, true)), "true");
+                    if(DataUtil.isEmpty(insides)) ; // Do nothing
+                    else objects.put(String.valueOf(parseJson(insides, true, true)), "true");
                 } else {
                     objects.put(String.valueOf(parseJson(insides.substring(0, insidesColonDelimPoints.get(0).intValue()).trim(), true, true)), parseJson(insides.substring(insidesColonDelimPoints.get(0).intValue() + 1).trim(), false, true));
                 }
@@ -325,17 +325,17 @@ public class JsonObject extends PublicMethodOpenedClass implements JsonInstance,
                 if(idx == delimiterPoints.size() - 1) {
                     others = insides.substring(delimiterLocation + 1);
                 } else {
-                	int nextDelimiterLocation = delimiterPoints.get(idx + 1).intValue();
+                    int nextDelimiterLocation = delimiterPoints.get(idx + 1).intValue();
                     others = insides.substring(delimiterLocation + 1, nextDelimiterLocation);
                 }
                 
                 List<Integer> otherColonDelimPoints = SyntaxUtil.getDelimiterLocations(others, ':');
                 if(otherColonDelimPoints.isEmpty()) {
-                	keyOf   = others;
+                    keyOf   = others;
                     valueOf = "true";
                 } else {
-                	int colonLocation = otherColonDelimPoints.get(0).intValue();
-                	keyOf   = others.substring(0, colonLocation).trim();
+                    int colonLocation = otherColonDelimPoints.get(0).intValue();
+                    keyOf   = others.substring(0, colonLocation).trim();
                     valueOf = others.substring(colonLocation + 1).trim();
                 }
                 
@@ -348,55 +348,55 @@ public class JsonObject extends PublicMethodOpenedClass implements JsonInstance,
         return null;
     }
 
-	@Override
-	public Iterator<Object> iterator() {
-		List<Object> iteratorList = new ArrayList<Object>();
-		Set<String> keys = data.keySet();
-		for(String k : keys) {
-			ObjectEntry<String, Object> newEntry = new ObjectEntry<String, Object>();
-			newEntry.setKey(k);
-			newEntry.setValue(data.get(k));
-			iteratorList.add(newEntry);
-		}
-		return iteratorList.iterator();
-	}
+    @Override
+    public Iterator<Object> iterator() {
+        List<Object> iteratorList = new ArrayList<Object>();
+        Set<String> keys = data.keySet();
+        for(String k : keys) {
+            ObjectEntry<String, Object> newEntry = new ObjectEntry<String, Object>();
+            newEntry.setKey(k);
+            newEntry.setValue(data.get(k));
+            iteratorList.add(newEntry);
+        }
+        return iteratorList.iterator();
+    }
 
-	@Override
-	public int size() {
-		return data.size();
-	}
+    @Override
+    public int size() {
+        return data.size();
+    }
 
-	@Override
-	public boolean containsKey(Object key) {
-		return data.containsKey(key);
-	}
+    @Override
+    public boolean containsKey(Object key) {
+        return data.containsKey(key);
+    }
 
-	@Override
-	public boolean containsValue(Object value) {
-		return data.containsValue(value);
-	}
+    @Override
+    public boolean containsValue(Object value) {
+        return data.containsValue(value);
+    }
 
-	@Override
-	public Object remove(Object key) {
-		return data.remove(key);
-	}
+    @Override
+    public Object remove(Object key) {
+        return data.remove(key);
+    }
 
-	@Override
-	public void putAll(Map<? extends String, ? extends Object> m) {
-		if(m == null) return;
-		Set<? extends String> keys = m.keySet();
-		for(String k : keys) {
-			put(k, m.get(k));
-		}
-	}
+    @Override
+    public void putAll(Map<? extends String, ? extends Object> m) {
+        if(m == null) return;
+        Set<? extends String> keys = m.keySet();
+        for(String k : keys) {
+            put(k, m.get(k));
+        }
+    }
 
-	@Override
-	public Collection<Object> values() {
-		return data.values();
-	}
+    @Override
+    public Collection<Object> values() {
+        return data.values();
+    }
 
-	@Override
-	public Set<Entry<String, Object>> entrySet() {
-		return data.entrySet();
-	}
+    @Override
+    public Set<Entry<String, Object>> entrySet() {
+        return data.entrySet();
+    }
 }

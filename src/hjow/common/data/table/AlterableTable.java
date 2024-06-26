@@ -17,10 +17,10 @@ package hjow.common.data.table;
 
 /** 컬럼의 변경까지 가능한 Table 컬렉션입니다. */
 public interface AlterableTable extends EditableTable {
-	/** 컬럼을 하나 제거합니다. */
-	public void dropColumn(String columnName);
-	/** 컬럼을 추가합니다. */
-	public void addColumn(String columnName, int columnType, Object defaultValue);
-	/** 컬럼을 추가합니다. */
-	public void addColumn(Column col, Object defaultValue);
+    /** 컬럼을 하나 제거합니다. */
+    public void dropColumn(String columnName);
+    /** 컬럼을 추가합니다. */
+    public void addColumn(String columnName, int columnType, Object defaultValue);
+    /** 컬럼을 추가합니다. */
+    public void addColumn(Column col, Object defaultValue);
 }

@@ -22,17 +22,17 @@ import javax.swing.JProgressBar;
 import hjow.common.script.PublicMethodOpenedClass;
 
 public class HProgressBar extends JProgressBar{
-	private static final long serialVersionUID = -3086566966780124394L;
+    private static final long serialVersionUID = -3086566966780124394L;
 
-	public HProgressBar() {
-		super();
-	}
-	
-	public HProgressBar(int orient, int min, int max) {
-		super(orient, min, max);
-	}
-	
-	public List<String> availables() {
-    	return PublicMethodOpenedClass.getAvailableMethods(this);
+    public HProgressBar() {
+        super();
+    }
+    
+    public HProgressBar(int orient, int min, int max) {
+        super(orient, min, max);
+    }
+    
+    public List<String> availables() {
+        return PublicMethodOpenedClass.getAvailableMethods(this);
     }
 }

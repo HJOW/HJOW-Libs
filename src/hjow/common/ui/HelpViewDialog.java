@@ -22,40 +22,40 @@ import hjow.common.help.Help;
 import hjow.common.ui.extend.HDialog;
 
 public class HelpViewDialog extends HDialog {
-	private static final long serialVersionUID = -1060896739838799051L;
-	
-	protected HelpViewPane viewPane;
-	public HelpViewDialog(Window win) {
-		super(win);
-		setSize(550, 400);
-		
-		setLayout(new BorderLayout());
-		
-		viewPane = new HelpViewPane();
-		add(viewPane, BorderLayout.CENTER);
-	}
-	
-	@Override
-	public void setVisible(boolean visible) {
-		super.setVisible(visible);
-		if(visible) {
-			viewPane.setDividerLocation(0.3);
-		}
-	}
-	
-	public void setDividerLocation(double divideProbability) {
-		viewPane.setDividerLocation(divideProbability);
-	}
-	
-	public void registerListener() {
-		viewPane.registerListener();
-	}
-	
-	public void unregisterEvents() {
-		viewPane.unregisterEvents();
-	}
-	
-	public void setHelpContent(Help help) {
-		viewPane.setHelpContent(help);
-	}
+    private static final long serialVersionUID = -1060896739838799051L;
+    
+    protected HelpViewPane viewPane;
+    public HelpViewDialog(Window win) {
+        super(win);
+        setSize(550, 400);
+        
+        setLayout(new BorderLayout());
+        
+        viewPane = new HelpViewPane();
+        add(viewPane, BorderLayout.CENTER);
+    }
+    
+    @Override
+    public void setVisible(boolean visible) {
+        super.setVisible(visible);
+        if(visible) {
+            viewPane.setDividerLocation(0.3);
+        }
+    }
+    
+    public void setDividerLocation(double divideProbability) {
+        viewPane.setDividerLocation(divideProbability);
+    }
+    
+    public void registerListener() {
+        viewPane.registerListener();
+    }
+    
+    public void unregisterEvents() {
+        viewPane.unregisterEvents();
+    }
+    
+    public void setHelpContent(Help help) {
+        viewPane.setHelpContent(help);
+    }
 }

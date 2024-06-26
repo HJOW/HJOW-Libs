@@ -22,9 +22,9 @@ import javax.swing.JRadioButton;
 import hjow.common.script.PublicMethodOpenedClass;
 
 public class HRadioButton extends JRadioButton {
-	private static final long serialVersionUID = -4841045594518002611L;
-	
-	public List<String> availables() {
-    	return PublicMethodOpenedClass.getAvailableMethods(this);
+    private static final long serialVersionUID = -4841045594518002611L;
+    
+    public List<String> availables() {
+        return PublicMethodOpenedClass.getAvailableMethods(this);
     }
 }

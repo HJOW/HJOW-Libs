@@ -24,101 +24,101 @@ import hjow.common.util.DataUtil;
 import hjow.common.util.SyntaxUtil;
 
 public class SimpleDatabase extends PublicMethodOpenedClass implements Releasable {
-	private static final long serialVersionUID = -5543218073216561300L;
-	
-	protected String      name;
-	protected List<Table> tables           = new Vector<Table>();
-	
-	public SimpleDatabase() {
-		
-	}
+    private static final long serialVersionUID = -5543218073216561300L;
+    
+    protected String      name;
+    protected List<Table> tables           = new Vector<Table>();
+    
+    public SimpleDatabase() {
+        
+    }
 
-	public List<Table> getTables() {
-		return tables;
-	}
+    public List<Table> getTables() {
+        return tables;
+    }
 
-	public void setTables(List<Table> tables) {
-		this.tables = tables;
-	}
-	
-	public void addTable(Table tableOne) {
-		tables.add(tableOne);
-	}
-	
-	public String getName() {
-		return name;
-	}
+    public void setTables(List<Table> tables) {
+        this.tables = tables;
+    }
+    
+    public void addTable(Table tableOne) {
+        tables.add(tableOne);
+    }
+    
+    public String getName() {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	@Override
-	public void releaseResource() {
-		for(Table t : tables) {
-			if(t instanceof Releasable) {
-				((Releasable) t).releaseResource();
-			}
-		}
-		tables.clear();
-	}
-	
-	public Table executeSQL(String sql) {
-		if(sql == null) throw new NullPointerException();
-		if(DataUtil.isEmpty(sql)) return null;
-		List<String> eachSql = SyntaxUtil.getTokens(sql, ';');
-		Table results = null;
-		for(String s : eachSql) {
-			results = executeSQLOne(s);
-		}
-		return results;
-	}
-	
-	protected Table executeSQLOne(String sqlOne) {
-		sqlOne = sqlOne.trim();
-		Table results = null;
-		
-		List<String> eachBlock = SyntaxUtil.getTokens(sqlOne, ' ', '\t', '\n');
-		if(eachBlock.isEmpty()) return null;
-		
-		String kindOf = eachBlock.get(0).toUpperCase();
-		
-		if(kindOf.equals("SELECT")) {
-			results = executeSelectBlocks(eachBlock);
-		}
-		
-		return results;
-	}
-	
-	protected Table executeSelectBlocks(List<String> blocks) {
-		Table results = null;
-		
-		String tableName = null;
-		boolean meetFrom = false;
-		boolean meetWhiles = false;
-		
-		for(String b : blocks) {
-			String upperCases = b.toUpperCase().trim();
-			
-			if(! meetFrom) {
-				if(upperCases.equals("FROM")) {
-					meetFrom = true;
-					continue;
-				}
-				
-				
-			} else if(meetFrom && (! meetWhiles)) {
-				if(tableName != null) {
-					tableName = b;
-				}
-				
-				
-			}
-			
-			
-			
-		}
-		
-		return results;
-	}
+    @Override
+    public void releaseResource() {
+        for(Table t : tables) {
+            if(t instanceof Releasable) {
+                ((Releasable) t).releaseResource();
+            }
+        }
+        tables.clear();
+    }
+    
+    public Table executeSQL(String sql) {
+        if(sql == null) throw new NullPointerException();
+        if(DataUtil.isEmpty(sql)) return null;
+        List<String> eachSql = SyntaxUtil.getTokens(sql, ';');
+        Table results = null;
+        for(String s : eachSql) {
+            results = executeSQLOne(s);
+        }
+        return results;
+    }
+    
+    protected Table executeSQLOne(String sqlOne) {
+        sqlOne = sqlOne.trim();
+        Table results = null;
+        
+        List<String> eachBlock = SyntaxUtil.getTokens(sqlOne, ' ', '\t', '\n');
+        if(eachBlock.isEmpty()) return null;
+        
+        String kindOf = eachBlock.get(0).toUpperCase();
+        
+        if(kindOf.equals("SELECT")) {
+            results = executeSelectBlocks(eachBlock);
+        }
+        
+        return results;
+    }
+    
+    protected Table executeSelectBlocks(List<String> blocks) {
+        Table results = null;
+        
+        String tableName = null;
+        boolean meetFrom = false;
+        boolean meetWhiles = false;
+        
+        for(String b : blocks) {
+            String upperCases = b.toUpperCase().trim();
+            
+            if(! meetFrom) {
+                if(upperCases.equals("FROM")) {
+                    meetFrom = true;
+                    continue;
+                }
+                
+                
+            } else if(meetFrom && (! meetWhiles)) {
+                if(tableName != null) {
+                    tableName = b;
+                }
+                
+                
+            }
+            
+            
+            
+        }
+        
+        return results;
+    }
 }

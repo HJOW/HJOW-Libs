@@ -22,16 +22,16 @@ import javax.swing.JButton;
 import hjow.common.script.PublicMethodOpenedClass;
 
 public class HButton extends JButton {
-	private static final long serialVersionUID = 6811947032091567387L;
-	public HButton() {
-		super();
-	}
-	
-	public HButton(String text) {
-		super(text);
-	}
-	
-	public List<String> availables() {
-    	return PublicMethodOpenedClass.getAvailableMethods(this);
+    private static final long serialVersionUID = 6811947032091567387L;
+    public HButton() {
+        super();
+    }
+    
+    public HButton(String text) {
+        super(text);
+    }
+    
+    public List<String> availables() {
+        return PublicMethodOpenedClass.getAvailableMethods(this);
     }
 }

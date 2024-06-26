@@ -20,21 +20,21 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class JDBCRConnection extends hjow.common.script.jdbc.JDBCConnection {
-	private static final long serialVersionUID = -297456075878898595L;
+    private static final long serialVersionUID = -297456075878898595L;
 
-	public JDBCRConnection(Connection conn) {
-		super(conn);
-	}
-	
-	public Connection getRaw() {
-		return conn;
-	}
-	
-	public PreparedStatement prepareRawStatement(String sql) {
-		try {
-			return getRaw().prepareStatement(sql);
-		} catch (SQLException e) {
-			throw new RuntimeException(e.getMessage(), e);
-		}
-	}
+    public JDBCRConnection(Connection conn) {
+        super(conn);
+    }
+    
+    public Connection getRaw() {
+        return conn;
+    }
+    
+    public PreparedStatement prepareRawStatement(String sql) {
+        try {
+            return getRaw().prepareStatement(sql);
+        } catch (SQLException e) {
+            throw new RuntimeException(e.getMessage(), e);
+        }
+    }
 }

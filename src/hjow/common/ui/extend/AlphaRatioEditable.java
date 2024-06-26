@@ -16,6 +16,6 @@ limitations under the License.
 package hjow.common.ui.extend;
 
 public interface AlphaRatioEditable {
-	/** 투명도를 변경합니다. 0 ~ 1 사이의 값을 지정할 수 있으며 숫자가 클 수록 선명합니다. */
-	public void setAlphaRatio(float alphaRatio);
+    /** 투명도를 변경합니다. 0 ~ 1 사이의 값을 지정할 수 있으며 숫자가 클 수록 선명합니다. */
+    public void setAlphaRatio(float alphaRatio);
 }

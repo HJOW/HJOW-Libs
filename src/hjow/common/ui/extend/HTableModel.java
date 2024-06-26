@@ -25,51 +25,51 @@ import hjow.common.data.table.Column;
 import hjow.common.data.table.Table;
 
 public class HTableModel extends DefaultTableModel {
-	private static final long serialVersionUID = -3327938946058763421L;
-	protected boolean editable = false;
-	public HTableModel() {
-		super();
-	}
-	public HTableModel(Vector<Object> data, Vector<String> columns) {
-		super(data, columns);
-	}
-	public HTableModel(Table table) {
-		super(getDataList(table), getColumnList(table));
-	}
-	public boolean isEditable() {
-		return editable;
-	}
-	public void setEditable(boolean editable) {
-		this.editable = editable;
-	}
-	
-	@Override
+    private static final long serialVersionUID = -3327938946058763421L;
+    protected boolean editable = false;
+    public HTableModel() {
+        super();
+    }
+    public HTableModel(Vector<Object> data, Vector<String> columns) {
+        super(data, columns);
+    }
+    public HTableModel(Table table) {
+        super(getDataList(table), getColumnList(table));
+    }
+    public boolean isEditable() {
+        return editable;
+    }
+    public void setEditable(boolean editable) {
+        this.editable = editable;
+    }
+    
+    @Override
     public boolean isCellEditable(int row, int column) {
        return editable;
     }
-	
-	protected static Vector<String> getColumnList(Table table) {
-		Vector<String> columnContent = new Vector<String>();
-		List<Column> cols = table.getColumns();
-		for(Column c : cols) {
-			columnContent.add(c.getName());
-		}
-		return columnContent;
-	}
-	protected static Vector<Object> getDataList(Table table) {
-		Vector<Object> data = new Vector<Object>();
-		Vector<String> columnContent = getColumnList(table);
-		for(Map<String, Object> rowOne : table) {
-			Vector<String> rowData = new Vector<String>();
-			
-			for(String c : columnContent) {
-				Object obj = rowOne.get(c);
-				if(obj == null) obj = "";
-				rowData.add(String.valueOf(obj));
-			}
-			
-			data.add(rowData);
-		}
-		return data;
-	}
+    
+    protected static Vector<String> getColumnList(Table table) {
+        Vector<String> columnContent = new Vector<String>();
+        List<Column> cols = table.getColumns();
+        for(Column c : cols) {
+            columnContent.add(c.getName());
+        }
+        return columnContent;
+    }
+    protected static Vector<Object> getDataList(Table table) {
+        Vector<Object> data = new Vector<Object>();
+        Vector<String> columnContent = getColumnList(table);
+        for(Map<String, Object> rowOne : table) {
+            Vector<String> rowData = new Vector<String>();
+            
+            for(String c : columnContent) {
+                Object obj = rowOne.get(c);
+                if(obj == null) obj = "";
+                rowData.add(String.valueOf(obj));
+            }
+            
+            data.add(rowData);
+        }
+        return data;
+    }
 }

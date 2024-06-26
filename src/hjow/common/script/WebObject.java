@@ -23,18 +23,18 @@ import hjow.common.core.Core;
 import hjow.common.script.net.ScriptHttpClient;
 
 public class WebObject extends ScriptObject {
-	private static final long serialVersionUID = 3844963995027549279L;
-	protected HScriptEngine engine;
+    private static final long serialVersionUID = 3844963995027549279L;
+    protected HScriptEngine engine;
     public WebObject(HScriptEngine engine) { 
-    	this.engine = engine;
+        this.engine = engine;
     }
-	@Override
-	public String getPrefixName() {
-		return "web";
-	}
-	@Override
-	public String getInitScript(String accessKey) {
-		StringBuilder initScript = new StringBuilder("");
+    @Override
+    public String getPrefixName() {
+        return "web";
+    }
+    @Override
+    public String getInitScript(String accessKey) {
+        StringBuilder initScript = new StringBuilder("");
         
         initScript = initScript.append("function web_create() {                                                                                 ").append("\n");
         initScript = initScript.append("    return " + getPrefixName() + "_" + accessKey + ".create();                                          ").append("\n");
@@ -45,44 +45,44 @@ public class WebObject extends ScriptObject {
         initScript = initScript.append("function web_client() {                                                                                 ").append("\n");
         initScript = initScript.append("    return " + getPrefixName() + "_" + accessKey + ".client();                                          ").append("\n");
         initScript = initScript.append("};                                                                                                      ").append("\n");
-		return initScript.toString();
-	}
-	
-	public Object create() {
-		try {
-			Class<?> webServerClass = Class.forName("hjow.common.script.web.WebServerObject");
-			Constructor<?> cons = webServerClass.getConstructor(HScriptEngine.class);
-			return cons.newInstance(engine);
-		} catch(ClassNotFoundException e) {
-			return null;
-		} catch (NoSuchMethodException e) {
-			return null;
-		} catch (Throwable e) {
-			Core.logError(e);
-			return null;
-		}
-	}
-	
-	public Object createWithPort(Object port) throws IOException {
-		try {
-			Class<?> webServerClass = Class.forName("hjow.common.script.web.WebServerObject");
-			Constructor<?> cons = webServerClass.getConstructor(HScriptEngine.class);
-			Object server = cons.newInstance(engine);
-			
-			Method initMethod = webServerClass.getMethod("init", Object.class);
-			initMethod.invoke(server, port);
-			return server;
-		} catch(ClassNotFoundException e) {
-			return null;
-		} catch (NoSuchMethodException e) {
-			return null;
-		} catch (Throwable e) {
-			Core.logError(e);
-			return null;
-		}
-	}
-	
-	public Object client() {
-		return new ScriptHttpClient();
-	}
+        return initScript.toString();
+    }
+    
+    public Object create() {
+        try {
+            Class<?> webServerClass = Class.forName("hjow.common.script.web.WebServerObject");
+            Constructor<?> cons = webServerClass.getConstructor(HScriptEngine.class);
+            return cons.newInstance(engine);
+        } catch(ClassNotFoundException e) {
+            return null;
+        } catch (NoSuchMethodException e) {
+            return null;
+        } catch (Throwable e) {
+            Core.logError(e);
+            return null;
+        }
+    }
+    
+    public Object createWithPort(Object port) throws IOException {
+        try {
+            Class<?> webServerClass = Class.forName("hjow.common.script.web.WebServerObject");
+            Constructor<?> cons = webServerClass.getConstructor(HScriptEngine.class);
+            Object server = cons.newInstance(engine);
+            
+            Method initMethod = webServerClass.getMethod("init", Object.class);
+            initMethod.invoke(server, port);
+            return server;
+        } catch(ClassNotFoundException e) {
+            return null;
+        } catch (NoSuchMethodException e) {
+            return null;
+        } catch (Throwable e) {
+            Core.logError(e);
+            return null;
+        }
+    }
+    
+    public Object client() {
+        return new ScriptHttpClient();
+    }
 }

@@ -22,16 +22,16 @@ import javax.swing.JTextField;
 import hjow.common.script.PublicMethodOpenedClass;
 
 public class HTextField extends JTextField {
-	private static final long serialVersionUID = 1993313728843166409L;
-	public HTextField() {
-		super();
-	}
-	
-	public HTextField(int col) {
-		super(col);
-	}
-	
-	public List<String> availables() {
-    	return PublicMethodOpenedClass.getAvailableMethods(this);
+    private static final long serialVersionUID = 1993313728843166409L;
+    public HTextField() {
+        super();
+    }
+    
+    public HTextField(int col) {
+        super(col);
+    }
+    
+    public List<String> availables() {
+        return PublicMethodOpenedClass.getAvailableMethods(this);
     }
 }

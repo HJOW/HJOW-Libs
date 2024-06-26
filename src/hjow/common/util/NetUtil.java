@@ -75,7 +75,7 @@ public class NetUtil
                 if(reads == null) break;
                 
                 if(Core.checkInterrupt(NetUtil.class, "On sendPost")) {
-                	throw new InterruptedException("On sendPost");
+                    throw new InterruptedException("On sendPost");
                 }
                 
                 results = results.append(reads + "\n");

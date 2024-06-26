@@ -34,12 +34,12 @@ import hjow.common.ui.UI;
  *
  */
 public interface LibraryBox extends Releasable {
-	/** 초기화 작업이 필요할 때 이 메소드를 오버라이드해 내용을 작성하세요. Core 객체는 가지고 있을 필요는 없습니다. */
-	public void init(Core core);
-	/** UI 초기화 시 호출됩니다. */
-	public void onPrepareUI(Core core, UI ui);
-	/** 스크립트 객체 리스트를 불러옵니다. */
-	public List<ScriptObject> advancedObjects(Core core);
-	/** 모듈 리스트를 불러옵니다. */
-	public List<Module> advancedModules(Core core);
+    /** 초기화 작업이 필요할 때 이 메소드를 오버라이드해 내용을 작성하세요. Core 객체는 가지고 있을 필요는 없습니다. */
+    public void init(Core core);
+    /** UI 초기화 시 호출됩니다. */
+    public void onPrepareUI(Core core, UI ui);
+    /** 스크립트 객체 리스트를 불러옵니다. */
+    public List<ScriptObject> advancedObjects(Core core);
+    /** 모듈 리스트를 불러옵니다. */
+    public List<Module> advancedModules(Core core);
 }

@@ -19,6 +19,6 @@ import java.awt.Component;
 import java.io.IOException;
 
 public interface WebPane {
-	public abstract Component getComponent();
-	public abstract void goPage(Object url) throws IOException;
+    public abstract Component getComponent();
+    public abstract void goPage(Object url) throws IOException;
 }

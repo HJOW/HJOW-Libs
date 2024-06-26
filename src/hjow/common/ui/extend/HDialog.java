@@ -24,32 +24,32 @@ import javax.swing.JFrame;
 import hjow.common.script.PublicMethodOpenedClass;
 
 public class HDialog extends JDialog implements AlphaRatioEditable {
-	private static final long serialVersionUID = -1279622377824601191L;
+    private static final long serialVersionUID = -1279622377824601191L;
 
-	public HDialog() {
-		
-	}
-	
-	public HDialog(Window window) {
-		super(window);
-	}
-	
-	public HDialog(JFrame frame, boolean isModal) {
-		super(frame, isModal);
-	}
-	
-	public HDialog(JDialog frame, boolean isModal) {
-		super(frame, isModal);
-	}
-	
-	public List<String> availables() {
-    	return PublicMethodOpenedClass.getAvailableMethods(this);
+    public HDialog() {
+        
     }
-	
-	@Override
-	public void setAlphaRatio(float alphaRatio) {
-		if(alphaRatio < 1.0) getRootPane().setOpaque(true);
-		else getRootPane().setOpaque(false);
-		getRootPane().putClientProperty("window.alpha", new Float(alphaRatio));
-	}
+    
+    public HDialog(Window window) {
+        super(window);
+    }
+    
+    public HDialog(JFrame frame, boolean isModal) {
+        super(frame, isModal);
+    }
+    
+    public HDialog(JDialog frame, boolean isModal) {
+        super(frame, isModal);
+    }
+    
+    public List<String> availables() {
+        return PublicMethodOpenedClass.getAvailableMethods(this);
+    }
+    
+    @Override
+    public void setAlphaRatio(float alphaRatio) {
+        if(alphaRatio < 1.0) getRootPane().setOpaque(true);
+        else getRootPane().setOpaque(false);
+        getRootPane().putClientProperty("window.alpha", new Float(alphaRatio));
+    }
 }

@@ -28,12 +28,12 @@ import hjow.common.script.jdbc.JDBCConnection;
  */
 public class JDBCUtil {
     public static JDBCConnection connect(String jdbcClass, String jdbcUrl, String jdbcId, String jdbcPw) {
-    	try {
-    		Class.forName(jdbcClass);
-        	Connection rawOne = DriverManager.getConnection(jdbcUrl, jdbcId, jdbcPw);
-        	return new JDBCRConnection(rawOne);
-    	} catch(Throwable t) {
-    		throw new RuntimeException(t.getMessage(), t);
-    	}
+        try {
+            Class.forName(jdbcClass);
+            Connection rawOne = DriverManager.getConnection(jdbcUrl, jdbcId, jdbcPw);
+            return new JDBCRConnection(rawOne);
+        } catch(Throwable t) {
+            throw new RuntimeException(t.getMessage(), t);
+        }
     }
 }

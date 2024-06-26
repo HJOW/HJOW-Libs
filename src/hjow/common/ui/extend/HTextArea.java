@@ -22,9 +22,9 @@ import javax.swing.JTextArea;
 import hjow.common.script.PublicMethodOpenedClass;
 
 public class HTextArea extends JTextArea {
-	private static final long serialVersionUID = -5745289894227732437L;
-	
-	public List<String> availables() {
-    	return PublicMethodOpenedClass.getAvailableMethods(this);
+    private static final long serialVersionUID = -5745289894227732437L;
+    
+    public List<String> availables() {
+        return PublicMethodOpenedClass.getAvailableMethods(this);
     }
 }

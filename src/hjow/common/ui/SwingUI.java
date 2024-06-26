@@ -170,7 +170,7 @@ public class SwingUI implements UI, ActionListener {
     
     /** 메뉴 파트를 초기화합니다. */
     protected void prepareMenus() {
-    	mFile = new JMenu(Core.trans("File"));
+        mFile = new JMenu(Core.trans("File"));
         mRun  = new JMenu(Core.trans("Run"));
         
         menuBar.add(mFile);
@@ -211,13 +211,13 @@ public class SwingUI implements UI, ActionListener {
     
     /** 스타일을 다시 적용합니다. */
     public void refreshStyle() {
-    	String opacityOpt = Core.getProperty("ui_opacity");
-    	if(opacityOpt == null) opacityOpt = "0.9F";
-    	
-    	float opacity = Float.parseFloat(opacityOpt);
-    	frame.setAlphaRatio(opacity);
-    	
-    	if(opacity < 0.7F || opacity > 0.9F) desktopPane.setAlphaRatio(opacity);
+        String opacityOpt = Core.getProperty("ui_opacity");
+        if(opacityOpt == null) opacityOpt = "0.9F";
+        
+        float opacity = Float.parseFloat(opacityOpt);
+        frame.setAlphaRatio(opacity);
+        
+        if(opacity < 0.7F || opacity > 0.9F) desktopPane.setAlphaRatio(opacity);
     }
 
     @Override
@@ -234,7 +234,7 @@ public class SwingUI implements UI, ActionListener {
         }
         
         if(m.getComponentType() == Module.DIALOG) {
-        	createNewDialog(m);
+            createNewDialog(m);
         }
         
         if(m.getComponentType() != Module.NONE) {
@@ -257,9 +257,9 @@ public class SwingUI implements UI, ActionListener {
     }
     
     protected ModuleDialog createNewDialog(Module m) {
-    	ModuleDialog dialog = new ModuleDialog(m);
-    	dialogs.put(new Long(m.getId()), dialog);
-    	return dialog;
+        ModuleDialog dialog = new ModuleDialog(m);
+        dialogs.put(new Long(m.getId()), dialog);
+        return dialog;
     }
     
     protected JInternalFrame createNewInternalFrame(Module m) {
@@ -329,7 +329,7 @@ public class SwingUI implements UI, ActionListener {
     
     /** 모듈을 실행합니다. */
     public void callModule(Module m) {
-    	if(m.getComponentType() == Module.NONE) return;
+        if(m.getComponentType() == Module.NONE) return;
         if(m.getComponentType() == Module.DESKTOP) {
             JInternalFrame moduleFrame = internalFrames.get(new Long(m.getId()));
             if(moduleFrame.isClosed()) {
@@ -340,8 +340,8 @@ public class SwingUI implements UI, ActionListener {
             }
             showInternalFrame(moduleFrame);
         } else if(m.getComponentType() == Module.DIALOG) {
-        	ModuleDialog moduleDialog = dialogs.get(new Long(m.getId()));
-        	moduleDialog.showFromUI(this);
+            ModuleDialog moduleDialog = dialogs.get(new Long(m.getId()));
+            moduleDialog.showFromUI(this);
         }
         
         m.run();
@@ -384,51 +384,51 @@ public class SwingUI implements UI, ActionListener {
         }
         
         if(obj == mFileRestart) {
-        	if(askConfirm("Do you want to restart the application?")) Core.restart();
+            if(askConfirm("Do you want to restart the application?")) Core.restart();
             return;
         }
         
         if(obj == mFileLog) {
-        	logFrame.setVisible(true);
+            logFrame.setVisible(true);
         }
         
         if(obj == mFileOption) {
-        	propFrame.setVisible(true);
+            propFrame.setVisible(true);
         }
         
         if(obj == mFileLoadModule) {
-        	SwingUtilities.invokeLater(new Runnable() {
-				@Override
-				public void run() {
-					try {
-						loadModuleAction();
-					} catch(Throwable t) {
-						alert(Core.trans("Error") + " : " + t.getMessage());
-						Core.logError(t);
-					}
-				}
-			});
+            SwingUtilities.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        loadModuleAction();
+                    } catch(Throwable t) {
+                        alert(Core.trans("Error") + " : " + t.getMessage());
+                        Core.logError(t);
+                    }
+                }
+            });
         }
     }
     
     protected void loadModuleAction() {
-    	int sel = moduleChooser.showOpenDialog(getFrame());
-    	if(sel != JFileChooser.APPROVE_OPTION) return;
-    	
-    	File f = moduleChooser.getSelectedFile();
-    	final CustomAbstractModule m = core.readModuleFromFile(f);
-    	
-    	moduleLoadAsker.show(m, new Runnable() {
-			@Override
-			public void run() {
-				try {
-					core.loadModuleOnRuntime(m, true);
-				} catch(Throwable t) {
-					alert(Core.trans("Error") + " : " + t.getMessage());
-					Core.logError(t);
-				}
-			}
-		});
+        int sel = moduleChooser.showOpenDialog(getFrame());
+        if(sel != JFileChooser.APPROVE_OPTION) return;
+        
+        File f = moduleChooser.getSelectedFile();
+        final CustomAbstractModule m = core.readModuleFromFile(f);
+        
+        moduleLoadAsker.show(m, new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    core.loadModuleOnRuntime(m, true);
+                } catch(Throwable t) {
+                    alert(Core.trans("Error") + " : " + t.getMessage());
+                    Core.logError(t);
+                }
+            }
+        });
     }
 
     @Override
@@ -439,192 +439,192 @@ public class SwingUI implements UI, ActionListener {
     @Override
     public synchronized void log(String str) {
         if(logFrame != null) {
-        	if(logQueue != null && logQueue.size() >= 1) {
-        		for(String s : logQueue) {
-        			logFrame.log(s);
-        		}
-        		logQueue.clear();
-        	}
-        	logFrame.log(str);
+            if(logQueue != null && logQueue.size() >= 1) {
+                for(String s : logQueue) {
+                    logFrame.log(s);
+                }
+                logQueue.clear();
+            }
+            logFrame.log(str);
         } else {
-        	if(logQueue == null) logQueue = new Vector<String>();
-        	if(logQueue.size() >= 100) {
-        		logQueue.remove(0);
-        	}
-        	logQueue.add(str);
+            if(logQueue == null) logQueue = new Vector<String>();
+            if(logQueue.size() >= 100) {
+                logQueue.remove(0);
+            }
+            logQueue.add(str);
         }
     }
     
     public static void setFileFilter(JFileChooser chooser, String modulePath) {
-    	if(modulePath == null) chooser = new JFileChooser();
-    	else chooser = new JFileChooser(modulePath);
-    	
-    	chooser.setMultiSelectionEnabled(false);
-		
-    	FileNameExtensionFilter filter = new FileNameExtensionFilter(Core.trans("Zipped XML based module"), "zmodule");
-		chooser.setFileFilter(filter);
-		
-		filter = new FileNameExtensionFilter(Core.trans("Zipped JSON based module"), "zjmodule");
-		chooser.addChoosableFileFilter(filter);
-		
-		filter = new FileNameExtensionFilter(Core.trans("JSON based module"), "jmodule");
-		chooser.addChoosableFileFilter(filter);
-		
-		filter = new FileNameExtensionFilter(Core.trans("XML based module"), "xmodule");
-		chooser.addChoosableFileFilter(filter);
+        if(modulePath == null) chooser = new JFileChooser();
+        else chooser = new JFileChooser(modulePath);
+        
+        chooser.setMultiSelectionEnabled(false);
+        
+        FileNameExtensionFilter filter = new FileNameExtensionFilter(Core.trans("Zipped XML based module"), "zmodule");
+        chooser.setFileFilter(filter);
+        
+        filter = new FileNameExtensionFilter(Core.trans("Zipped JSON based module"), "zjmodule");
+        chooser.addChoosableFileFilter(filter);
+        
+        filter = new FileNameExtensionFilter(Core.trans("JSON based module"), "jmodule");
+        chooser.addChoosableFileFilter(filter);
+        
+        filter = new FileNameExtensionFilter(Core.trans("XML based module"), "xmodule");
+        chooser.addChoosableFileFilter(filter);
     }
 }
 class LogFrame extends JInternalFrame implements Releasable, ActionListener {
-	private static final long serialVersionUID = -3497170814654174633L;
-	protected HTextArea txArea;
-	protected JScrollPane scroll;
-	protected HPanel pnControl;
-	protected HButton btClear;
-	
-	public LogFrame() {
-		super("Log", true, false, true, true);
-		setSize(400, 300);
-		setLayout(new BorderLayout());
-		
-		txArea = new HTextArea();
-		txArea.setEditable(false);
-		
-		scroll = new JScrollPane(txArea);
-		
-		add(scroll, BorderLayout.CENTER);
-		
-		pnControl = new HPanel();
-		add(pnControl, BorderLayout.NORTH);
-		
-		pnControl.setLayout(new FlowLayout(FlowLayout.LEFT));
-		
-		btClear = new HButton(Core.trans("Clear"));
-		btClear.addActionListener(this);
-		pnControl.add(btClear);
-	}
-	
-	public void log(String str) {
-		txArea.append("\n" + str);
-		txArea.setCaretPosition(txArea.getDocument().getLength() - 1);
-	}
+    private static final long serialVersionUID = -3497170814654174633L;
+    protected HTextArea txArea;
+    protected JScrollPane scroll;
+    protected HPanel pnControl;
+    protected HButton btClear;
+    
+    public LogFrame() {
+        super("Log", true, false, true, true);
+        setSize(400, 300);
+        setLayout(new BorderLayout());
+        
+        txArea = new HTextArea();
+        txArea.setEditable(false);
+        
+        scroll = new JScrollPane(txArea);
+        
+        add(scroll, BorderLayout.CENTER);
+        
+        pnControl = new HPanel();
+        add(pnControl, BorderLayout.NORTH);
+        
+        pnControl.setLayout(new FlowLayout(FlowLayout.LEFT));
+        
+        btClear = new HButton(Core.trans("Clear"));
+        btClear.addActionListener(this);
+        pnControl.add(btClear);
+    }
+    
+    public void log(String str) {
+        txArea.append("\n" + str);
+        txArea.setCaretPosition(txArea.getDocument().getLength() - 1);
+    }
 
-	@Override
-	public void releaseResource() {
-		btClear.removeActionListener(this);
-		txArea.setText("");
-		pnControl.removeAll();
-		scroll.remove(txArea);
-		removeAll();
-		txArea = null;
-		scroll = null;
-	}
+    @Override
+    public void releaseResource() {
+        btClear.removeActionListener(this);
+        txArea.setText("");
+        pnControl.removeAll();
+        scroll.remove(txArea);
+        removeAll();
+        txArea = null;
+        scroll = null;
+    }
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		Object ob = e.getSource();
-		if(ob == btClear) {
-			txArea.setText("");
-		}
-	}
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        Object ob = e.getSource();
+        if(ob == btClear) {
+            txArea.setText("");
+        }
+    }
 }
 class PropertiesFrame extends JInternalFrame implements Releasable, ActionListener {
-	private static final long serialVersionUID = 4530644367476653074L;
-	protected PropertiesPanel propPanel;
-	protected HPanel pnControl;
-	protected HButton btnSave;
-	
-	public PropertiesFrame() {
-		super(Core.trans("Configuration"), true, false, true, true);
-		setSize(400, 300);
-		setLayout(new BorderLayout());
-		
-		propPanel = new PropertiesPanel();
-		add(propPanel, BorderLayout.CENTER);
-		
-		pnControl = new HPanel();
-		add(pnControl, BorderLayout.SOUTH);
-		
-		pnControl.setLayout(new FlowLayout());
-		
-		btnSave = new HButton(Core.trans("Save"));
-		btnSave.addActionListener(this);
-		pnControl.add(btnSave);
-		
-		Core.sendPropertiesOnComponent(propPanel);
-	}
-	
-	@Override
-	public void releaseResource() {
-		propPanel = null;
-		pnControl.removeAll();
-		btnSave.removeActionListener(this);
-		removeAll();
-	}
+    private static final long serialVersionUID = 4530644367476653074L;
+    protected PropertiesPanel propPanel;
+    protected HPanel pnControl;
+    protected HButton btnSave;
+    
+    public PropertiesFrame() {
+        super(Core.trans("Configuration"), true, false, true, true);
+        setSize(400, 300);
+        setLayout(new BorderLayout());
+        
+        propPanel = new PropertiesPanel();
+        add(propPanel, BorderLayout.CENTER);
+        
+        pnControl = new HPanel();
+        add(pnControl, BorderLayout.SOUTH);
+        
+        pnControl.setLayout(new FlowLayout());
+        
+        btnSave = new HButton(Core.trans("Save"));
+        btnSave.addActionListener(this);
+        pnControl.add(btnSave);
+        
+        Core.sendPropertiesOnComponent(propPanel);
+    }
+    
+    @Override
+    public void releaseResource() {
+        propPanel = null;
+        pnControl.removeAll();
+        btnSave.removeActionListener(this);
+        removeAll();
+    }
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		Object obj = e.getSource();
-		if(obj == btnSave) {
-			SwingUtilities.invokeLater(new Runnable() {
-				@Override
-				public void run() {
-					Core.saveConfig(propPanel);
-					setVisible(false);
-				}
-			});
-		}
-	}
-	
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        Object obj = e.getSource();
+        if(obj == btnSave) {
+            SwingUtilities.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    Core.saveConfig(propPanel);
+                    setVisible(false);
+                }
+            });
+        }
+    }
+    
 }
 
 class ModuleLoadAskDialog extends HDialog {
-	private static final long serialVersionUID = -4920979184385202164L;
-	protected ModuleViewer viewer;
-	protected transient Runnable afterAction;
-	public ModuleLoadAskDialog(JFrame frame) {
-		super(frame);
-		
-		setSize(450, 350);
-		setLayout(new BorderLayout());
-		
-		viewer = new ModuleViewer();
-		add(viewer, BorderLayout.CENTER);
-		
-		HPanel pnControl = new HPanel();
-		add(pnControl, BorderLayout.SOUTH);
-		
-		pnControl.setLayout(new FlowLayout());
-		
-		HButton btnOk = new HButton(Core.trans("Load"));
-		HButton btnCancel = new HButton(Core.trans("Cancel"));
-		
-		pnControl.add(btnOk);
-		pnControl.add(btnCancel);
-		
-		btnOk.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				act(true);
-			}
-		});
-		
-		btnCancel.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				act(false);
-			}
-		});
-	}
-	
-	public void show(Module m, Runnable afterAction) {
-		this.viewer.setModule(m);
-		this.afterAction = afterAction;
-	}
-	
-	protected void act(boolean yesOrNo) {
-		if(yesOrNo) {
-			SwingUtilities.invokeLater(afterAction);
-		}
-		setVisible(false);
-	}
+    private static final long serialVersionUID = -4920979184385202164L;
+    protected ModuleViewer viewer;
+    protected transient Runnable afterAction;
+    public ModuleLoadAskDialog(JFrame frame) {
+        super(frame);
+        
+        setSize(450, 350);
+        setLayout(new BorderLayout());
+        
+        viewer = new ModuleViewer();
+        add(viewer, BorderLayout.CENTER);
+        
+        HPanel pnControl = new HPanel();
+        add(pnControl, BorderLayout.SOUTH);
+        
+        pnControl.setLayout(new FlowLayout());
+        
+        HButton btnOk = new HButton(Core.trans("Load"));
+        HButton btnCancel = new HButton(Core.trans("Cancel"));
+        
+        pnControl.add(btnOk);
+        pnControl.add(btnCancel);
+        
+        btnOk.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                act(true);
+            }
+        });
+        
+        btnCancel.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                act(false);
+            }
+        });
+    }
+    
+    public void show(Module m, Runnable afterAction) {
+        this.viewer.setModule(m);
+        this.afterAction = afterAction;
+    }
+    
+    protected void act(boolean yesOrNo) {
+        if(yesOrNo) {
+            SwingUtilities.invokeLater(afterAction);
+        }
+        setVisible(false);
+    }
 }

@@ -46,7 +46,7 @@ public class DefaultJdbcTable extends SimpleTable implements JDBCTable {
     private static final long serialVersionUID = 2369303907184689149L;
     
     public DefaultJdbcTable() {
-    	super();
+        super();
     }
     
     public DefaultJdbcTable(JDBCConnection conn, ResultSet resultSet, List<RowSelectListener> listeners, String sql) {
@@ -106,7 +106,7 @@ public class DefaultJdbcTable extends SimpleTable implements JDBCTable {
     }
     
     @SuppressWarnings("unlikely-arg-type")
-	@Override
+    @Override
     public Object getValue(Object rowIndex, Object colInfo) {
         if(colInfo instanceof Number) {
             return getRowAsMap(new BigDecimal(String.valueOf(rowIndex)).intValue()).get(((Number) colInfo).intValue());
@@ -296,13 +296,13 @@ public class DefaultJdbcTable extends SimpleTable implements JDBCTable {
         return fakeStream.toByteArray();
     }
 
-	@Override
-	public Map<String, Object> getRowMap(int rowIdx) {
-		return getRowMap(new Integer(rowIdx));
-	}
+    @Override
+    public Map<String, Object> getRowMap(int rowIdx) {
+        return getRowMap(new Integer(rowIdx));
+    }
 
-	@Override
-	public Object get(int rowIdx, String columnName) {
-		return getValue(new Integer(rowIdx), columnName);
-	}
+    @Override
+    public Object get(int rowIdx, String columnName) {
+        return getValue(new Integer(rowIdx), columnName);
+    }
 }

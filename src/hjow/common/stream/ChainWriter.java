@@ -34,8 +34,8 @@ import hjow.common.util.ClassUtil;
  */
 public class ChainWriter extends Writer implements ChainObject
 {
-	private static final long serialVersionUID = 5514133029267791071L;
-	protected boolean locked = false;
+    private static final long serialVersionUID = 5514133029267791071L;
+    protected boolean locked = false;
     private List<Writer> chains = new Vector<Writer>();
     
     public ChainWriter(Writer firstStream)
@@ -62,36 +62,36 @@ public class ChainWriter extends Writer implements ChainObject
     @Override
     public synchronized void close() throws IOException
     {
-    	locked = true;
-    	for(int i=chains.size()-1; i>=0; i--)
+        locked = true;
+        for(int i=chains.size()-1; i>=0; i--)
         {
-    		ClassUtil.closeAll(chains.get(i));
+            ClassUtil.closeAll(chains.get(i));
         }
-    	chains.clear();
+        chains.clear();
     }
 
-	@Override
-	public void write(char[] cbuf, int off, int len) throws IOException {
-		getWriter().write(cbuf, off, len);
-	}
+    @Override
+    public void write(char[] cbuf, int off, int len) throws IOException {
+        getWriter().write(cbuf, off, len);
+    }
 
-	@Override
-	public void flush() throws IOException {
-		getWriter().flush();
-	}
+    @Override
+    public void flush() throws IOException {
+        getWriter().flush();
+    }
 
-	@Override
-	public List<String> getElementTypes() {
-		List<String> elements = new ArrayList<String>();
-		for(Writer w : chains) {
-			elements.add(w.getClass().getName());
-		}
-		
-		return elements;
-	}
+    @Override
+    public List<String> getElementTypes() {
+        List<String> elements = new ArrayList<String>();
+        for(Writer w : chains) {
+            elements.add(w.getClass().getName());
+        }
+        
+        return elements;
+    }
 
-	@Override
-	public void releaseResource() {
-		try { close(); } catch(IOException e) { throw new RuntimeException(e); }
-	}
+    @Override
+    public void releaseResource() {
+        try { close(); } catch(IOException e) { throw new RuntimeException(e); }
+    }
 }

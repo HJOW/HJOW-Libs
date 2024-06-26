@@ -23,47 +23,47 @@ import java.awt.RenderingHints;
 import javax.swing.JDesktopPane;
 
 public class HDesktopPane extends JDesktopPane implements AlphaRatioEditable {
-	private static final long serialVersionUID = 9221243459281438493L;
-	protected float alphaRatio = 0.7F;
-	protected float childAlpha = 0.7F;
-	public HDesktopPane() {
-		super();
-	}
-	
-	@Override
-	public void paintComponent(Graphics g) {
-		Graphics2D graphics = (Graphics2D) g;
-		graphics.setColor(getBackground());
-		graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		graphics.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alphaRatio));
-	    super.paintComponent(graphics);
-	}
-	
-	@Override
-	public void paintChildren(Graphics g) {
-		Graphics2D graphics = (Graphics2D) g;
-		graphics.setColor(getBackground());
-		graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		graphics.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, childAlpha));
-	    super.paintChildren(graphics);
-	}
+    private static final long serialVersionUID = 9221243459281438493L;
+    protected float alphaRatio = 0.7F;
+    protected float childAlpha = 0.7F;
+    public HDesktopPane() {
+        super();
+    }
+    
+    @Override
+    public void paintComponent(Graphics g) {
+        Graphics2D graphics = (Graphics2D) g;
+        graphics.setColor(getBackground());
+        graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        graphics.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alphaRatio));
+        super.paintComponent(graphics);
+    }
+    
+    @Override
+    public void paintChildren(Graphics g) {
+        Graphics2D graphics = (Graphics2D) g;
+        graphics.setColor(getBackground());
+        graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        graphics.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, childAlpha));
+        super.paintChildren(graphics);
+    }
 
-	public float getAlphaRatio() {
-		return alphaRatio;
-	}
+    public float getAlphaRatio() {
+        return alphaRatio;
+    }
 
-	@Override
-	public void setAlphaRatio(float alphaRatio) {
-		if(alphaRatio < 1.0) setOpaque(true);
-		else setOpaque(false);
-		this.alphaRatio = alphaRatio;
-	}
+    @Override
+    public void setAlphaRatio(float alphaRatio) {
+        if(alphaRatio < 1.0) setOpaque(true);
+        else setOpaque(false);
+        this.alphaRatio = alphaRatio;
+    }
 
-	public float getChildAlpha() {
-		return childAlpha;
-	}
+    public float getChildAlpha() {
+        return childAlpha;
+    }
 
-	public void setChildAlpha(float childAlpha) {
-		this.childAlpha = childAlpha;
-	}
+    public void setChildAlpha(float childAlpha) {
+        this.childAlpha = childAlpha;
+    }
 }

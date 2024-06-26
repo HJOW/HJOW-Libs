@@ -68,7 +68,7 @@ import hjow.common.util.FileUtil;
  * HJOW 의 프레임워크 핵심 클래스입니다. 단일 인스턴스만 존재하며, 이 곳에서 프로퍼티 등의 요소들을 관리합니다.
  */
 public class Core {
-    public static final String VERSION_STRING = "2024.03.25 17:00";
+    public static final String VERSION_STRING = "2024.06.27 07:00";
     public static final long   VERSION_DAILY  = parseVersion();
     public static boolean restartEnabled = false;
     public String APP_VERSION    = "";
@@ -160,15 +160,15 @@ public class Core {
     
     /** 프로그램 실행 시 입력받은 매개변수 값을 반환합니다. */
     public static String getApplicationParameter(String keyOf) {
-    	return core.appParam.get(keyOf);
+        return core.appParam.get(keyOf);
     }
     
     /** 프로그램 실행 시 입력받은 매개변수 키들을 반환합니다. */
     public static List<String> getApplicationParameterKeys() {
-    	Set<String> keys = core.appParam.keySet();
-    	List<String> keyList = new ArrayList<String>();
-    	keyList.addAll(keys);
-    	return keyList;
+        Set<String> keys = core.appParam.keySet();
+        List<String> keyList = new ArrayList<String>();
+        keyList.addAll(keys);
+        return keyList;
     }
     
     /** 코어 인스턴스를 그대로 반환합니다. */
@@ -223,50 +223,50 @@ public class Core {
     
     /** 패키지를 불러옵니다. */
     protected void loadBoxes() {
-    	String boxClass = "hjow.common.lib.AdvancedBox";
-    	prop.setProperty("advanced_box_loaded", String.valueOf(loadBox(boxClass, true)));
-    	
-    	boxClass = "hjow.common.lib.BundledBox";
-    	loadBox(boxClass, true);
-    	
-    	String additionalClassOpt = getProperty("library_box_classes");
-    	if(! DataUtil.isEmpty(additionalClassOpt)) {
-    		StringTokenizer semicolonTokenizer = new StringTokenizer(additionalClassOpt, ";");
-    		while(semicolonTokenizer.hasMoreTokens()) {
-    			boxClass = semicolonTokenizer.nextToken().trim();
-    			loadBox(boxClass, false);
-    		}
-    	}
-    	
-    	for(LibraryBox p : libBoxes) {
-    		try { p.init(this); } catch(Throwable t) { logError(t); }
-    	}
+        String boxClass = "hjow.common.lib.AdvancedBox";
+        prop.setProperty("advanced_box_loaded", String.valueOf(loadBox(boxClass, true)));
+        
+        boxClass = "hjow.common.lib.BundledBox";
+        loadBox(boxClass, true);
+        
+        String additionalClassOpt = getProperty("library_box_classes");
+        if(! DataUtil.isEmpty(additionalClassOpt)) {
+            StringTokenizer semicolonTokenizer = new StringTokenizer(additionalClassOpt, ";");
+            while(semicolonTokenizer.hasMoreTokens()) {
+                boxClass = semicolonTokenizer.nextToken().trim();
+                loadBox(boxClass, false);
+            }
+        }
+        
+        for(LibraryBox p : libBoxes) {
+            try { p.init(this); } catch(Throwable t) { logError(t); }
+        }
     }
     
     @SuppressWarnings("unchecked")
-	protected boolean loadBox(String className, boolean ignoreClassNotFound) {
-    	LibraryBox boxOne = null;
-    	try {
-    		Class<? extends LibraryBox> packageClass = (Class<? extends LibraryBox>) Class.forName(className);
-    		if(packageClass == null) return false;
-    		
-    		boxOne = packageClass.newInstance();
-    		boxOne.init(this);
-    		libBoxes.add(boxOne);
-    		return true;
-    	} catch(ClassNotFoundException e) {
-    		if(! ignoreClassNotFound) log("Cannot found the class " + className + " as a library box.");
-    	} catch(Throwable t) {
-    		logError(t);
-    	} finally {
-    		if(boxOne != null && this.ui != null) boxOne.onPrepareUI(this, this.ui); // 이미 UI를 불러온 이후라면...
-    	}
-    	return false;
+    protected boolean loadBox(String className, boolean ignoreClassNotFound) {
+        LibraryBox boxOne = null;
+        try {
+            Class<? extends LibraryBox> packageClass = (Class<? extends LibraryBox>) Class.forName(className);
+            if(packageClass == null) return false;
+            
+            boxOne = packageClass.newInstance();
+            boxOne.init(this);
+            libBoxes.add(boxOne);
+            return true;
+        } catch(ClassNotFoundException e) {
+            if(! ignoreClassNotFound) log("Cannot found the class " + className + " as a library box.");
+        } catch(Throwable t) {
+            logError(t);
+        } finally {
+            if(boxOne != null && this.ui != null) boxOne.onPrepareUI(this, this.ui); // 이미 UI를 불러온 이후라면...
+        }
+        return false;
     }
     
     /** 전역적으로 사용할 수 있는 스크립트 객체들을 불러옵니다. */
     private void prepareGlobalScopes() {
-    	int randomRange = 10000000;
+        int randomRange = 10000000;
         int randomNo = (((int) (Math.random() * ((randomRange - 2) - (randomRange / 10)))) + (randomRange / 10));
         globalAccessKey = String.valueOf(randomNo);
         globalEngineManager.put("comp_" + globalAccessKey, new HashMap<String, Object>());
@@ -299,7 +299,7 @@ public class Core {
     
     /** 스크립트 엔진을 생성합니다. */
     public HScriptEngine newEngine(String name) {
-    	return newEngine(name, null);
+        return newEngine(name, null);
     }
     
     /** 스크립트 엔진을 생성합니다. */
@@ -324,17 +324,17 @@ public class Core {
         
         // Library Box 불러오기
         for(LibraryBox box : libBoxes) {
-        	try {
-        		List<ScriptObject> objList = box.advancedObjects(this);
-            	if(objList != null) {
-            		for(ScriptObject obj : objList) {
-            			if(obj.getPrefixName() == null) continue;
-                		engine.put(obj.getPrefixName(), obj);
-                	}
-            	}
-        	} catch(Throwable t) {
-        		logError(t);
-        	}
+            try {
+                List<ScriptObject> objList = box.advancedObjects(this);
+                if(objList != null) {
+                    for(ScriptObject obj : objList) {
+                        if(obj.getPrefixName() == null) continue;
+                        engine.put(obj.getPrefixName(), obj);
+                    }
+                }
+            } catch(Throwable t) {
+                logError(t);
+            }
         }
         
         return engine;
@@ -359,8 +359,8 @@ public class Core {
         initEngine = initEngine.append("};                                                              ").append("\n");
         
         for(ScriptObject obj : globalScriptObjects) {
-        	String inits = obj.getInitScript(globalAccessKey);
-        	if(DataUtil.isEmpty(inits)) continue;
+            String inits = obj.getInitScript(globalAccessKey);
+            if(DataUtil.isEmpty(inits)) continue;
             initEngine = initEngine.append(inits).append("\n");
         }
         
@@ -374,21 +374,21 @@ public class Core {
      * 스크립트 엔진 생성 직후 실행할 추가 js 파일들을 불러옵니다.
      */
     protected String getInitScriptFileContents() {
-    	String additionalLibOpt = getProperty("init_script_files");
+        String additionalLibOpt = getProperty("init_script_files");
         if(DataUtil.isEmpty(additionalLibOpt)) return "";
         
         StringBuilder initEngine = new StringBuilder("");
         
         StringTokenizer semicolonTokenizer = new StringTokenizer(additionalLibOpt, ";");
         while(semicolonTokenizer.hasMoreTokens()) {
-        	try {
-	        	String fileOne = semicolonTokenizer.nextToken();
-	        	if(DataUtil.isEmpty(fileOne)) continue;
-	        	
-	        	initEngine = initEngine.append(FileUtil.readString(new File(fileOne), "UTF-8"));
-        	} catch(Throwable t) {
-        		logError(t);
-        	}
+            try {
+                String fileOne = semicolonTokenizer.nextToken();
+                if(DataUtil.isEmpty(fileOne)) continue;
+                
+                initEngine = initEngine.append(FileUtil.readString(new File(fileOne), "UTF-8"));
+            } catch(Throwable t) {
+                logError(t);
+            }
         }
         
         return initEngine.toString();
@@ -396,9 +396,9 @@ public class Core {
     
     /** 프로그램 종료를 준비합니다. 모든 쓰레드와 모듈을 점차적으로 중단시키고 순환 참조들을 끊어내며 임시파일 폴더를 비웁니다. */
     protected static synchronized void disposeAll() {
-    	Core core = getCore();
+        Core core = getCore();
         
-    	// 쓰레드 중단
+        // 쓰레드 중단
         if(core.threads != null) {
             for(HThread th : core.threads) {
                 try { th.stop(); } catch(Throwable t) {}
@@ -416,10 +416,10 @@ public class Core {
         
         // 커스텀 모듈의 종료 이벤트 호출
         if(core.modules != null) {
-        	for(Module m : core.modules) {
-            	if(m instanceof CustomAbstractModule) {
-            		try { ((CustomAbstractModule) m).release(); } catch(Throwable t) {}
-            	}
+            for(Module m : core.modules) {
+                if(m instanceof CustomAbstractModule) {
+                    try { ((CustomAbstractModule) m).release(); } catch(Throwable t) {}
+                }
             }
         }
         
@@ -439,7 +439,7 @@ public class Core {
         
         // 스크립트 엔진 내 전역 객체들 정리
         if(core.globalScriptObjects != null) {
-        	for(ScriptObject globalObj : core.globalScriptObjects) {
+            for(ScriptObject globalObj : core.globalScriptObjects) {
                 try { globalObj.releaseResource(); } catch(Throwable t) {}
             }
             core.globalScriptObjects.clear();
@@ -459,7 +459,7 @@ public class Core {
         
         // 외부 라이브러리 박스 정리
         for(LibraryBox b : core.libBoxes) {
-        	try { b.releaseResource(); } catch(Throwable t) {}
+            try { b.releaseResource(); } catch(Throwable t) {}
         }
         core.libBoxes.clear();
         
@@ -503,20 +503,20 @@ public class Core {
      * 프로그램을 완전히 종료합니다.
      */
     public static void exit() {
-    	try { disposeAll(); } catch(Throwable t) { t.printStackTrace(); }
+        try { disposeAll(); } catch(Throwable t) { t.printStackTrace(); }
         System.exit(0);
     }
     
     /** 응용 프로그램을 다시 시작합니다. */
     public static void restart() {
-    	disposeAll();
-    	try { Thread.sleep(1000); } catch(Throwable t) {}
-    	try {
-    		Application.run(core.appShortName, core.appLongName, core.APP_VERSION, core.preparedArgs);
-    	} catch(Throwable t) {
-    		t.printStackTrace();
-    		System.exit(0);
-    	}
+        disposeAll();
+        try { Thread.sleep(1000); } catch(Throwable t) {}
+        try {
+            Application.run(core.appShortName, core.appLongName, core.APP_VERSION, core.preparedArgs);
+        } catch(Throwable t) {
+            t.printStackTrace();
+            System.exit(0);
+        }
     }
     
     /** 쓰레드 중단 표식 */
@@ -644,8 +644,8 @@ public class Core {
      * @return 설정 값
      */
     public static String getProperty(String key) {
-    	String propOpt = getCore().prop.getProperty(key);
-    	if(propOpt == null) getCore().prop.setProperty(key, "");
+        String propOpt = getCore().prop.getProperty(key);
+        if(propOpt == null) getCore().prop.setProperty(key, "");
         return propOpt;
     }
     
@@ -656,7 +656,7 @@ public class Core {
      * @return 존재 여부
      */
     public static boolean hasPropertyKey(String key) {
-    	return getCore().prop.containsKey(key);
+        return getCore().prop.containsKey(key);
     }
     
     /**
@@ -665,12 +665,12 @@ public class Core {
      * @param editorComponent : 컴포넌트
      */
     public static void sendPropertiesOnComponent(PropertiesEditor editorComponent) {
-    	Properties newProp = new Properties();
-    	Set<String> keys = getCore().prop.stringPropertyNames();
-    	for(String k : keys) {
-    		newProp.setProperty(k, getCore().prop.getProperty(k));
-    	}
-    	editorComponent.setProp(newProp);
+        Properties newProp = new Properties();
+        Set<String> keys = getCore().prop.stringPropertyNames();
+        for(String k : keys) {
+            newProp.setProperty(k, getCore().prop.getProperty(k));
+        }
+        editorComponent.setProp(newProp);
     }
     
     /**
@@ -679,7 +679,7 @@ public class Core {
      * @param editorComponent : 컴포넌트
      */
     public static void setPropertiesFromComponent(PropertiesEditor editorComponent) {
-    	getCore().prop = editorComponent.getProp();
+        getCore().prop = editorComponent.getProp();
     }
     
     /**
@@ -688,7 +688,7 @@ public class Core {
      * @param editorComponent : 컴포넌트
      */
     public static void saveConfig(PropertiesEditor editorComponent) {
-    	File configDir = new File(getCore().getConfigPath());
+        File configDir = new File(getCore().getConfigPath());
         if(! configDir.exists()) configDir.mkdirs();
         
         try {
@@ -708,8 +708,8 @@ public class Core {
      * @return 번역된 문자열
      */
     public static String trans(String originals) {
-    	if(getCore() == null) return originals;
-    	if(getCore().stringTable == null) return originals;
+        if(getCore() == null) return originals;
+        if(getCore().stringTable == null) return originals;
         return getCore().stringTable.getProperty(originals, originals);
     }
     
@@ -717,7 +717,7 @@ public class Core {
      * 파일로부터 사용자 정의 모듈을 불러옵니다.
      */
     public CustomAbstractModule readModuleFromFile(File f) {
-    	return new CustomModule(f, newEngine(""), globalAccessKey);
+        return new CustomModule(f, newEngine(""), globalAccessKey);
     }
     
     /**
@@ -740,14 +740,14 @@ public class Core {
         
         // Library Box 불러오기
         for(LibraryBox box : libBoxes) {
-        	try {
-        		List<Module> boxModules = box.advancedModules(this);
-            	if(boxModules != null) {
-            		modules.addAll(boxModules);
-            	}
-        	} catch(Throwable t) {
-        		logError(t);
-        	}
+            try {
+                List<Module> boxModules = box.advancedModules(this);
+                if(boxModules != null) {
+                    modules.addAll(boxModules);
+                }
+            } catch(Throwable t) {
+                logError(t);
+            }
         }
         
         // 파일에서 불러오기
@@ -759,12 +759,12 @@ public class Core {
         Properties parentProp = loadModuleStorageParents();
         
         for(Module m : modules) {
-        	moduleLoadCommonProcess(parentProp, m);
+            moduleLoadCommonProcess(parentProp, m);
         }
     }
     
     private void moduleLoadCommonProcess(Properties parentProp, Module m) {
-    	Map<String, String> storage = new HashMap<String, String>();
+        Map<String, String> storage = new HashMap<String, String>();
         
         String keyStr = String.valueOf(m.getId());
         if(parentProp.containsKey(keyStr)) {
@@ -787,20 +787,20 @@ public class Core {
     
     /** 실행이 완전히 완료된 이후에 외부 모듈을 불러올 때 사용합니다. */
     public boolean loadModuleOnRuntime(Module m, boolean attachUI) {
-    	if(modules.contains(m)) return false;
-    	modules.add(m);
-    	
-    	Properties parentProp = loadModuleStorageParents();
-    	moduleLoadCommonProcess(parentProp, m);
-    	
-    	if(ui != null && attachUI) ui.attach(m);
+        if(modules.contains(m)) return false;
+        modules.add(m);
+        
+        Properties parentProp = loadModuleStorageParents();
+        moduleLoadCommonProcess(parentProp, m);
+        
+        if(ui != null && attachUI) ui.attach(m);
         
         return true;
     }
     
     /** 기본 제공 모듈을 불러옵니다. */
     protected void loadBuiltinModules() {
-    	modules.addAll(BuiltinModule.getBuiltinModules(this));
+        modules.addAll(BuiltinModule.getBuiltinModules(this));
     }
     
     /** Java 컴파일된 모듈을 불러옵니다. */
@@ -849,20 +849,20 @@ public class Core {
      * 현재 설정된 UI 객체를 반환합니다.
      */
     public UI getUI() {
-    	return this.ui;
+        return this.ui;
     }
     
     /**
      * UI 객체를 설정합니다.
      */
     public UI prepareUI(Class<? extends UI> uiClass) throws InstantiationException, IllegalAccessException {
-    	if(this.ui != null) {
-    		this.ui.releaseResource();
-    		this.ui = null;
-    	}
-    	
-    	UI uiObj = uiClass.newInstance();
-    	uiObj.init(this);
+        if(this.ui != null) {
+            this.ui.releaseResource();
+            this.ui = null;
+        }
+        
+        UI uiObj = uiClass.newInstance();
+        uiObj.init(this);
         
         UIObject uiManager = new UIObject(uiObj);
         globalScriptObjects.add(uiManager);
@@ -880,12 +880,12 @@ public class Core {
         }
         
         for(Module m : modules) {
-        	uiObj.attach(m);
+            uiObj.attach(m);
         }
         
         for(LibraryBox p : libBoxes) {
-    		try { p.onPrepareUI(this, uiObj); } catch(Throwable t) { logError(t); }
-    	}
+            try { p.onPrepareUI(this, uiObj); } catch(Throwable t) { logError(t); }
+        }
         
         log("UI system is prepared.");
         this.ui = uiObj;
@@ -1027,23 +1027,23 @@ public class Core {
     
     /** 로그 출력 */
     public static synchronized void log(Object obj) {
-    	String str = String.valueOf(obj);
-    	
+        String str = String.valueOf(obj);
+        
         UI ui = getCore().ui;
         if(ui != null) {
-        	if(logQueue != null && logQueue.size() >= 1) {
-        		for(String s : logQueue) {
-        			ui.log(s);
-        		}
-        		logQueue.clear();
-        	}
-        	ui.log(str);
+            if(logQueue != null && logQueue.size() >= 1) {
+                for(String s : logQueue) {
+                    ui.log(s);
+                }
+                logQueue.clear();
+            }
+            ui.log(str);
         } else {
-        	if(logQueue == null) logQueue = new Vector<String>();
-        	if(logQueue.size() >= 100) {
-        		logQueue.remove(0);
-        	}
-        	logQueue.add(str);
+            if(logQueue == null) logQueue = new Vector<String>();
+            if(logQueue.size() >= 100) {
+                logQueue.remove(0);
+            }
+            logQueue.add(str);
         }
         System.out.println(obj);
     }

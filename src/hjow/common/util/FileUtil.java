@@ -101,30 +101,30 @@ public class FileUtil {
     
     /** Properties 를 파일에 기록합니다. 이미 파일이 있으면 덮어 씁니다. */
     public static void saveProperties(File configFile, Properties prop) throws IOException {
-    	FileOutputStream outputStream = null;
-    	if(prop == null) throw new NullPointerException();
-    	if(configFile == null) throw new NullPointerException();
-    	
+        FileOutputStream outputStream = null;
+        if(prop == null) throw new NullPointerException();
+        if(configFile == null) throw new NullPointerException();
+        
         String fileAbsPath = configFile.getAbsolutePath();
         fileAbsPath = fileAbsPath.toLowerCase();
         
-		try {
-			outputStream = new FileOutputStream(configFile);
-			
-			if(fileAbsPath.endsWith(".xml"))
-				prop.storeToXML(outputStream, "");
+        try {
+            outputStream = new FileOutputStream(configFile);
+            
+            if(fileAbsPath.endsWith(".xml"))
+                prop.storeToXML(outputStream, "");
             else
-            	prop.store(outputStream, "");
-			
-			outputStream.close();
-			outputStream = null;
-		} catch(IOException t) {
-			throw t;
-		} finally {
-			if(outputStream != null) {
-				try { outputStream.close(); } catch(Throwable t) {}
-			}
-		}
+                prop.store(outputStream, "");
+            
+            outputStream.close();
+            outputStream = null;
+        } catch(IOException t) {
+            throw t;
+        } finally {
+            if(outputStream != null) {
+                try { outputStream.close(); } catch(Throwable t) {}
+            }
+        }
     }
     
     /**
@@ -145,7 +145,7 @@ public class FileUtil {
      * @return byte 배열
      * @throws IOException
      */
-	public static byte[] readBytes(File targetFile, Class<? extends InputStream> streamFilter) throws IOException {
+    public static byte[] readBytes(File targetFile, Class<? extends InputStream> streamFilter) throws IOException {
         FileInputStream inputStream = null;
         InputStream finals = null;
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -153,10 +153,10 @@ public class FileUtil {
         try {
             inputStream = new FileInputStream(targetFile);
             if(streamFilter != null) {
-            	Constructor<? extends InputStream> cons = streamFilter.getConstructor(InputStream.class);
-            	finals = cons.newInstance(inputStream);
+                Constructor<? extends InputStream> cons = streamFilter.getConstructor(InputStream.class);
+                finals = cons.newInstance(inputStream);
             } else {
-            	finals = inputStream;
+                finals = inputStream;
             }
             byte[] buffers = new byte[1024];
             
@@ -173,32 +173,21 @@ public class FileUtil {
         } catch (IOException e) {
             throw e;
         } catch (SecurityException e) {
-			throw new RuntimeException(e.getMessage(), e);
-		} catch (NoSuchMethodException e) {
-			throw new RuntimeException(e.getMessage(), e);
-		} catch (IllegalArgumentException e) {
-			throw new RuntimeException(e.getMessage(), e);
-		} catch (InstantiationException e) {
-			throw new RuntimeException(e.getMessage(), e);
-		} catch (IllegalAccessException e) {
-			throw new RuntimeException(e.getMessage(), e);
-		} catch (InvocationTargetException e) {
-			throw new RuntimeException(e.getMessage(), e);
-		} finally {
-			ClassUtil.closeAll(outputStream, finals, inputStream);
+            throw new RuntimeException(e.getMessage(), e);
+        } catch (NoSuchMethodException e) {
+            throw new RuntimeException(e.getMessage(), e);
+        } catch (IllegalArgumentException e) {
+            throw new RuntimeException(e.getMessage(), e);
+        } catch (InstantiationException e) {
+            throw new RuntimeException(e.getMessage(), e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e.getMessage(), e);
+        } catch (InvocationTargetException e) {
+            throw new RuntimeException(e.getMessage(), e);
+        } finally {
+            ClassUtil.closeAll(outputStream, finals, inputStream);
         }
         return outputStream.toByteArray();
-    }
-	
-	/**
-     * 바이너리를 파일로 씁니다. 파일이 이미 존재하면 덮어 씁니다.
-     * 
-     * @param targetFile 파일 객체
-     * @param byteArray  바이너리 데이터
-     * @throws IOException
-     */
-    public static void writeBytes(File targetFile, byte[] byteArray) throws IOException {
-    	writeBytes(targetFile, byteArray, null);
     }
     
     /**
@@ -208,41 +197,52 @@ public class FileUtil {
      * @param byteArray  바이너리 데이터
      * @throws IOException
      */
-	public static void writeBytes(File targetFile, byte[] byteArray, Class<? extends OutputStream> streamFilter) throws IOException {
+    public static void writeBytes(File targetFile, byte[] byteArray) throws IOException {
+        writeBytes(targetFile, byteArray, null);
+    }
+    
+    /**
+     * 바이너리를 파일로 씁니다. 파일이 이미 존재하면 덮어 씁니다.
+     * 
+     * @param targetFile 파일 객체
+     * @param byteArray  바이너리 데이터
+     * @throws IOException
+     */
+    public static void writeBytes(File targetFile, byte[] byteArray, Class<? extends OutputStream> streamFilter) throws IOException {
         OutputStream outputStream = null;
         OutputStream finals = null;
         
         try {
             outputStream = new FileOutputStream(targetFile);
             if(streamFilter != null) {
-            	Constructor<? extends OutputStream> cons = streamFilter.getConstructor(OutputStream.class);
-            	finals = cons.newInstance(outputStream);
+                Constructor<? extends OutputStream> cons = streamFilter.getConstructor(OutputStream.class);
+                finals = cons.newInstance(outputStream);
             } else {
-            	finals = outputStream;
+                finals = outputStream;
             }
             finals.write(byteArray);
             
             if(finals != outputStream) {
-            	ClassUtil.closeAll(finals);
-            	finals = null;
+                ClassUtil.closeAll(finals);
+                finals = null;
             }
             try { outputStream.close(); outputStream = null; } catch(Throwable e) { }
         } catch (IOException e) {
             throw e;
         } catch (SecurityException e) {
-        	throw new RuntimeException(e.getMessage(), e);
-		} catch (NoSuchMethodException e) {
-			throw new RuntimeException(e.getMessage(), e);
-		} catch (IllegalArgumentException e) {
-			throw new RuntimeException(e.getMessage(), e);
-		} catch (InstantiationException e) {
-			throw new RuntimeException(e.getMessage(), e);
-		} catch (IllegalAccessException e) {
-			throw new RuntimeException(e.getMessage(), e);
-		} catch (InvocationTargetException e) {
-			throw new RuntimeException(e.getMessage(), e);
-		} finally {
-        	ClassUtil.closeAll(finals, outputStream);
+            throw new RuntimeException(e.getMessage(), e);
+        } catch (NoSuchMethodException e) {
+            throw new RuntimeException(e.getMessage(), e);
+        } catch (IllegalArgumentException e) {
+            throw new RuntimeException(e.getMessage(), e);
+        } catch (InstantiationException e) {
+            throw new RuntimeException(e.getMessage(), e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e.getMessage(), e);
+        } catch (InvocationTargetException e) {
+            throw new RuntimeException(e.getMessage(), e);
+        } finally {
+            ClassUtil.closeAll(finals, outputStream);
         }
     }
     
@@ -255,8 +255,8 @@ public class FileUtil {
      * @throws IOException
      */
     public static String readString(File targetFile, String charSet, Class<? extends InputStream> streamFilter) throws IOException {
-    	if(DataUtil.isEmpty(charSet)) charSet = "UTF-8";
-    	return new String(readBytes(targetFile, streamFilter), charSet);
+        if(DataUtil.isEmpty(charSet)) charSet = "UTF-8";
+        return new String(readBytes(targetFile, streamFilter), charSet);
     }
     
     /**
@@ -268,7 +268,7 @@ public class FileUtil {
      * @throws IOException
      */
     public static String readString(File targetFile, String charSet) throws IOException {
-    	return readString(targetFile, charSet, null);
+        return readString(targetFile, charSet, null);
     }
     
     /**
@@ -279,7 +279,7 @@ public class FileUtil {
      * @throws IOException
      */
     public static String readString(File targetFile) throws IOException {
-    	return readString(targetFile, null);
+        return readString(targetFile, null);
     }
     
     /**
@@ -291,7 +291,7 @@ public class FileUtil {
      * @throws IOException
      */
     public static void writeString(File targetFile, String charSet, String text) throws IOException {
-    	writeString(targetFile, charSet, text, null);
+        writeString(targetFile, charSet, text, null);
     }
     
     /**
@@ -303,8 +303,8 @@ public class FileUtil {
      * @throws IOException
      */
     public static void writeString(File targetFile, String charSet, String text, Class<? extends OutputStream> streamFilter) throws IOException {
-    	if(DataUtil.isEmpty(charSet)) charSet = "UTF-8";
-    	writeBytes(targetFile, text.getBytes(charSet), streamFilter);
+        if(DataUtil.isEmpty(charSet)) charSet = "UTF-8";
+        writeBytes(targetFile, text.getBytes(charSet), streamFilter);
     }
     
     /**
@@ -315,7 +315,7 @@ public class FileUtil {
      * @throws IOException
      */
     public static void writeString(File targetFile, String text) throws IOException {
-    	writeString(targetFile, null, text);
+        writeString(targetFile, null, text);
     }
     
     /** 파일을 삭제합니다. 디렉토리인 경우 그 안의 디렉토리까지 비우기를 시도합니다. */
@@ -342,15 +342,15 @@ public class FileUtil {
     
     /** 스트림을 순서대로 닫습니다. 하나 이상 예외가 발생하더라도 일단 모두 닫기를 시도합니다. */
     public static void closeAll(java.io.Closeable ... closeables) {
-    	if(closeables == null) return;
-    	for(java.io.Closeable c : closeables) {
-    		ClassUtil.closeAll(c);
-    	}
+        if(closeables == null) return;
+        for(java.io.Closeable c : closeables) {
+            ClassUtil.closeAll(c);
+        }
     }
     
     /** 스트림을 순서대로 닫습니다. 하나 이상 예외가 발생하더라도 일단 모두 닫기를 시도합니다. */
     public static void closeAll(List<java.io.Closeable> closeables) {
-    	if(closeables == null) return;
-    	ClassUtil.closeAll(closeables);
+        if(closeables == null) return;
+        ClassUtil.closeAll(closeables);
     }
 }

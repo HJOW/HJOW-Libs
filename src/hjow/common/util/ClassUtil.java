@@ -46,24 +46,24 @@ public class ClassUtil {
      * @throws ClassNotFoundException
      */
     public static Class<?> newInstanceFromClassFile(String className, File directory) throws MalformedURLException, ClassNotFoundException {
-    	URLClassLoader loader = null;
-    	try {
-    		loader = new URLClassLoader(new URL[] {
-    	            new URL("file://" + directory.getAbsolutePath())
-    	    });
-    	    return loader.loadClass(className);
-    	} catch(MalformedURLException t) {
-    		throw t;
-    	} catch(ClassNotFoundException t) {
-    		throw t;
-    	} finally {
-    		try { 
-    			if(loader != null) {
-    				Method closeMethod = loader.getClass().getMethod("close");
-    				closeMethod.invoke(loader);
-    			} 
-    		} catch(Throwable t1) {}
-    	}
+        URLClassLoader loader = null;
+        try {
+            loader = new URLClassLoader(new URL[] {
+                    new URL("file://" + directory.getAbsolutePath())
+            });
+            return loader.loadClass(className);
+        } catch(MalformedURLException t) {
+            throw t;
+        } catch(ClassNotFoundException t) {
+            throw t;
+        } finally {
+            try { 
+                if(loader != null) {
+                    Method closeMethod = loader.getClass().getMethod("close");
+                    closeMethod.invoke(loader);
+                } 
+            } catch(Throwable t1) {}
+        }
     }
     
     /**
@@ -91,79 +91,79 @@ public class ClassUtil {
      * @return
      */
     public static Map<String, String> convertAppParams(String[] args) {
-    	if(args == null) return null;
-    	Map<String, String> resultMap = new HashMap<String, String>();
-    	
-    	if(args.length == 0) return resultMap;
-    	if(args.length == 1) {
-    		String argOne = args[0].trim();
-    		if(argOne.startsWith("--")) {
-    			resultMap.put(argOne.substring("--".length()), "true");
-    		} else {
-    			resultMap.put("value", args[0]);
-    		}
-    	} else {
-    		String value = null;
-    		String keyCurrent = null;
-        	for(String a : args) {
-        		String argOne = a.trim();
-        		if(argOne.startsWith("--")) {
-        			if(keyCurrent != null) {
-        				keyCurrent = argOne.substring("--".length());
-        				resultMap.put(keyCurrent, "true");
-        				keyCurrent = null;
-        				continue;
-        			}
-        			keyCurrent = argOne;
-        		} else {
-        			if(keyCurrent == null) {
-        				if(value != null) continue;
-        				value = argOne;
-        				resultMap.put("value", argOne);
-        				continue;
-        			}
-        			resultMap.put(keyCurrent, argOne);
-        			keyCurrent = null;
-        		}
-        	}
-    	}
-    	
-    	return resultMap;
+        if(args == null) return null;
+        Map<String, String> resultMap = new HashMap<String, String>();
+        
+        if(args.length == 0) return resultMap;
+        if(args.length == 1) {
+            String argOne = args[0].trim();
+            if(argOne.startsWith("--")) {
+                resultMap.put(argOne.substring("--".length()), "true");
+            } else {
+                resultMap.put("value", args[0]);
+            }
+        } else {
+            String value = null;
+            String keyCurrent = null;
+            for(String a : args) {
+                String argOne = a.trim();
+                if(argOne.startsWith("--")) {
+                    if(keyCurrent != null) {
+                        keyCurrent = argOne.substring("--".length());
+                        resultMap.put(keyCurrent, "true");
+                        keyCurrent = null;
+                        continue;
+                    }
+                    keyCurrent = argOne;
+                } else {
+                    if(keyCurrent == null) {
+                        if(value != null) continue;
+                        value = argOne;
+                        resultMap.put("value", argOne);
+                        continue;
+                    }
+                    resultMap.put(keyCurrent, argOne);
+                    keyCurrent = null;
+                }
+            }
+        }
+        
+        return resultMap;
     }
     
     /** 작업을 몇 밀리초 후에 수행합니다. */
     public static void runAfter(final Runnable r, final long timeMills) {
-    	Thread thread = new Thread(new Runnable() {
-			@Override
-			public void run() {
-				try { Thread.sleep(timeMills); } catch(Throwable ignores) { }
-				r.run();
-			}
-		});
-    	thread.start();
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try { Thread.sleep(timeMills); } catch(Throwable ignores) { }
+                r.run();
+            }
+        });
+        thread.start();
     }
     
     /** set 메소드 캐멀 표기법을 소문자와 언더바를 이용한 표기법으로 바꿉니다. */
     public static String camelSetMethodToUnderbarWords(String setMethodName) {
-    	String removeSetKeyword = setMethodName.substring("set".length());
-		char[] camels = removeSetKeyword.toCharArray();
-		
-		StringBuilder newMethodName = new StringBuilder("");
-		for(int idx=0; idx<camels.length; idx++) {
-			char charOne = camels[idx];
-			if(! String.valueOf(charOne).toLowerCase().equals(String.valueOf(charOne))) { // 소문자로 바꿨는데 다르면 == 대문자
-				charOne = String.valueOf(charOne).toLowerCase().charAt(0); // 소문자로 바꾸고
-				newMethodName = newMethodName.append("_"); // 글자 추가하기 전에 앞에 언더바 붙이고
-			}
-			
-			newMethodName = newMethodName.append(String.valueOf(charOne));
-		}
-		
-		String resultFirst = newMethodName.toString();
-		while(resultFirst.startsWith("_")) {
-			resultFirst = resultFirst.substring(1);
-		}
-		return resultFirst;
+        String removeSetKeyword = setMethodName.substring("set".length());
+        char[] camels = removeSetKeyword.toCharArray();
+        
+        StringBuilder newMethodName = new StringBuilder("");
+        for(int idx=0; idx<camels.length; idx++) {
+            char charOne = camels[idx];
+            if(! String.valueOf(charOne).toLowerCase().equals(String.valueOf(charOne))) { // 소문자로 바꿨는데 다르면 == 대문자
+                charOne = String.valueOf(charOne).toLowerCase().charAt(0); // 소문자로 바꾸고
+                newMethodName = newMethodName.append("_"); // 글자 추가하기 전에 앞에 언더바 붙이고
+            }
+            
+            newMethodName = newMethodName.append(String.valueOf(charOne));
+        }
+        
+        String resultFirst = newMethodName.toString();
+        while(resultFirst.startsWith("_")) {
+            resultFirst = resultFirst.substring(1);
+        }
+        return resultFirst;
     }
     
     /** 
@@ -175,25 +175,25 @@ public class ClassUtil {
      *     이 메소드도 없다면 표준 출력으로 경고가 출력되고 다음으로 넘어갑니다.
      */
     public static void closeAll(Object ... closeables) {
-    	if(closeables == null) return;
-    	for(Object c : closeables) {
-    		if(c == null) continue;
-    		try { 
-    			if(c instanceof Closeable          ) { ((Closeable) c).close();            continue; } 
-    			if(c instanceof java.sql.Connection) { ((java.sql.Connection) c).close();  continue; }
-    			if(c instanceof Releasable         ) { ((Releasable) c).releaseResource(); continue; }
-    			Method mthd = null;
-    			
-    			try {
-    				mthd = c.getClass().getMethod("close");
-    				mthd.invoke(c);
-    			} catch(NoSuchMethodException e) {
-    				mthd = c.getClass().getMethod("dispose");
-    				mthd.invoke(c);
-    			}
-    			
-    		} catch(Throwable t) { System.out.println("Warn ! Exception occured when closing " + c.getClass().getName() + " - ( " + t.getClass().getName() + ") " + t.getMessage()); }
-    	}
+        if(closeables == null) return;
+        for(Object c : closeables) {
+            if(c == null) continue;
+            try { 
+                if(c instanceof Closeable          ) { ((Closeable) c).close();            continue; } 
+                if(c instanceof java.sql.Connection) { ((java.sql.Connection) c).close();  continue; }
+                if(c instanceof Releasable         ) { ((Releasable) c).releaseResource(); continue; }
+                Method mthd = null;
+                
+                try {
+                    mthd = c.getClass().getMethod("close");
+                    mthd.invoke(c);
+                } catch(NoSuchMethodException e) {
+                    mthd = c.getClass().getMethod("dispose");
+                    mthd.invoke(c);
+                }
+                
+            } catch(Throwable t) { System.out.println("Warn ! Exception occured when closing " + c.getClass().getName() + " - ( " + t.getClass().getName() + ") " + t.getMessage()); }
+        }
     }
     
     /** 
@@ -205,24 +205,24 @@ public class ClassUtil {
      *     이 메소드도 없다면 표준 출력으로 경고가 출력되고 다음으로 넘어갑니다.
      */
     public static void closeAll(List<java.io.Closeable> closeables) {
-    	if(closeables == null) return;
-    	for(Object c : closeables) {
-    		if(c == null) continue;
-    		try {
-    			if(c instanceof Closeable          ) { ((Closeable) c).close();            continue; } 
-    			if(c instanceof java.sql.Connection) { ((java.sql.Connection) c).close();  continue; }
-    			if(c instanceof Releasable         ) { ((Releasable) c).releaseResource(); continue; }
-    			Method mthd = null;
-    			
-    			try {
-    				mthd = c.getClass().getMethod("close");
-    				mthd.invoke(c);
-    			} catch(NoSuchMethodException e) {
-    				mthd = c.getClass().getMethod("dispose");
-    				mthd.invoke(c);
-    			}
-    			
-    		} catch(Throwable t) { System.out.println("Warn ! Exception occured when closing " + c.getClass().getName() + " - ( " + t.getClass().getName() + ") " + t.getMessage()); }
-    	}
+        if(closeables == null) return;
+        for(Object c : closeables) {
+            if(c == null) continue;
+            try {
+                if(c instanceof Closeable          ) { ((Closeable) c).close();            continue; } 
+                if(c instanceof java.sql.Connection) { ((java.sql.Connection) c).close();  continue; }
+                if(c instanceof Releasable         ) { ((Releasable) c).releaseResource(); continue; }
+                Method mthd = null;
+                
+                try {
+                    mthd = c.getClass().getMethod("close");
+                    mthd.invoke(c);
+                } catch(NoSuchMethodException e) {
+                    mthd = c.getClass().getMethod("dispose");
+                    mthd.invoke(c);
+                }
+                
+            } catch(Throwable t) { System.out.println("Warn ! Exception occured when closing " + c.getClass().getName() + " - ( " + t.getClass().getName() + ") " + t.getMessage()); }
+        }
     }
 }

@@ -21,16 +21,16 @@ import java.net.ServerSocket;
 import hjow.common.core.Releasable;
 
 public class HServerSocket extends ServerSocket implements Releasable {
-	private static final long serialVersionUID = 5384980122280711064L;
-	public HServerSocket() throws IOException {
-		super();
-	}
-	public HServerSocket(int port) throws IOException {
-		super(port);
-	}
-	@Override
-	public void releaseResource() {
-		try { close(); } catch(Throwable t) {}
-	}
+    private static final long serialVersionUID = 5384980122280711064L;
+    public HServerSocket() throws IOException {
+        super();
+    }
+    public HServerSocket(int port) throws IOException {
+        super(port);
+    }
+    @Override
+    public void releaseResource() {
+        try { close(); } catch(Throwable t) {}
+    }
 
 }

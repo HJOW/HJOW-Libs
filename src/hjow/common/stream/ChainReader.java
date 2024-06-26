@@ -34,8 +34,8 @@ import hjow.common.util.ClassUtil;
  */
 public class ChainReader extends Reader implements ChainObject
 {
-	private static final long serialVersionUID = -3615966375619099821L;
-	protected boolean locked = false;
+    private static final long serialVersionUID = -3615966375619099821L;
+    protected boolean locked = false;
     private List<Reader> chains = new Vector<Reader>();
     
     public ChainReader(Reader firstStream)
@@ -62,20 +62,20 @@ public class ChainReader extends Reader implements ChainObject
     @Override
     public synchronized void close() throws IOException
     {
-    	locked = true;
-    	for(int i=chains.size()-1; i>=0; i--)
+        locked = true;
+        for(int i=chains.size()-1; i>=0; i--)
         {
-    		ClassUtil.closeAll(chains.get(i));
+            ClassUtil.closeAll(chains.get(i));
         }
-    	chains.clear();
+        chains.clear();
     }
 
-	@Override
-	public int read(char[] cbuf, int off, int len) throws IOException {
-		return getReader().read(cbuf, off, len);
-	}
-	
-	@Override
+    @Override
+    public int read(char[] cbuf, int off, int len) throws IOException {
+        return getReader().read(cbuf, off, len);
+    }
+    
+    @Override
     public boolean ready() throws IOException {
         return getReader().ready();
     }
@@ -96,17 +96,17 @@ public class ChainReader extends Reader implements ChainObject
     }
     
     @Override
-	public List<String> getElementTypes() {
-		List<String> elements = new ArrayList<String>();
-		for(Reader r : chains) {
-			elements.add(r.getClass().getName());
-		}
-		
-		return elements;
-	}
+    public List<String> getElementTypes() {
+        List<String> elements = new ArrayList<String>();
+        for(Reader r : chains) {
+            elements.add(r.getClass().getName());
+        }
+        
+        return elements;
+    }
     
     @Override
-	public void releaseResource() {
-		try { close(); } catch(IOException e) { throw new RuntimeException(e); }
-	}
+    public void releaseResource() {
+        try { close(); } catch(IOException e) { throw new RuntimeException(e); }
+    }
 }

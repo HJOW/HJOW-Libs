@@ -61,23 +61,23 @@ public class SecurityObject extends ScriptObject {
         return initScript.toString();
     }
     public static byte[] parseBytes(Object originalBytes) {
-    	byte[] bytes = null;
-    	if(originalBytes instanceof byte[]) bytes = (byte[]) originalBytes;
-    	else if(originalBytes instanceof ByteArrayOutputStream) bytes = ((ByteArrayOutputStream) originalBytes).toByteArray();
-    	else if(originalBytes instanceof Binary) bytes = ((Binary) originalBytes).toByteArray();
-    	return bytes;
+        byte[] bytes = null;
+        if(originalBytes instanceof byte[]) bytes = (byte[]) originalBytes;
+        else if(originalBytes instanceof ByteArrayOutputStream) bytes = ((ByteArrayOutputStream) originalBytes).toByteArray();
+        else if(originalBytes instanceof Binary) bytes = ((Binary) originalBytes).toByteArray();
+        return bytes;
     }
     public String hash(Object originals, Object algorithm) {
         return SecurityUtil.hash(String.valueOf(originals), String.valueOf(algorithm));
     }
     public Binary hashBytes(Object originalBytes, Object algorithm) {
-    	return new Binary(SecurityUtil.hashBytes(parseBytes(originalBytes) , String.valueOf(algorithm)));
+        return new Binary(SecurityUtil.hashBytes(parseBytes(originalBytes) , String.valueOf(algorithm)));
     }
     public String hexString(Object binaries) {
-    	return SecurityUtil.hexString(parseBytes(binaries));
+        return SecurityUtil.hexString(parseBytes(binaries));
     }
     public Binary hexBytes(Object hexString) {
-    	return new Binary(SecurityUtil.hexBytes(String.valueOf(hexString)));
+        return new Binary(SecurityUtil.hexBytes(String.valueOf(hexString)));
     }
     public String encrypt(Object text, Object key, Object algorithm) {
         return SecurityUtil.encrypt(String.valueOf(text), String.valueOf(key), String.valueOf(algorithm));

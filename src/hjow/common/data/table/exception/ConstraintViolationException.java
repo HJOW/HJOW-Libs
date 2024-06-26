@@ -18,18 +18,18 @@ package hjow.common.data.table.exception;
 import hjow.common.data.table.constraint.Constraint;
 
 public class ConstraintViolationException extends RuntimeException {
-	private static final long serialVersionUID = 9120084681967020045L;
-	
-	public ConstraintViolationException() {
-		super();
-	}
-	
-	public ConstraintViolationException(String msg) {
-		super(msg);
-	}
-	
-	public ConstraintViolationException(Constraint cons) {
-		super("Violation of following constraint : " + cons.getName());
-	}
+    private static final long serialVersionUID = 9120084681967020045L;
+    
+    public ConstraintViolationException() {
+        super();
+    }
+    
+    public ConstraintViolationException(String msg) {
+        super(msg);
+    }
+    
+    public ConstraintViolationException(Constraint cons) {
+        super("Violation of following constraint : " + cons.getName());
+    }
 
 }

@@ -28,73 +28,73 @@ import hjow.common.core.Releasable;
 import hjow.common.module.Module;
 
 public class HScriptEngine extends PublicMethodOpenedClass implements Releasable {
-	private static final long serialVersionUID = 1282803975720178261L;
-	protected transient ScriptEngine engine;
-	protected transient List<HScriptEngine> childs;
-	
-	protected String       name;
-	protected long         moduleId = -1;
-	
-	
-	public HScriptEngine(ScriptEngine engine) {
-		this.engine = engine;
-		this.childs = new Vector<HScriptEngine>();
-	}
-	
-	public HScriptEngine(ScriptEngine engine, String name, Module m) {
-		this(engine);
-		this.name = name.toString();
-		if(m != null) this.moduleId = m.getId();
-	}
-	
-	public String getName() {
-		return name;
-	}
-	
-	public long getModuleId() {
-		return moduleId;
-	}
-	
-	public void put(Object variableName, Object obj) {
-		engine.put(String.valueOf(variableName), obj);
-	}
-	
-	public Object eval(Object scripts) throws ScriptException {
-		return engine.eval(String.valueOf(scripts));
-	}
-	
-	public void setInfoFromModule(Module m) {
-		this.moduleId = m.getId();
-		this.name     = "Main of " + m.getName();
-	}
-	
-	public HScriptEngine makeChild(Core core) {
-		HScriptEngine newEngine = core.newEngine("Child of " + getName());
-		this.childs.add(newEngine);
-		return newEngine;
-	}
+    private static final long serialVersionUID = 1282803975720178261L;
+    protected transient ScriptEngine engine;
+    protected transient List<HScriptEngine> childs;
+    
+    protected String       name;
+    protected long         moduleId = -1;
+    
+    
+    public HScriptEngine(ScriptEngine engine) {
+        this.engine = engine;
+        this.childs = new Vector<HScriptEngine>();
+    }
+    
+    public HScriptEngine(ScriptEngine engine, String name, Module m) {
+        this(engine);
+        this.name = name.toString();
+        if(m != null) this.moduleId = m.getId();
+    }
+    
+    public String getName() {
+        return name;
+    }
+    
+    public long getModuleId() {
+        return moduleId;
+    }
+    
+    public void put(Object variableName, Object obj) {
+        engine.put(String.valueOf(variableName), obj);
+    }
+    
+    public Object eval(Object scripts) throws ScriptException {
+        return engine.eval(String.valueOf(scripts));
+    }
+    
+    public void setInfoFromModule(Module m) {
+        this.moduleId = m.getId();
+        this.name     = "Main of " + m.getName();
+    }
+    
+    public HScriptEngine makeChild(Core core) {
+        HScriptEngine newEngine = core.newEngine("Child of " + getName());
+        this.childs.add(newEngine);
+        return newEngine;
+    }
 
-	@Override
-	public void releaseResource() {
-		if(this.childs != null) {
-			for(HScriptEngine childOne : this.childs) {
-				if(childOne == null) continue;
-				childOne.releaseResource();
-			}
-			this.childs.clear();
-			this.childs = null;
-		}
-		
-		if(this.engine != null) {
-			try {
-				Bindings bindingCol = this.engine.getBindings(ScriptContext.ENGINE_SCOPE);
-				bindingCol.clear();
-			} catch(Throwable ignores) {}
-		}
-		this.engine = null;
-	}
-	
-	public boolean isAlive() {
-		return (this.engine != null);
-	}
+    @Override
+    public void releaseResource() {
+        if(this.childs != null) {
+            for(HScriptEngine childOne : this.childs) {
+                if(childOne == null) continue;
+                childOne.releaseResource();
+            }
+            this.childs.clear();
+            this.childs = null;
+        }
+        
+        if(this.engine != null) {
+            try {
+                Bindings bindingCol = this.engine.getBindings(ScriptContext.ENGINE_SCOPE);
+                bindingCol.clear();
+            } catch(Throwable ignores) {}
+        }
+        this.engine = null;
+    }
+    
+    public boolean isAlive() {
+        return (this.engine != null);
+    }
 }

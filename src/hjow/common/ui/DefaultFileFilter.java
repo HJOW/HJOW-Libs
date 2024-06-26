@@ -21,42 +21,42 @@ import java.util.List;
 import hjow.common.script.PublicMethodOpenedClass;
 
 public class DefaultFileFilter extends javax.swing.filechooser.FileFilter {
-	protected String prefix, description;
-	
-	public DefaultFileFilter() {
-		
-	}
-	
-	public DefaultFileFilter(String prefix, String description) {
-		this.prefix = prefix;
-		this.description = description;
-	}
+    protected String prefix, description;
+    
+    public DefaultFileFilter() {
+        
+    }
+    
+    public DefaultFileFilter(String prefix, String description) {
+        this.prefix = prefix;
+        this.description = description;
+    }
 
-	@Override
-	public boolean accept(File f) {
-		String path = f.getAbsolutePath();
-		path = path.trim().toLowerCase();
-		return path.endsWith("." + prefix);
-	}
+    @Override
+    public boolean accept(File f) {
+        String path = f.getAbsolutePath();
+        path = path.trim().toLowerCase();
+        return path.endsWith("." + prefix);
+    }
 
-	@Override
-	public String getDescription() {
-		return description + " (*." + prefix + ")";
-	}
+    @Override
+    public String getDescription() {
+        return description + " (*." + prefix + ")";
+    }
 
-	public String getPrefix() {
-		return prefix;
-	}
+    public String getPrefix() {
+        return prefix;
+    }
 
-	public void setPrefix(String prefix) {
-		this.prefix = prefix;
-	}
+    public void setPrefix(String prefix) {
+        this.prefix = prefix;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	
-	public List<String> availables() {
-    	return PublicMethodOpenedClass.getAvailableMethods(this);
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    
+    public List<String> availables() {
+        return PublicMethodOpenedClass.getAvailableMethods(this);
     }
 }

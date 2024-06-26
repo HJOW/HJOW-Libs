@@ -29,67 +29,67 @@ import hjow.common.ui.extend.HTextArea;
 import hjow.common.ui.extend.HTextField;
 
 public class ModuleViewer extends HPanel {
-	private static final long serialVersionUID = 1108555224785833143L;
-	protected HLabel lbName, lbShortName;
-	protected HTextField tfName, tfShortName;
-	protected HTextArea taArea;
-	public ModuleViewer() {
-		setLayout(new BorderLayout());
-		
-		HPanel panel = new HPanel();
-		HPanel[] panels = new HPanel[2];
-		
-		panel.setLayout(new GridLayout(panels.length, 1));
-		
-		for(int idx=0; idx<panels.length; idx++) {
-			panels[idx] = new HPanel();
-			panels[idx].setLayout(new FlowLayout());
-			panel.add(panels[idx]);
-		}
-		
-		lbName = new HLabel(Core.trans("Module Name"));
-		tfName = new HTextField(15);
-		tfName.setEditable(false);
-		
-		lbShortName = new HLabel(Core.trans("Short Name"));
-		tfShortName = new HTextField(15);
-		tfShortName.setEditable(false);
-		
-		panels[0].add(lbName);
-		panels[0].add(tfName);
-		
-		panels[1].add(lbName);
-		panels[1].add(tfShortName);
-		
-		add(panel, BorderLayout.NORTH);
-		
-		panel = new HPanel();
-		panel.setLayout(new BorderLayout());
-		
-		taArea = new HTextArea();
-		taArea.setEditable(false);
-		panel.add(taArea, BorderLayout.CENTER);
-		
-		add(panel, BorderLayout.CENTER);
-	}
-	
-	public void setModule(Module m) {
-		tfName.setText(m.getName());
-		tfShortName.setText(m.getShortName());
-		taArea.setText(getModuleDesc(m));
-	}
-	
-	protected String getModuleDesc(Module m) {
-		StringBuilder results = new StringBuilder("");
-		results = results.append(m.getDescription()).append("\n\n");
-		
-		results = results.append("ID : ").append(m.getId()).append("\n");
-		
-		boolean isCorrect = false;
-		if(m instanceof BuiltinModule) isCorrect = true;
-		if(m instanceof CustomModule)  isCorrect = ((CustomModule) m).isCorrect(); // 보안을 위해 CustomModule 사용
-		results = results.append("Check : ").append(String.valueOf(isCorrect));
-		
-		return results.toString();
-	}
+    private static final long serialVersionUID = 1108555224785833143L;
+    protected HLabel lbName, lbShortName;
+    protected HTextField tfName, tfShortName;
+    protected HTextArea taArea;
+    public ModuleViewer() {
+        setLayout(new BorderLayout());
+        
+        HPanel panel = new HPanel();
+        HPanel[] panels = new HPanel[2];
+        
+        panel.setLayout(new GridLayout(panels.length, 1));
+        
+        for(int idx=0; idx<panels.length; idx++) {
+            panels[idx] = new HPanel();
+            panels[idx].setLayout(new FlowLayout());
+            panel.add(panels[idx]);
+        }
+        
+        lbName = new HLabel(Core.trans("Module Name"));
+        tfName = new HTextField(15);
+        tfName.setEditable(false);
+        
+        lbShortName = new HLabel(Core.trans("Short Name"));
+        tfShortName = new HTextField(15);
+        tfShortName.setEditable(false);
+        
+        panels[0].add(lbName);
+        panels[0].add(tfName);
+        
+        panels[1].add(lbName);
+        panels[1].add(tfShortName);
+        
+        add(panel, BorderLayout.NORTH);
+        
+        panel = new HPanel();
+        panel.setLayout(new BorderLayout());
+        
+        taArea = new HTextArea();
+        taArea.setEditable(false);
+        panel.add(taArea, BorderLayout.CENTER);
+        
+        add(panel, BorderLayout.CENTER);
+    }
+    
+    public void setModule(Module m) {
+        tfName.setText(m.getName());
+        tfShortName.setText(m.getShortName());
+        taArea.setText(getModuleDesc(m));
+    }
+    
+    protected String getModuleDesc(Module m) {
+        StringBuilder results = new StringBuilder("");
+        results = results.append(m.getDescription()).append("\n\n");
+        
+        results = results.append("ID : ").append(m.getId()).append("\n");
+        
+        boolean isCorrect = false;
+        if(m instanceof BuiltinModule) isCorrect = true;
+        if(m instanceof CustomModule)  isCorrect = ((CustomModule) m).isCorrect(); // 보안을 위해 CustomModule 사용
+        results = results.append("Check : ").append(String.valueOf(isCorrect));
+        
+        return results.toString();
+    }
 }

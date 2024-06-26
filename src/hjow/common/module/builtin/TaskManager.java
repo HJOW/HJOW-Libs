@@ -32,113 +32,113 @@ import hjow.common.ui.UI;
 import hjow.common.ui.extend.HPanel;
 
 public class TaskManager extends BuiltinModule {
-	private static final long serialVersionUID = 3400568096826735883L;
-	protected HPanel pnMain, pnContents;
-	
-	protected transient HThread thread;
-	protected transient List<HThread> threadList;
-	protected transient List<HThreadStatusPanel> pnStatuses;
-	
-	public TaskManager(Core core) {
-		thread = core.newThread("Thread list refresher", new RiskyRunnable() {
-			@Override
-			public void run() throws Throwable {
-				
-			}
-		}, null);
+    private static final long serialVersionUID = 3400568096826735883L;
+    protected HPanel pnMain, pnContents;
+    
+    protected transient HThread thread;
+    protected transient List<HThread> threadList;
+    protected transient List<HThreadStatusPanel> pnStatuses;
+    
+    public TaskManager(Core core) {
+        thread = core.newThread("Thread list refresher", new RiskyRunnable() {
+            @Override
+            public void run() throws Throwable {
+                
+            }
+        }, null);
         
         threadList = new ArrayList<HThread>();
         pnStatuses = new ArrayList<HThreadStatusPanel>();
     }
-	
-	public void setThreadList(Core core, List<HThread> threadList) {
-		if(core == null) return;
-		this.threadList = threadList;
-		
-		refresh();
-	}
-	
-	protected  synchronized void refresh() {
-		if(pnContents == null) return;
-		
-		pnContents.removeAll();
-		for(HThreadStatusPanel p : pnStatuses) {
-			p.releaseResource();
-		}
-		pnStatuses.clear();
-		pnContents.setLayout(new GridLayout(threadList.size() + 2, 1));
-		
-		for(HThread t : threadList) {
-			HThreadStatusPanel ht = new HThreadStatusPanel();
-			ht.setThread(t);
-			pnStatuses.add(ht);
-			pnContents.add(ht);
-		}
-	}
+    
+    public void setThreadList(Core core, List<HThread> threadList) {
+        if(core == null) return;
+        this.threadList = threadList;
+        
+        refresh();
+    }
+    
+    protected  synchronized void refresh() {
+        if(pnContents == null) return;
+        
+        pnContents.removeAll();
+        for(HThreadStatusPanel p : pnStatuses) {
+            p.releaseResource();
+        }
+        pnStatuses.clear();
+        pnContents.setLayout(new GridLayout(threadList.size() + 2, 1));
+        
+        for(HThread t : threadList) {
+            HThreadStatusPanel ht = new HThreadStatusPanel();
+            ht.setThread(t);
+            pnStatuses.add(ht);
+            pnContents.add(ht);
+        }
+    }
 
-	@Override
-	public String getShortName() {
-		return "task_manager";
-	}
+    @Override
+    public String getShortName() {
+        return "task_manager";
+    }
 
-	@Override
-	public String getName() {
-		return "Task Manager";
-	}
+    @Override
+    public String getName() {
+        return "Task Manager";
+    }
 
-	@Override
-	public long getId() {
-		return 3463346575602386236L;
-	}
+    @Override
+    public long getId() {
+        return 3463346575602386236L;
+    }
 
-	@Override
-	public String getDescription() {
-		return "";
-	}
+    @Override
+    public String getDescription() {
+        return "";
+    }
 
-	@Override
-	public int getComponentType() {
-		return CustomAbstractModule.DESKTOP;
-	}
+    @Override
+    public int getComponentType() {
+        return CustomAbstractModule.DESKTOP;
+    }
 
-	@Override
-	public Component getComponent() {
-		return pnMain;
-	}
+    @Override
+    public Component getComponent() {
+        return pnMain;
+    }
 
-	@Override
-	public void initFirst() {
-		pnMain = new HPanel();
-		thread.start();
-		
-		pnMain.setLayout(new BorderLayout());
-		
-		pnContents = new HPanel();
-		pnMain.add(new JScrollPane(pnContents), BorderLayout.NORTH);
-		
-		HPanel pnDummy = new HPanel();
-		pnMain.add(pnDummy, BorderLayout.CENTER);
-	}
+    @Override
+    public void initFirst() {
+        pnMain = new HPanel();
+        thread.start();
+        
+        pnMain.setLayout(new BorderLayout());
+        
+        pnContents = new HPanel();
+        pnMain.add(new JScrollPane(pnContents), BorderLayout.NORTH);
+        
+        HPanel pnDummy = new HPanel();
+        pnMain.add(pnDummy, BorderLayout.CENTER);
+    }
 
-	@Override
-	public void initSecond(UI ui) {
-		refresh();
-	}
+    @Override
+    public void initSecond(UI ui) {
+        refresh();
+    }
 
-	@Override
-	public void run() {
-		
-	}
-	
-	@Override
-	public void releaseResource() {
-		if(thread != null) {
-			thread.releaseResource();
-			thread = null;
-		}
-		if(threadList != null) {
-			threadList.clear();
-			threadList = null;
-		}
-	}
+    @Override
+    public void run() {
+        
+    }
+    
+    @Override
+    public void releaseResource() {
+        if(thread != null) {
+            thread.releaseResource();
+            thread = null;
+        }
+        if(threadList != null) {
+            threadList.clear();
+            threadList = null;
+        }
+    }
 }

@@ -20,9 +20,9 @@ import java.io.Serializable;
 import hjow.common.json.JsonObject;
 
 public class BrowserInfo implements Serializable {
-	private static final long serialVersionUID = -6262644840723973886L;
+    private static final long serialVersionUID = -6262644840723973886L;
 
-	protected String name    = "Unknown";
+    protected String name    = "Unknown";
     protected String nm      = "unknown";
     protected String version = "-1";
     protected double ver     = -1;
@@ -30,75 +30,75 @@ public class BrowserInfo implements Serializable {
     protected BrowserInfo compatible = null;
     
     public BrowserInfo() {
-    	
+        
     }
     
-	public BrowserInfo(String name, String nm, String version, double ver, String agent) {
-		super();
-		this.name = name;
-		this.nm = nm;
-		this.version = version;
-		this.ver = ver;
-		this.agent = agent;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getNm() {
-		return nm;
-	}
-	public void setNm(String nm) {
-		this.nm = nm;
-	}
-	public String getVersion() {
-		return version;
-	}
-	public void setVersion(String version) {
-		this.version = version;
-	}
-	public double getVer() {
-		return ver;
-	}
-	public void setVer(double ver) {
-		this.ver = ver;
-	}
-	public String getAgent() {
-		return agent;
-	}
-	public void setAgent(String agent) {
-		this.agent = agent;
-	}
-	public BrowserInfo getCompatible() {
-		return compatible;
-	}
-	public void setCompatible(BrowserInfo compatible) {
-		this.compatible = compatible;
-	}
-	public JsonObject toJson() {
-		JsonObject json = new JsonObject();
-		
-		json.put("name"   , getName());
-		json.put("nm"     , getNm());
-		json.put("version", getVersion());
-		json.put("ver"    , getVer());
-		json.put("agent"  , getAgent());
-		if(getCompatible() != null) json.put("compatible", getCompatible().toJson());
-		
-		return json;
-	}
-	@Override
-	public String toString() {
-		return toJson().toJSON();
-	}
-	
-	/** Get browser information from user agent string */
-	public static BrowserInfo byUserAgent(String userAgent) {
-		if(userAgent == null) return new BrowserInfo();
-		
-    	String   agent  = userAgent;
+    public BrowserInfo(String name, String nm, String version, double ver, String agent) {
+        super();
+        this.name = name;
+        this.nm = nm;
+        this.version = version;
+        this.ver = ver;
+        this.agent = agent;
+    }
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+    public String getNm() {
+        return nm;
+    }
+    public void setNm(String nm) {
+        this.nm = nm;
+    }
+    public String getVersion() {
+        return version;
+    }
+    public void setVersion(String version) {
+        this.version = version;
+    }
+    public double getVer() {
+        return ver;
+    }
+    public void setVer(double ver) {
+        this.ver = ver;
+    }
+    public String getAgent() {
+        return agent;
+    }
+    public void setAgent(String agent) {
+        this.agent = agent;
+    }
+    public BrowserInfo getCompatible() {
+        return compatible;
+    }
+    public void setCompatible(BrowserInfo compatible) {
+        this.compatible = compatible;
+    }
+    public JsonObject toJson() {
+        JsonObject json = new JsonObject();
+        
+        json.put("name"   , getName());
+        json.put("nm"     , getNm());
+        json.put("version", getVersion());
+        json.put("ver"    , getVer());
+        json.put("agent"  , getAgent());
+        if(getCompatible() != null) json.put("compatible", getCompatible().toJson());
+        
+        return json;
+    }
+    @Override
+    public String toString() {
+        return toJson().toJSON();
+    }
+    
+    /** Get browser information from user agent string */
+    public static BrowserInfo byUserAgent(String userAgent) {
+        if(userAgent == null) return new BrowserInfo();
+        
+        String   agent  = userAgent;
         String[] splits = agent == null ? new String[0] : agent.split(" ");
         
         int idx = 0;
@@ -127,12 +127,12 @@ public class BrowserInfo implements Serializable {
                         if(blockTwo.indexOf("compatible;") >= 0) { compatible = true; break; }
                     }
                     if(compatible) {
-                    	BrowserInfo comp = new BrowserInfo();
-                    	comp.setName(res.getName());
-                    	comp.setNm(res.getNm());
-                    	comp.setVer(-1);
-                    	
-                    	res.setCompatible(comp);
+                        BrowserInfo comp = new BrowserInfo();
+                        comp.setName(res.getName());
+                        comp.setNm(res.getNm());
+                        comp.setVer(-1);
+                        
+                        res.setCompatible(comp);
                         
                         int msieIdx = -1; 
                         for(idx2=0; idx2<splits.length; idx2++) {
@@ -153,7 +153,7 @@ public class BrowserInfo implements Serializable {
                     res.setAgent(agent);
                     return res;
                 } catch(Throwable tx) {
-                	return new BrowserInfo(res.getName(), "ie", "Unknown", (double) -1, agent);
+                    return new BrowserInfo(res.getName(), "ie", "Unknown", (double) -1, agent);
                 }
             }
         }
@@ -169,24 +169,24 @@ public class BrowserInfo implements Serializable {
         
         // Detect Samsung Internet
         for(idx=0; idx<splits.length; idx++) {
-        	String   blockOne = splits[idx];
-        	String[] splitIn  = blockOne.split("/");
+            String   blockOne = splits[idx];
+            String[] splitIn  = blockOne.split("/");
             if(splitIn.length != 2) continue;
             if("SamsungBrowser".equals(splitIn[0])) return new BrowserInfo("Samsung Browser", "samsung", splitIn[1], DataUtil.parseFloatFirstBlock(splitIn[1]), agent);
         }
         
         // Detect Brave
         for(idx=0; idx<splits.length; idx++) {
-        	String   blockOne = splits[idx];
-        	String[] splitIn  = blockOne.split("/");
+            String   blockOne = splits[idx];
+            String[] splitIn  = blockOne.split("/");
             if(splitIn.length != 2) continue;
             if("Brave".equals(splitIn[0])) return new BrowserInfo("Brave", "brave", splitIn[1], DataUtil.parseFloatFirstBlock(splitIn[1]), agent);
         }
         
         // Detect Microsoft Edge
         for(idx=0; idx<splits.length; idx++) {
-        	String   blockOne = splits[idx];
-        	String[] splitIn  = blockOne.split("/");
+            String   blockOne = splits[idx];
+            String[] splitIn  = blockOne.split("/");
             if(splitIn.length != 2) continue;
             if("Edge".equals(splitIn[0])) return new BrowserInfo("Microsoft Edge", "edge", splitIn[1], DataUtil.parseFloatFirstBlock(splitIn[1]), agent);
             if("Edg".equals(splitIn[0] )) return new BrowserInfo("Microsoft Edge", "edge", splitIn[1], DataUtil.parseFloatFirstBlock(splitIn[1]), agent);
@@ -194,16 +194,16 @@ public class BrowserInfo implements Serializable {
         
         // Detect Google Chrome
         for(idx=0; idx<splits.length; idx++) {
-        	String   blockOne = splits[idx];
-        	String[] splitIn  = blockOne.split("/");
+            String   blockOne = splits[idx];
+            String[] splitIn  = blockOne.split("/");
             if(splitIn.length != 2) continue;
             if("Chrome".equals(splitIn[0])) return new BrowserInfo("Google Chrome", "chrome", splitIn[1], DataUtil.parseFloatFirstBlock(splitIn[1]), agent);
         }
         
         // Detect Safari
         for(idx=0; idx<splits.length; idx++) {
-        	String   blockOne = splits[idx];
-        	String[] splitIn  = blockOne.split("/");
+            String   blockOne = splits[idx];
+            String[] splitIn  = blockOne.split("/");
             if(splitIn.length != 2) continue;
             if("Safari".equals(splitIn[0])) return new BrowserInfo("Apple Safari", "safari", splitIn[1], DataUtil.parseFloatFirstBlock(splitIn[1]), agent);
         }
@@ -226,9 +226,9 @@ public class BrowserInfo implements Serializable {
         
         return new BrowserInfo();
     }
-	
-	public static boolean detectSupportES6(BrowserInfo browser) {
-		if(browser == null) return false;
+    
+    public static boolean detectSupportES6(BrowserInfo browser) {
+        if(browser == null) return false;
         if(! browser.getNm().equals("ie")) {
             if(browser.getNm() == "safari"  && browser.getVer() >= 10) return true;
             if(browser.getNm() == "opera"   && browser.getVer() >= 38) return true;

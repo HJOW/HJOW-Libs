@@ -32,107 +32,107 @@ import hjow.common.script.PublicMethodOpenedClass;
  */
 public class AWTProgressBar extends TextField
 {
-	private static final long serialVersionUID = -5734354961048376337L;
-	protected int nowState = 0;
-	protected int maxValue = 100;
-	protected int minValue = 0;
-	protected boolean useGradient = true;
+    private static final long serialVersionUID = -5734354961048376337L;
+    protected int nowState = 0;
+    protected int maxValue = 100;
+    protected int minValue = 0;
+    protected boolean useGradient = true;
 
-	/**
-	 * <p>상태바 객체를 만듭니다. 최대값은 100, 최소값은 0으로 기본값이 설정됩니다.</p>
-	 * 
-	 */
-	public AWTProgressBar()
-	{
-		super(20);
-		setEditable(false);
-		setForeground(Color.GREEN);
-	}
-	
-	@Override
-	public void paint(Graphics g)
-	{
-		super.paint(g);
-		
-		Color c;
-		
-		if(useGradient)
-		{
-			c = new Color((int)(getForeground().getRed() / 1.3), (int)(getForeground().getGreen() / 1.3), (int)(getForeground().getBlue() / 1.3));
-			g.setColor(c);
-			g.fillRect(getX(), getY(), ((int) Math.round((((double) (nowState - minValue)) / ((double) (maxValue - minValue))) * ((double) getWidth()))), 1);
-			
-			c = new Color((int)(getForeground().getRed() / 1.1), (int)(getForeground().getGreen() / 1.1), (int)(getForeground().getBlue() / 1.1));
-			g.setColor(c);
-			g.fillRect(getX(), getY() + 1, ((int) Math.round((((double) (nowState - minValue)) / ((double) (maxValue - minValue))) * ((double) getWidth()))), 2);
-			
-			c = getForeground();
-			g.setColor(c);
-			g.fillRect(getX(), getY() + 3, ((int) Math.round((((double) (nowState - minValue)) / ((double) (maxValue - minValue))) * ((double) getWidth()))), getHeight() - 6);
-			
-			c = new Color((int)(getForeground().getRed() / 1.1), (int)(getForeground().getGreen() / 1.1), (int)(getForeground().getBlue() / 1.1));
-			g.setColor(c);
-			g.fillRect(getX(), getY() + getHeight() - 3, ((int) Math.round((((double) (nowState - minValue)) / ((double) (maxValue - minValue))) * ((double) getWidth()))), 2);
-			
-			c = new Color((int)(getForeground().getRed() / 1.3), (int)(getForeground().getGreen() / 1.3), (int)(getForeground().getBlue() / 1.3));
-			g.setColor(c);
-			g.fillRect(getX(), getY() + getHeight() - 1, ((int) Math.round((((double) (nowState - minValue)) / ((double) (maxValue - minValue))) * ((double) getWidth()))), 1);
-		}
-		else
-		{
-			g.setColor(getForeground());
-			g.fillRect(getX(), getY(), ((int) Math.round((((double) (nowState - minValue)) / ((double) (maxValue - minValue))) * ((double) getWidth()))), getHeight());
-		}
-	}
-	
-	
-	public void setValue(int n)
-	{
-		nowState = n;
-		repaint();
-	}
+    /**
+     * <p>상태바 객체를 만듭니다. 최대값은 100, 최소값은 0으로 기본값이 설정됩니다.</p>
+     * 
+     */
+    public AWTProgressBar()
+    {
+        super(20);
+        setEditable(false);
+        setForeground(Color.GREEN);
+    }
+    
+    @Override
+    public void paint(Graphics g)
+    {
+        super.paint(g);
+        
+        Color c;
+        
+        if(useGradient)
+        {
+            c = new Color((int)(getForeground().getRed() / 1.3), (int)(getForeground().getGreen() / 1.3), (int)(getForeground().getBlue() / 1.3));
+            g.setColor(c);
+            g.fillRect(getX(), getY(), ((int) Math.round((((double) (nowState - minValue)) / ((double) (maxValue - minValue))) * ((double) getWidth()))), 1);
+            
+            c = new Color((int)(getForeground().getRed() / 1.1), (int)(getForeground().getGreen() / 1.1), (int)(getForeground().getBlue() / 1.1));
+            g.setColor(c);
+            g.fillRect(getX(), getY() + 1, ((int) Math.round((((double) (nowState - minValue)) / ((double) (maxValue - minValue))) * ((double) getWidth()))), 2);
+            
+            c = getForeground();
+            g.setColor(c);
+            g.fillRect(getX(), getY() + 3, ((int) Math.round((((double) (nowState - minValue)) / ((double) (maxValue - minValue))) * ((double) getWidth()))), getHeight() - 6);
+            
+            c = new Color((int)(getForeground().getRed() / 1.1), (int)(getForeground().getGreen() / 1.1), (int)(getForeground().getBlue() / 1.1));
+            g.setColor(c);
+            g.fillRect(getX(), getY() + getHeight() - 3, ((int) Math.round((((double) (nowState - minValue)) / ((double) (maxValue - minValue))) * ((double) getWidth()))), 2);
+            
+            c = new Color((int)(getForeground().getRed() / 1.3), (int)(getForeground().getGreen() / 1.3), (int)(getForeground().getBlue() / 1.3));
+            g.setColor(c);
+            g.fillRect(getX(), getY() + getHeight() - 1, ((int) Math.round((((double) (nowState - minValue)) / ((double) (maxValue - minValue))) * ((double) getWidth()))), 1);
+        }
+        else
+        {
+            g.setColor(getForeground());
+            g.fillRect(getX(), getY(), ((int) Math.round((((double) (nowState - minValue)) / ((double) (maxValue - minValue))) * ((double) getWidth()))), getHeight());
+        }
+    }
+    
+    
+    public void setValue(int n)
+    {
+        nowState = n;
+        repaint();
+    }
 
-	public int getNowState()
-	{
-		return nowState;
-	}
+    public int getNowState()
+    {
+        return nowState;
+    }
 
-	public void setNowState(int nowState)
-	{
-		setValue(nowState);
-	}
+    public void setNowState(int nowState)
+    {
+        setValue(nowState);
+    }
 
-	public int getMaxValue()
-	{
-		return maxValue;
-	}
+    public int getMaxValue()
+    {
+        return maxValue;
+    }
 
-	public void setMaxValue(int maxValue)
-	{
-		this.maxValue = maxValue;
-	}
+    public void setMaxValue(int maxValue)
+    {
+        this.maxValue = maxValue;
+    }
 
-	public int getMinValue()
-	{
-		return minValue;
-	}
+    public int getMinValue()
+    {
+        return minValue;
+    }
 
-	public void setMinValue(int minValue)
-	{
-		this.minValue = minValue;
-	}
+    public void setMinValue(int minValue)
+    {
+        this.minValue = minValue;
+    }
 
-	public boolean isUseGradient()
-	{
-		return useGradient;
-	}
+    public boolean isUseGradient()
+    {
+        return useGradient;
+    }
 
-	public void setUseGradient(boolean useGradient)
-	{
-		this.useGradient = useGradient;
-	}
-	
-	public List<String> availables() {
-    	return PublicMethodOpenedClass.getAvailableMethods(this);
+    public void setUseGradient(boolean useGradient)
+    {
+        this.useGradient = useGradient;
+    }
+    
+    public List<String> availables() {
+        return PublicMethodOpenedClass.getAvailableMethods(this);
     }
 }
