@@ -1,6 +1,15 @@
 # HJOW-Libs
 HJOW's common libraries
 
+# Maven
+```
+<dependency>
+    <groupId>org.duckdns.hjow</groupId>
+    <artifactId>hjow-commons</artifactId>
+    <version>0.0.1</version>
+</dependency>
+```
+
 # License
 ```
    Copyright 2019 HJOW
