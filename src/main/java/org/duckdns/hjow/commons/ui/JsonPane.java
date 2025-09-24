@@ -233,6 +233,10 @@ public class JsonPane implements Releasable {
                 if(obj instanceof HTextArea) newList.add(obj);
             }
             
+            if(typeVal.equals("logarea")) {
+                if(obj instanceof JLogArea) newList.add(obj);
+            }
+            
             if(typeVal.equals("list")) {
                 if(obj instanceof HList) newList.add(obj);
             }
@@ -307,6 +311,10 @@ public class JsonPane implements Releasable {
         
         if(compTypeOpt.equals("textarea")) {
             return processTextArea(obj);
+        }
+        
+        if(compTypeOpt.equals("logarea")) {
+            return processLogArea(obj);
         }
         
         if(compTypeOpt.equals("list")) {
@@ -718,6 +726,37 @@ public class JsonPane implements Releasable {
         processSetMethods(comp, obj, "setEnabled", "setName", "setTag", "setText", "setEditable", "setLineWrap");
         registerComponent(comp);
         return processScroll(obj, comp);
+    }
+    
+    protected Component processLogArea(JsonObject obj) {
+        Object classType     = obj.get("type");
+        if(! (String.valueOf(classType).trim().toLowerCase().equals("logarea"))) throw new IllegalArgumentException("This is not logarea type.");
+        
+        JLogArea comp = new JLogArea();
+        
+        Object singleOpt = obj.get("text");
+        if(singleOpt != null) {
+            comp.setText(String.valueOf(singleOpt));
+        }
+        
+        singleOpt = obj.get("linewrap");
+        if(singleOpt != null) {
+            comp.setLineWrap(Boolean.parseBoolean(String.valueOf(singleOpt)));
+        }
+        
+        singleOpt = obj.get("enabled");
+        if(singleOpt != null) {
+            comp.setEnabled(Boolean.parseBoolean(String.valueOf(singleOpt)));
+        }
+        
+        singleOpt = obj.get("name");
+        if(singleOpt != null) {
+            registerName(String.valueOf(singleOpt), comp);
+        }
+        
+        processSetMethods(comp, obj, "setEnabled", "setName", "setText", "setLineWrap");
+        registerComponent(comp);
+        return comp;
     }
     
     protected HSpinner processNumberField(JsonObject obj) {
