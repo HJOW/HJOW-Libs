@@ -24,8 +24,10 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GraphicsEnvironment;
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.Window;
 import java.awt.event.InputEvent;
@@ -42,6 +44,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.plaf.FontUIResource;
@@ -343,15 +347,20 @@ public class GUIUtil
         }
     }
     
+    /** 창 크기 반환 */
+    public static Dimension getScreenSize() {
+        return Toolkit.getDefaultToolkit().getScreenSize();
+    }
+    
     /** 창을 모니터 가운데에 위치시킵니다. */
     public static void centerWindow(Window window) {
-        Dimension scrSize = Toolkit.getDefaultToolkit().getScreenSize();
+        Dimension scrSize = getScreenSize();
         window.setLocation((int)( scrSize.getWidth() / 2 - window.getWidth() / 2 ), (int)( scrSize.getHeight() / 2 - window.getHeight() / 2 ));
     }
     
     /** 창 크기를 모니터 해상도와 비슷하도록 키웁니다. */
     public static void stretchWindow(Window window) {
-        Dimension scrSize = Toolkit.getDefaultToolkit().getScreenSize();
+        Dimension scrSize = getScreenSize();
         window.setSize((int) (scrSize.getWidth() - 50), (int) (scrSize.getHeight() - 100));
     }
     
@@ -1801,5 +1810,18 @@ public class GUIUtil
         res = res.replace("□", String.valueOf(empty));
         res = res.replace("■", String.valueOf(fill));
         return res;
+    }
+    
+    /** Convert javax.swing.Icon to java.awt.Image */
+    public static Image iconToImage(Icon icon) {
+        if(icon instanceof ImageIcon) return ((ImageIcon) icon).getImage();
+        
+        BufferedImage buffImage = new BufferedImage(icon.getIconWidth(), icon.getIconHeight(),BufferedImage.TYPE_INT_ARGB);
+        Graphics g = buffImage.createGraphics();
+        
+        icon.paintIcon(null, g, 0, 0);
+        g.dispose();
+        
+        return buffImage;
     }
 }
