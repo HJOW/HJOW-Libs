@@ -27,6 +27,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.duckdns.hjow.commons.core.Disposeable;
 import org.duckdns.hjow.commons.core.Releasable;
 
 /**
@@ -180,6 +181,7 @@ public class ClassUtil {
                 if(c instanceof Closeable          ) { ((Closeable) c).close();            continue; } 
                 if(c instanceof java.sql.Connection) { ((java.sql.Connection) c).close();  continue; }
                 if(c instanceof Releasable         ) { ((Releasable) c).releaseResource(); continue; }
+                if(c instanceof Disposeable        ) { ((Disposeable) c).dispose();        continue; }
                 Method mthd = null;
                 
                 try {
@@ -210,6 +212,7 @@ public class ClassUtil {
                 if(c instanceof Closeable          ) { ((Closeable) c).close();            continue; } 
                 if(c instanceof java.sql.Connection) { ((java.sql.Connection) c).close();  continue; }
                 if(c instanceof Releasable         ) { ((Releasable) c).releaseResource(); continue; }
+                if(c instanceof Disposeable        ) { ((Disposeable) c).dispose();        continue; }
                 Method mthd = null;
                 
                 try {

@@ -10,7 +10,7 @@ import javax.swing.JTextArea;
 import org.duckdns.hjow.commons.core.Disposeable;
 import org.duckdns.hjow.commons.core.Releasable;
 
-public class JLogArea extends JScrollPane implements Disposeable, Releasable {
+public class JLogArea extends JScrollPane implements Disposeable, Releasable, LogComponent {
     private static final long serialVersionUID = -8363517413706955543L;
 
     protected JTextArea ta = new JTextArea();
@@ -76,6 +76,7 @@ public class JLogArea extends JScrollPane implements Disposeable, Releasable {
     }
     
     /** 로그 출력 */
+    @Override
     public synchronized void log(String msg) {
         list.add(msg);
         counts++;
