@@ -88,38 +88,7 @@ public class NetUtil
         }
         finally
         {
-            try
-            {
-                bufferedReader.close();
-            }
-            catch(Throwable e)
-            {
-                
-            }
-            try
-            {
-                reader.close();
-            }
-            catch(Throwable e)
-            {
-                
-            }
-            try
-            {
-                chainStream.close();
-            }
-            catch(Throwable e)
-            {
-                
-            }
-            try
-            {
-                gets.close();
-            }
-            catch(Throwable e)
-            {
-                
-            }
+            ClassUtil.closeAll(bufferedReader, reader, chainStream, gets);
         }
     }
     /**
@@ -189,14 +158,7 @@ public class NetUtil
         }
         finally
         {
-            try
-            {
-                out.close();
-            }
-            catch(Throwable e)
-            {
-                
-            }
+            ClassUtil.closeAll(out);
         }        
     }    
     
@@ -228,8 +190,7 @@ public class NetUtil
         } catch (IOException e) {
             throw e;
         } finally {
-            try { stream.close(); } catch(Throwable e) { }
-            try { out.close();    } catch(Throwable e) { }
+            ClassUtil.closeAll(stream, out);
         }
         return out.toByteArray();
     }
