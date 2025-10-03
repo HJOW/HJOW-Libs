@@ -26,6 +26,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Properties;
 
@@ -324,7 +325,7 @@ public class FileUtil {
     }
     
     /** 파일을 삭제합니다. 디렉토리인 경우 그 안의 디렉토리까지 비우기를 시도합니다. */
-    public static void delete(File file, int recursiveDepth) {
+    protected static void delete(File file, int recursiveDepth) {
         if(file == null) return;
         if(! file.exists()) return;
         
@@ -352,5 +353,45 @@ public class FileUtil {
     public static void closeAll(List<java.io.Closeable> closeables) {
         if(closeables == null) return;
         ClassUtil.closeAll(closeables);
+    }
+    
+    /** 파일 변조 감지를 위한 고유 정수값을 구합니다. 디렉토리에는 사용 불가. 디렉토리나 미존재 파일 입력 시 null 반환. */
+    public static BigInteger getFileCheckerNumber(File file) {
+    	return getFileCheckerNumber(file, null);
+    }
+    
+    /** 파일 변조 감지를 위한 고유 정수값을 구합니다. 바이트 순서 조작 탐지를 위한 '자리수 단위값' 지정이 가능하며, 이 값이 크면 감지율이 크지만 계산에 오래 걸릴 수 있습니다. 디렉토리에는 사용 불가. 디렉토리나 미존재 파일 입력 시 null 반환. */
+    public static BigInteger getFileCheckerNumber(File file, BigInteger digitUnit) {
+    	if(file.isDirectory()) return null;
+    	if(! file.exists()) return null;
+    	
+    	BigInteger res = new BigInteger("0");
+    	
+    	BigInteger binarySum = new BigInteger("0");
+    	BigInteger digitSum  = new BigInteger("0");
+    	if(digitUnit == null) digitUnit = new BigInteger("536870911");
+    	
+    	InputStream inp = null;
+    	
+    	long indexes = 0L;
+    	try {
+    		int r;
+    		
+    		inp = new FileInputStream(file);
+    		while(true) {
+        		r = inp.read();
+        		if(r < 0) break;
+        		
+        		binarySum = binarySum.add(new BigInteger(String.valueOf(r)));
+        		digitSum  = digitSum.add( new BigInteger(String.valueOf(indexes)).multiply(digitUnit));
+        		indexes++;
+        	}
+    	} catch(Throwable t) {
+    		throw new RuntimeException(t.getMessage(), t);
+    	} finally {
+    		closeAll(inp);
+    	}
+    	
+    	return res;
     }
 }
