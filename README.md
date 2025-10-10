@@ -1,6 +1,10 @@
 # HJOW-Libs
 HJOW's common libraries
 
+# Requirements
+Available on java 6 or above.
+No third parties needed.
+
 # Maven
 ```
 <dependency>
