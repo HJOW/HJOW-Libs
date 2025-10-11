@@ -2,12 +2,14 @@ package org.duckdns.hjow.commons.resource;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Properties;
 
 import org.duckdns.hjow.commons.util.ClassUtil;
 
-/** 언어 지원을 위한 String Table, 메모리 절약을 위해 필요할 때마다 매번 불러오는 방식 사용 */
+/** 언어 지원을 위한 StringTable, 메모리 절약을 위해 필요할 때마다 매번 불러오는 방식 사용 */
 public class FileStringTable implements StringTable {
 	private static final long serialVersionUID = -2808486991696121069L;
 	protected String     name = "Unnamed";
@@ -32,6 +34,28 @@ public class FileStringTable implements StringTable {
 		}
 		return prop;
 	}
+	
+	/** StringTable 변경사항 파일에 저장 */
+	public void save() {
+		String lower = file.getName().toLowerCase();
+		OutputStream outs = null;
+		try {
+			outs = new FileOutputStream(file);
+			if(lower.endsWith(".xml")) load().storeToXML(outs, "");
+			else                       load().store(outs, "");
+		} catch(Exception ex) {
+			throw new RuntimeException(ex.getMessage(), ex);
+		} finally {
+			ClassUtil.closeAll(outs);
+		}
+	}
+	
+	/** StringTable 데이터 입력 */
+	public void set(String originalString, String translatedString, boolean saveNow) {
+		data.setProperty(originalString, translatedString);
+		if(saveNow) save();
+	}
+	
 	@Override
 	public String t(String originals) {
 		Properties prop = load();

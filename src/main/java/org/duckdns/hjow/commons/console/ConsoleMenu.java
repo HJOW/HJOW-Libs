@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import org.duckdns.hjow.commons.resource.ResourceStringTable;
+import org.duckdns.hjow.commons.resource.StringTable;
 import org.duckdns.hjow.commons.util.ClassUtil;
 
 /** 콘솔 메뉴 동작 구현 */
@@ -32,7 +34,7 @@ public class ConsoleMenu {
 
     protected String title = "Main Menu";
     protected List<Choice> menuList = new ArrayList<Choice>();
-    protected Properties stringTable = new Properties();
+    protected StringTable stringTable = new ResourceStringTable();
     protected String charset = null;
     
     protected transient BufferedReader reader = null;
@@ -167,7 +169,7 @@ public class ConsoleMenu {
     
     /** 스트링 테이블 (언어 설정) 반환 */
     public Properties getStringTable() {
-        return stringTable;
+        return stringTable.getData();
     }
     
     /** 메뉴 제목 설정 */
@@ -182,15 +184,14 @@ public class ConsoleMenu {
         this.charset = charset;
     }
     /** 스트링 테이블 (언어 설정) 설정 */
-    public void setStringTable(Properties stringTable) {
+    public void setStringTable(StringTable stringTable) {
         this.stringTable = stringTable;
     }
     
     /** String Table 적용, String Table 에 없는 텍스트이면 원본 그대로 반환 */
     public String t(String originalString) {
-        String res = getStringTable().getProperty(originalString);
-        if(res == null) return originalString;
-        return res;
+        if(this.stringTable == null) return originalString;
+        return stringTable.t(originalString);
     }
     /** 메뉴 호출 종료, 단, 이미 메뉴 입력값을 받고 있는 상황이라면 아무 값이나 입력 받아야 종료될 수 있음. */
     public void closeMenu() {
