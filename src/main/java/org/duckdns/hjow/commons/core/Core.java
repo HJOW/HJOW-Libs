@@ -40,7 +40,9 @@ import org.duckdns.hjow.commons.module.CustomModule;
 import org.duckdns.hjow.commons.module.Module;
 import org.duckdns.hjow.commons.module.builtin.BuiltinModule;
 import org.duckdns.hjow.commons.module.builtin.TaskManager;
+import org.duckdns.hjow.commons.resource.FileStringTable;
 import org.duckdns.hjow.commons.resource.ResourceManager;
+import org.duckdns.hjow.commons.resource.StringTable;
 import org.duckdns.hjow.commons.script.FileObject;
 import org.duckdns.hjow.commons.script.HScriptEngine;
 import org.duckdns.hjow.commons.script.MathObject;
@@ -68,7 +70,7 @@ import org.duckdns.hjow.commons.util.FileUtil;
  * HJOW 의 프레임워크 핵심 클래스입니다. 단일 인스턴스만 존재하며, 이 곳에서 프로퍼티 등의 요소들을 관리합니다.
  */
 public class Core {
-    public static final String VERSION_STRING = "2025.10.11 18:00";
+    public static final String VERSION_STRING = "2025.10.11 21:00";
     public static final long   VERSION_DAILY  = parseVersion();
     public static boolean restartEnabled = false;
     public String APP_VERSION    = "";
@@ -79,7 +81,8 @@ public class Core {
     protected static List<String> logQueue = new Vector<String>();
     
     protected boolean isPrepared = false;
-    protected Properties prop, stringTable;
+    protected Properties prop;
+    protected StringTable stringTable;
     protected String appShortName, appLongName;
     protected Vector<Releasable> resources;
     protected Vector<Module> modules;
@@ -558,7 +561,9 @@ public class Core {
                 configFile = FileUtil.fileIn(configDir, fileName, true);
             }
             
-            stringTable = FileUtil.loadProperties(configFile, true, ResourceManager.getDefaultStringTable());
+            FileStringTable strTable = new FileStringTable(configFile);
+            strTable.setDataAsBasic(ResourceManager.getDefaultStringTable());
+            stringTable = strTable;
         } catch(Throwable t) {
             logError(t);
         }
@@ -694,7 +699,7 @@ public class Core {
     public static String trans(String originals) {
         if(getCore() == null) return originals;
         if(getCore().stringTable == null) return originals;
-        return getCore().stringTable.getProperty(originals, originals);
+        return getCore().stringTable.t(originals);
     }
     
     /**

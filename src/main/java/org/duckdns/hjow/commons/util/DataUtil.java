@@ -1117,4 +1117,22 @@ public class DataUtil
             return -1;
         }
     }
+    
+    /** Get unique number of string content. Return zero when string is null. */
+    public static BigInteger getStringUniqueNumber(String str) {
+    	if(str == null) return BigInteger.ZERO;
+    	
+    	int len = str.length();
+    	int idx;
+    	long calc;
+    	
+    	BigInteger current = new BigInteger(String.valueOf(len));
+    	for(idx=0; idx<len; idx++) {
+    		char charOne = str.charAt(idx);
+    		calc = (long) charOne;
+    		calc = calc * (long) idx;
+    		current = current.add(new BigInteger(String.valueOf(calc)));
+    	}
+    	return current;
+    }
 }

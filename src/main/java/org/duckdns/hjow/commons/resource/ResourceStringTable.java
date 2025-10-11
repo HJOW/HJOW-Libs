@@ -10,7 +10,6 @@ public class ResourceStringTable implements StringTable {
 	private static final long serialVersionUID = 2578702307643853144L;
 	protected String     name = "Unnamed";
 	protected String     resourcePath = null;
-	protected Properties data = new Properties();
 	public ResourceStringTable() {}
 	public ResourceStringTable(String resourcePath) { this(); this.resourcePath = resourcePath; }
 	
@@ -54,8 +53,5 @@ public class ResourceStringTable implements StringTable {
 	}
 	public void setName(String name) {
 		this.name = name;
-	}
-	public void setData(Properties data) {
-		this.data = data;
 	}
 }
