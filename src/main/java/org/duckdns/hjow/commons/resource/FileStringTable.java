@@ -39,6 +39,7 @@ public class FileStringTable implements StringTable {
 	/** StringTable 데이터 입력 */
 	public synchronized void set(String originalString, String translatedString) {
 		Properties prop = load();
+		prop.setProperty(originalString, translatedString);
 		setData(prop);
 	}
 	

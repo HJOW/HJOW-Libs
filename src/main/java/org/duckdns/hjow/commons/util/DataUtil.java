@@ -1126,12 +1126,13 @@ public class DataUtil
     	int idx;
     	long calc;
     	
-    	BigInteger current = new BigInteger(String.valueOf(len));
+    	BigInteger units   = new BigInteger("17");
+    	BigInteger current = new BigInteger(String.valueOf(len)).multiply(new BigInteger("536870911"));
     	for(idx=0; idx<len; idx++) {
     		char charOne = str.charAt(idx);
     		calc = (long) charOne;
     		calc = calc * (long) idx;
-    		current = current.add(new BigInteger(String.valueOf(calc)));
+    		current = current.add(new BigInteger(String.valueOf(calc)).multiply(units));
     	}
     	return current;
     }
