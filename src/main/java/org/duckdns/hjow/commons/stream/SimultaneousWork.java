@@ -117,6 +117,7 @@ public class SimultaneousWork implements Disposeable {
     }
 }
 
+/** 작업 쓰레드 하나 */
 class SingleWork implements Disposeable, Serializable {
 	private static final long serialVersionUID = 5631487702581254137L;
 	protected volatile int key = 0;
@@ -174,8 +175,4 @@ class SingleWork implements Disposeable, Serializable {
 		if(thread != null) { try { thread.interrupt(); } catch(Throwable ignores) {} }
 		thread = null;
 	}
-}
-
-interface SingleAction {
-	public void run(int index) throws Throwable;
 }
