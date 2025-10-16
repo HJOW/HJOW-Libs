@@ -57,15 +57,18 @@ public class SimultaneousWork implements Disposeable {
     	threadSwitch = true;
     	
     	// 작업 모두 시작
+    	Vector<SingleWork> works = new Vector<SingleWork>();
+    	works.addAll(this.works);
     	for(SingleWork w : works) {
     		w.start();
     	}
+    	works = null;
     	
     	// 다른 작업들 모두 완료 시까지 대기
     	waiting();
     	
     	// 작업 목록 비우기
-    	works.clear();
+    	this.works.clear();
     	
     	// 작업 중 예외 발생 건이 있으면, 하나를 골라 다시 발생시키기
     	if(! throwable.isEmpty()) {
@@ -86,15 +89,20 @@ public class SimultaneousWork implements Disposeable {
     @Override
     public void dispose() {
     	threadSwitch = false;
+    	Vector<SingleWork> works = new Vector<SingleWork>();
+    	works.addAll(this.works);
     	for(SingleWork w : works) {
     		w.dispose();
     	}
     	works.clear();
+    	this.works.clear();
     }
     
     /** 작업 1건 완료 시 이 메소드가 호출됨 (자식 객체로부터) */
     protected void onWorkEnd(SingleWork work) {
     	// 모든 작업 다 완료됐는지 확인
+    	Vector<SingleWork> works = new Vector<SingleWork>();
+    	works.addAll(this.works);
     	for(SingleWork w : works) {
     		if(! w.isEnded()) return; // 하나라도 완료 안됐으면 중단
     	}

@@ -100,15 +100,18 @@ public class SwingSimultaneousWork implements Disposeable  {
     	threadSwitch = true;
     	
     	// 작업 모두 시작
+    	Vector<SwingSingleAction> works = new Vector<SwingSingleAction>();
+    	works.addAll(this.works);
     	for(SwingSingleAction w : works) {
     		w.execute();
     	}
+    	works = null;
     	
     	// 다른 작업들 모두 완료 시까지 대기
     	waiting();
     	
     	// 작업 목록 비우기
-    	works.clear();
+    	this.works.clear();
     	
     	// 작업 중 예외 발생 건이 있으면, 하나를 골라 다시 발생시키기
     	if(! throwable.isEmpty()) {
@@ -122,15 +125,20 @@ public class SwingSimultaneousWork implements Disposeable  {
     @Override
     public void dispose() {
     	threadSwitch = false;
+    	Vector<SwingSingleAction> works = new Vector<SwingSingleAction>();
+    	works.addAll(this.works);
     	for(SwingSingleAction w : works) {
     		try { w.cancel(true); } catch(Throwable tx) {}
     	}
     	works.clear();
+    	this.works.clear();
     }
     
     /** 작업 1건 완료 시 이 메소드가 호출됨 (자식 객체로부터) */
     protected void onWorkEnd(SwingSingleAction work) {
     	// 모든 작업 다 완료됐는지 확인
+    	Vector<SwingSingleAction> works = new Vector<SwingSingleAction>();
+    	works.addAll(this.works);
     	for(SwingSingleAction w : works) {
     		if(! w.isDone()) return; // 하나라도 완료 안됐으면 중단
     	}
