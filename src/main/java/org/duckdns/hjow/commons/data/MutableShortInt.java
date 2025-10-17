@@ -1,5 +1,5 @@
 /*
-Copyright 2019 HJOW
+Copyright 2025 HJOW
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -15,36 +15,36 @@ limitations under the License.
  */
 package org.duckdns.hjow.commons.data;
 
-/** 정수 (64비트) 로 사용됩니다. 기존 Wrapper 클래스와 달리 Mutable (기본적인 연산 시 새 인스턴스를 생성하지 않고 원래의 인스턴스가 변경)합니다. */
-public class MutableInteger extends MutableNumber {
+/** 정수 (32비트) 로 사용됩니다. 기존 Wrapper 클래스와 달리 Mutable (기본적인 연산 시 새 인스턴스를 생성하지 않고 원래의 인스턴스가 변경)합니다. */
+public class MutableShortInt extends MutableNumber {
     private static final long serialVersionUID = -2753229728790562007L;
-    protected long value = 0;
-    public MutableInteger() {
+    protected int value = 0;
+    public MutableShortInt() {
         
     }
-    public MutableInteger(long value) {
+    public MutableShortInt(int value) {
         this.value = value;
     }
     @Override
     public void increase() {
-        if(value < Long.MAX_VALUE) value++;
+        if(value < Integer.MAX_VALUE) value++;
     }
     public void add(Number numbers) {
-        value += numbers.longValue();
+        value += numbers.intValue();
     }
     public void subtract(Number numbers) {
-        value -= numbers.longValue();
+        value -= numbers.intValue();
     }
     public void multiply(Number numbers) {
-        value = value * numbers.longValue();
+        value = value * numbers.intValue();
     }
     public void divide(Number numbers) {
-        value = value / numbers.longValue();
+        value = value / numbers.intValue();
     }
-    public long getValue() {
+    public int getValue() {
         return value;
     }
-    public void setValue(long value) {
+    public void setValue(int value) {
         this.value = value;
     }
     @Override
@@ -53,7 +53,7 @@ public class MutableInteger extends MutableNumber {
     }
     @Override
     public void setNumber(Number value) {
-        this.value = value.longValue();
+        this.value = value.intValue();
     }
     @Override
     public boolean hasFloatingValue() {

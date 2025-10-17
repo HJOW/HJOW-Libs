@@ -28,7 +28,7 @@ public class MutableFloat extends MutableNumber {
     }
     @Override
     public void increase() {
-        value = value + 1;
+        if(value <= Double.MAX_VALUE - 1.0) value = value + 1.0;
     }
     public void add(Number numbers) {
         value += numbers.longValue();

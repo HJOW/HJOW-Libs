@@ -46,7 +46,7 @@ public class FileStringTable implements StringTable {
 	@Override
 	public String t(String originals) {
 		Properties prop = load();
-		if(prop.contains(originals)) return prop.getProperty(originals);
+		if(prop.containsKey(originals)) return prop.getProperty(originals);
 		return originals;
 	}
 	@Override
