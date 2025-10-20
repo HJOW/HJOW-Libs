@@ -70,7 +70,7 @@ import org.duckdns.hjow.commons.util.FileUtil;
  * HJOW 의 프레임워크 핵심 클래스입니다. 단일 인스턴스만 존재하며, 이 곳에서 프로퍼티 등의 요소들을 관리합니다.
  */
 public class Core {
-    public static final String VERSION_STRING = "2025.10.17 20:00";
+    public static final String VERSION_STRING = "2025.10.21 00:00";
     public static final long   VERSION_DAILY  = parseVersion();
     public static boolean restartEnabled = false;
     public String APP_VERSION    = "";

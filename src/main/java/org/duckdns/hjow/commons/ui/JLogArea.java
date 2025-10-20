@@ -1,14 +1,19 @@
 package org.duckdns.hjow.commons.ui;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import org.duckdns.hjow.commons.core.Disposeable;
 import org.duckdns.hjow.commons.core.Releasable;
+import org.duckdns.hjow.commons.util.ClassUtil;
 
 public class JLogArea extends JScrollPane implements Disposeable, Releasable, LogComponent {
     private static final long serialVersionUID = -8363517413706955543L;
@@ -16,6 +21,8 @@ public class JLogArea extends JScrollPane implements Disposeable, Releasable, Lo
     protected JTextArea ta = new JTextArea();
     protected List<String> list = new LinkedList<String>();
     protected StringBuilder buffer = new StringBuilder();
+    
+    protected transient BufferedWriter outputStream = null;
     protected int counts = 0;
     
     protected boolean firsts = false;
@@ -46,6 +53,22 @@ public class JLogArea extends JScrollPane implements Disposeable, Releasable, Lo
         list.clear();
         list.add(msg);
         counts = 1;
+        
+        if(outputStream != null) {
+        	try {
+        	    StringTokenizer lineTokenizer = new StringTokenizer(msg, "\n");
+        	    while(lineTokenizer.hasMoreTokens()) {
+        	        outputStream.write(lineTokenizer.nextToken());
+        	        outputStream.newLine();
+        	    }
+        	} catch(IOException ex) {
+        		ClassUtil.closeAll(outputStream);
+        		outputStream = null;
+        		ex.printStackTrace();
+        		log("Error : " + ex.getMessage());
+        	}
+        }
+        
         refreshFull();
     }
     
@@ -85,6 +108,21 @@ public class JLogArea extends JScrollPane implements Disposeable, Releasable, Lo
         else ta.append("\n" + msg);
         
         setCaretLastPosition();
+        
+        if(outputStream != null) {
+        	try {
+        	    StringTokenizer lineTokenizer = new StringTokenizer(msg, "\n");
+        	    while(lineTokenizer.hasMoreTokens()) {
+        	        outputStream.write(lineTokenizer.nextToken());
+        	        outputStream.newLine();
+        	    }
+        	} catch(IOException ex) {
+        		ClassUtil.closeAll(outputStream);
+        		outputStream = null;
+        		ex.printStackTrace();
+        		log("Error : " + ex.getMessage());
+        	}
+        }
     }
     
     /** 로그 메시지를 문자열 리스트로 반환 (setText 또는 clear 시 삭제되므로 유의 !) */
@@ -97,10 +135,30 @@ public class JLogArea extends JScrollPane implements Disposeable, Releasable, Lo
     @Override
     public void dispose() {
         clear();
+        closeWriter();
     }
 
 	@Override
 	public void releaseResource() {
 		dispose();
+	}
+	
+	/** 추가 출력 스트림 설정 (로그 출력 시 이 스트림으로도 출력됨) */
+	public void setWriter(Writer writer) {
+		if(outputStream != null) {
+        	ClassUtil.closeAll(outputStream);
+    		outputStream = null;
+        }
+		
+		if(writer instanceof BufferedWriter) outputStream = (BufferedWriter) writer;
+		else                                 outputStream = new BufferedWriter(writer);
+	}
+	
+	/** 추가 출력 스트림 닫기 */
+	public void closeWriter() {
+		if(outputStream != null) {
+        	ClassUtil.closeAll(outputStream);
+    		outputStream = null;
+        }
 	}
 }
