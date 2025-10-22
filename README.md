@@ -10,7 +10,7 @@ No third parties needed.
 <dependency>
     <groupId>org.duckdns.hjow</groupId>
     <artifactId>hjow-commons</artifactId>
-    <version>0.0.18</version>
+    <version>0.0.19</version>
 </dependency>
 ```
 

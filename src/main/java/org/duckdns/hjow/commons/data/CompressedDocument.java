@@ -8,12 +8,15 @@ import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
 import org.duckdns.hjow.commons.util.FileUtil;
+import org.duckdns.hjow.commons.util.HexUtil;
 
 /** 압축된 문서를 다루는 클래스 */
 public class CompressedDocument implements Serializable {
 	private static final long serialVersionUID = -5631776628196578986L;
 	protected String content = "";
 	protected String contentType = "text/plain";
+	protected byte[] binaries = null; // 첨부 파일, 반드시 zip 형식 파일이어야 함.
+	
 	/** 빈 객체 생성, Content-Type 는 일반 텍스트 (text/plain) 으로 초기화. */
     public CompressedDocument() {}
     /** 직렬화된 하나의 문자열을 입력하여 객체 생성 */
@@ -49,6 +52,39 @@ public class CompressedDocument implements Serializable {
 	public void setContentType(String contentType) {
 		this.contentType = contentType;
 	}
+	public byte[] getBinaries() {
+		return binaries;
+	}
+	public void setBinaries(byte[] binaries) {
+		this.binaries = binaries;
+	}
+	public void setBinaries(String hex) {
+		setBinaries(HexUtil.decode(hex));
+	}
+	public String getBinaryHexString() {
+		return HexUtil.encode(getBinaries());
+	}
+	/** 내용 첫 줄을 처리 */
+	protected void processFirstLine(String line) {
+		if(line.contains("\t")) {
+			StringTokenizer tabTokenizer = new StringTokenizer(line);
+			line = null;
+			
+			String firsts = tabTokenizer.nextToken().trim();
+			String others = tabTokenizer.nextToken().trim();
+			tabTokenizer = null;
+			
+			firsts = firsts.replace(" ", "").replace("\n", "").replace("\r", "").trim();
+			setContentType(firsts);
+			firsts = null;
+			
+			setBinaries(others);
+			others = null;
+		} else {
+			line = line.replace(" ", "").replace("\n", "").replace("\r", "").trim();
+			setContentType(line);
+		}
+	}
 	/** 직렬화된 하나의 문자열에서 각 내용 추출해 이 객체에 데이터 입력 */
 	public void loadSerializedContent(String serializedContent) {
 		StringBuilder res = new StringBuilder("");
@@ -56,9 +92,9 @@ public class CompressedDocument implements Serializable {
     	boolean firsts  = true;
     	boolean seconds = false;
     	while(lineTokenizer.hasMoreTokens()) {
-    		if(firsts)       { setContentType(lineTokenizer.nextToken().trim()); firsts  = false; seconds = true; }
-    		else if(seconds) { res = res.append(lineTokenizer.nextToken());      seconds = false;                 }
-    		else             { res = res.append("\n").append(lineTokenizer.nextToken());                          }
+    		if(firsts)       { processFirstLine(lineTokenizer.nextToken().trim());      firsts  = false; seconds = true; }
+    		else if(seconds) { res = res.append(lineTokenizer.nextToken());             seconds = false;                 }
+    		else             { res = res.append("\n").append(lineTokenizer.nextToken());                                 }
     	}
     	setContent(res.toString());
 	}
@@ -82,6 +118,14 @@ public class CompressedDocument implements Serializable {
 	/** 파일로 쓰기 */
 	public void write(File file, String charset) throws IOException {
 		FileUtil.writeString(file, charset, toString(), GZIPOutputStream.class);
+	}
+	
+	/** 객체 복제 */
+	public CompressedDocument cloneDocument() {
+		CompressedDocument newInst = new CompressedDocument();
+		newInst.setContent(getContent());
+		newInst.setContentType(getContentType());
+		return newInst;
 	}
 	
 	/** 파일 확장자 */
