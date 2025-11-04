@@ -165,6 +165,58 @@ public class ClassUtil {
         return resultFirst;
     }
     
+    /** 체인형 클래스 로더로 클래스 로딩, 디렉토리 입력 불가 !  */
+    public static Class<?> loadChainedClass(File[] jarFile, String className) {
+    	URLChaindClassLoadManager cl = null;
+    	try {
+    		cl = new URLChaindClassLoadManager(jarFile);
+    		return cl.load(className);
+    	} catch(Throwable tx) {
+    		throw new RuntimeException(tx.getMessage(), tx);
+    	} finally {
+    		ClassUtil.closeAll(cl);
+    	}
+    }
+    
+    /** 체인형 클래스 로더로 클래스 로딩, 디렉토리 입력 불가 !  */
+    public static Class<?> loadChainedClass(File[] jarFile, ClassLoader parent, String className) {
+    	URLChaindClassLoadManager cl = null;
+    	try {
+    		cl = new URLChaindClassLoadManager(jarFile, parent);
+    		return cl.load(className);
+    	} catch(Throwable tx) {
+    		throw new RuntimeException(tx.getMessage(), tx);
+    	} finally {
+    		ClassUtil.closeAll(cl);
+    	}
+    }
+    
+    /** 체인형 클래스 로더로 클래스 로딩, 디렉토리 입력 불가 !  */
+    public static Class<?> loadChainedClass(List<File> jarFile, String className) {
+    	URLChaindClassLoadManager cl = null;
+    	try {
+    		cl = new URLChaindClassLoadManager(jarFile);
+    		return cl.load(className);
+    	} catch(Throwable tx) {
+    		throw new RuntimeException(tx.getMessage(), tx);
+    	} finally {
+    		ClassUtil.closeAll(cl);
+    	}
+    }
+    
+    /** 체인형 클래스 로더로 클래스 로딩, 디렉토리 입력 불가 !  */
+    public static Class<?> loadChainedClass(List<File> jarFile, ClassLoader parent, String className) {
+    	URLChaindClassLoadManager cl = null;
+    	try {
+    		cl = new URLChaindClassLoadManager(jarFile, parent);
+    		return cl.load(className);
+    	} catch(Throwable tx) {
+    		throw new RuntimeException(tx.getMessage(), tx);
+    	} finally {
+    		ClassUtil.closeAll(cl);
+    	}
+    }
+    
     /** 
      * 
      * 스트림을 순서대로 닫습니다. 하나 이상 예외가 발생하더라도 일단 모두 닫기를 시도합니다. 
