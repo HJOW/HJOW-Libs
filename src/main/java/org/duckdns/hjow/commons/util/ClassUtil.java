@@ -26,6 +26,7 @@ import java.net.URLClassLoader;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 import org.duckdns.hjow.commons.core.Disposeable;
 import org.duckdns.hjow.commons.core.Releasable;
@@ -37,6 +38,33 @@ import org.duckdns.hjow.commons.core.Releasable;
  *
  */
 public class ClassUtil {
+	/** 자바 버전 반환 */
+    public static int getJavaMajorVersion() {
+        String ver = System.getProperty("java.version");
+        StringTokenizer dotTokenizer = new StringTokenizer(ver, ".");
+        String strMajor;
+        if(ver.startsWith("1.")) {
+            dotTokenizer.nextToken();
+            strMajor = dotTokenizer.nextToken().trim();
+        } else {
+            strMajor = dotTokenizer.nextToken().trim();
+        }
+        return Integer.parseInt(strMajor.trim());
+    }
+    
+    /** 운영체제가 Windows 인지 확인 */
+    public static boolean isWindowsOS() {
+        String osName = System.getProperty("os.name");
+        if(osName.toLowerCase().trim().startsWith("windows")) return true;
+        return false;
+    }
+    
+    /** Java Home 경로 반환 */
+    public static File getJavaHome() {
+    	String javaHome = System.getProperty("java.home");
+    	return new File(javaHome);
+    }
+    
     /**
      * 클래스 풀네임 (패키지명 포함)과 class 파일이 있는 디렉토리를 입력하여 해당 클래스 객체를 읽어냅니다.
      * 
