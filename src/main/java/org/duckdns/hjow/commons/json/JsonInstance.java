@@ -23,6 +23,8 @@ public interface JsonInstance extends XMLSerializable, Iterable<Object> {
     /** JSON 형식의 문자열을 생성합니다. */
     public String toJSON();
     /** JSON 형식의 문자열을 생성합니다. */
+    public String toJSON(boolean lookFine);
+    /** JSON 형식의 문자열을 생성합니다. */
     public String toJSON(boolean allowLineJump, boolean lookFine);
     /** 이 메소드는 직접 호출하지 마세요. */
     public String toJSON(String indent, boolean allowLineJumpString, boolean lookFine);

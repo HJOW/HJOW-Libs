@@ -128,9 +128,15 @@ public class JsonArray extends XMLSerializableObject implements JsonInstance, Li
     public String toJSON() {
         return toJSON(false, false);
     }
+    
+    @Override
+    public String toJSON(boolean lookFine) {
+        return toJSON("    ", false, true);
+    }
 
     @Override
     public String toJSON(boolean allowLineJumpString, boolean lookFine) {
+    	if(lookFine) return toJSON("    ", allowLineJumpString, lookFine);
         return toJSON("", allowLineJumpString, lookFine);
     }
     
