@@ -125,6 +125,29 @@ public class DataUtil
         }
         return true;
     }
+
+    /** 
+     * 객체를 문자열로 강제 형변환합니다. null 이 들어온 경우, 빈 문자열을 반환합니다.
+     * 
+     * @param obj : 대상 객체
+     * @return 변환된 문자열
+    */
+    public static String toString(Object obj) {
+        if(obj == null) return "";
+        return obj.toString();
+    }
+
+    /** 
+     * 객체를 문자열로 강제 형변환합니다. null 이 들어온 경우, alternative 값을 반환합니다. 
+     * 
+     * @param obj : 대상 객체
+     * @param alternative : 대체 문자열
+     * @return 변환된 문자열
+    */
+    public static String toString(Object obj, String alternative) {
+        if(obj == null) return alternative;
+        return obj.toString();
+    }
     
     /**
      * <p>어떤 객체가 정수 값으로 변환이 가능한지 여부를 반환합니다.</p>
@@ -228,6 +251,7 @@ public class DataUtil
     /**
      * <p>배열을 리스트 객체로 변환합니다.</p>
      * 
+     * @param obj : 배열
      * @param newList : 리스트 객체, 주로 새 객체를 만들어 넣습니다. 이전에 쓰던 객체를 넣으면 배열 내용이 객체에 추가됩니다.
      * @return 리스트 객체
      */
@@ -240,6 +264,29 @@ public class DataUtil
             lists.add(obj[i]);
         }
         return lists;
+    }
+
+    /**
+     * <p>가변 인자를 배열로 변환합니다.</p>
+     * 
+     * @param objects : 가변 인자
+     * @return 배열
+     */
+    public static <T> T[] toArray(T ... objects) {
+        return objects;
+    }
+
+    /**
+     * <p>가변 인자를 리스트로 변환합니다.</p>
+     * @param objects : 가변 인자
+     * @return : 리스트
+     */
+    public static <T> List<T> toList(T ... objects) {
+        List<T> list = new ArrayList<T>();
+        for(T obj : objects) {
+            list.add(obj);
+        }
+        return list;
     }
     
     /**
