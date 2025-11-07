@@ -27,10 +27,12 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Random;
+import java.util.Set;
 import java.util.Vector;
 
 import org.duckdns.hjow.commons.json.JsonObject;
@@ -283,6 +285,19 @@ public class DataUtil
      */
     public static <T> List<T> toList(T ... objects) {
         List<T> list = new ArrayList<T>();
+        for(T obj : objects) {
+            list.add(obj);
+        }
+        return list;
+    }
+    
+    /**
+     * <p>가변 인자를 Set 으로 변환합니다. (중복이 자동 제거되며, 순서가 없는 컬렉션입니다.)</p>
+     * @param objects : 가변 인자
+     * @return : Set
+     */
+    public static <T> Set<T> toSet(T ... objects) {
+        Set<T> list = new HashSet<T>();
         for(T obj : objects) {
             list.add(obj);
         }

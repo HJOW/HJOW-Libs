@@ -3,6 +3,8 @@ package org.duckdns.hjow.commons.util;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.duckdns.hjow.commons.exception.KnownRuntimeException;
 
@@ -48,6 +50,20 @@ public class Base64Util {
 		} catch (IllegalArgumentException e) {} catch (IllegalAccessException e) {} catch (InvocationTargetException e) {}
     	throw new KnownRuntimeException("This JRE does not support BASE64");
     }
+    
+    /** BASE64 또는 HEX 인코딩된 문자열을 받아, 패턴을 인식하여 BASE64가 맞으면 디코딩해 반환. 그외의 경우 HEX 인코딩으로 판단해 디코딩해 반환. */
+    public static byte[] decodeAuto(String str) {
+    	try {
+    		String mayBeBase64 = str;
+    		if(str.contains("-") || str.contains("_") || str.contains(".")) mayBeBase64 = recoverBase64Default(str);
+    		
+    	    Pattern pattern = Pattern.compile("^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)?$");
+    	    Matcher matcher = pattern.matcher(mayBeBase64);
+    	    
+    	    if(matcher.find()) return Base64Util.decode(mayBeBase64);
+    	} catch(Exception ex) {} // 오류가 나더라도 HEX로 재시도
+    	return HexUtil.decode(str);
+    }
 
     /** BASE64 인코딩 */
     public static String encodeString(String originalStr) {
@@ -60,6 +76,16 @@ public class Base64Util {
     /** BASE64 디코딩 */
     public static String decodeString(String base64String) {
     	try { return new String(decode(base64String), "UTF-8"); } catch(UnsupportedEncodingException e) { throw new RuntimeException(e.getMessage(), e); }
+    }
+    
+    /** BASE64 문자열을 URL Safe 하게 변환 */
+    public static String convertBase64AsURLSafe(String base64Str) { // TODO 공통 lib 로 이관
+    	return base64Str.replace("+", "-").replace("/", "_").replace("=", ".");
+    }
+    
+    /** BASE64 URL Safe 처리된 문자열을 기존 BASE64 문자열로 변환 */
+    public static String recoverBase64Default(String urlSafeBase64) { // TODO 공통 lib 로 이관
+    	return urlSafeBase64.replace("-", "+").replace("_", "/").replace(".", "=");
     }
     
     private static Method getJava6Decoder() {
