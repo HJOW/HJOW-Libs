@@ -23,6 +23,7 @@ import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.nio.charset.Charset;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -63,6 +64,11 @@ public class ClassUtil {
         String osName = System.getProperty("os.name");
         if(osName.toLowerCase().trim().startsWith("windows")) return true;
         return false;
+    }
+    
+    /** 기본 캐릭터셋 반환 */
+    public static String getDefaultCharset() {
+    	return Charset.defaultCharset().toString();
     }
     
     /** Java Home 경로 반환 */
