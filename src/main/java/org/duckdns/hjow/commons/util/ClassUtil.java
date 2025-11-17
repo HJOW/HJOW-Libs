@@ -472,4 +472,40 @@ public class ClassUtil {
         }
         return classSet;
     }
+    
+    /** 리플렉션을 통해 해당 객체의 메소드 호출 */
+    public static Object invokeMethod(Object instance, String methodName, Object ... params) {
+    	try {
+    		Class<?> classObj = instance.getClass();
+    		
+    		if(params == null) params = new Object[0];
+    		Class<?>[] paramClasses = new Class<?>[params.length];
+    		for(int idx=0; idx<paramClasses.length; idx++) {
+    			paramClasses[idx] = params[idx].getClass();
+    		}
+    		
+    		Method mthd = classObj.getMethod(methodName, paramClasses);
+    		return mthd.invoke(instance, params);
+    	} catch(Exception ex) {
+    		throw new RuntimeException(ex.getMessage(), ex);
+    	}
+    }
+    
+    /** 리플렉션을 통해 해당 클래스의 static 메소드 호출 */
+    public static Object invokeStaticMethod(String classFullName, String methodName, Object ... params) {
+    	try {
+    		Class<?> classObj = Class.forName(classFullName);
+    		
+    		if(params == null) params = new Object[0];
+    		Class<?>[] paramClasses = new Class<?>[params.length];
+    		for(int idx=0; idx<paramClasses.length; idx++) {
+    			paramClasses[idx] = params[idx].getClass();
+    		}
+    		
+    		Method mthd = classObj.getMethod(methodName, paramClasses);
+    		return mthd.invoke(null, params);
+    	} catch(Exception ex) {
+    		throw new RuntimeException(ex.getMessage(), ex);
+    	}
+    }
 }
