@@ -17,9 +17,10 @@ limitations under the License.
  */
 package org.duckdns.hjow.commons.json;
 
+import org.duckdns.hjow.commons.core.CloneableObject;
 import org.duckdns.hjow.commons.xml.XMLSerializable;
 
-public interface JsonInstance extends XMLSerializable, Iterable<Object> {
+public interface JsonInstance extends XMLSerializable, Iterable<Object>, CloneableObject {
     /** JSON 형식의 문자열을 생성합니다. */
     public String toJSON();
     /** JSON 형식의 문자열을 생성합니다. */

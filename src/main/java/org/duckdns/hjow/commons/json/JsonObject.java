@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.duckdns.hjow.commons.core.CloneableObject;
 import org.duckdns.hjow.commons.script.PublicMethodOpenedClass;
 import org.duckdns.hjow.commons.util.DataUtil;
 import org.duckdns.hjow.commons.util.SyntaxUtil;
@@ -405,4 +406,20 @@ public class JsonObject extends PublicMethodOpenedClass implements JsonInstance,
     public Set<Entry<String, Object>> entrySet() {
         return data.entrySet();
     }
+    
+    /** 자기 자신 반환 */
+    public JsonObject getSelf() { return this; }
+
+	@Override
+	public Object cloneThis() {
+		JsonObject json = new JsonObject();
+		Set<String> keys = keySet();
+		for(String k : keys) {
+			Object obj = json.get(k);
+			if(obj instanceof CloneableObject) obj = ((CloneableObject) obj).cloneThis();
+			json.put(k, obj);
+		}
+		
+		return json;
+	}
 }

@@ -28,6 +28,7 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.Set;
 
+import org.duckdns.hjow.commons.core.CloneableObject;
 import org.duckdns.hjow.commons.util.DataUtil;
 import org.duckdns.hjow.commons.util.SyntaxUtil;
 import org.duckdns.hjow.commons.xml.XMLSerializableObject;
@@ -395,4 +396,20 @@ public class JsonArray extends XMLSerializableObject implements JsonInstance, Li
         newArr.setData(data.subList(fromIndex, toIndex));
         return newArr;
     }
+    
+    /** 자기 자신 반환 */
+    public JsonArray getSelf() { return this; }
+
+	@Override
+	public Object cloneThis() {
+		JsonArray newOne = new JsonArray();
+		for(Object obj : this) {
+			if(obj instanceof CloneableObject) {
+				obj = ((CloneableObject) obj).cloneThis();
+			}
+			
+			newOne.add(obj);
+		}
+		return newOne;
+	}
 }
