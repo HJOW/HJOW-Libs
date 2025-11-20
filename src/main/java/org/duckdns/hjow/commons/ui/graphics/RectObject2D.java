@@ -1,5 +1,6 @@
 package org.duckdns.hjow.commons.ui.graphics;
 
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.geom.Area;
 
@@ -27,7 +28,11 @@ public class RectObject2D implements Object2D {
 		this.h = h;
 	}
 	@Override
-	public Area area() {
+	public Area area(Graphics2D g) {
 		return new Area(new Rectangle((int) getLeftTop().getX(), (int) getLeftTop().getY(), (int) getW(), (int) getH()));
+	}
+	@Override
+	public Area area() {
+		return area(null);
 	}
 }

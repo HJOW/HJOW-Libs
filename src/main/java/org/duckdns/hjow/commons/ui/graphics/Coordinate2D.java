@@ -1,8 +1,10 @@
 package org.duckdns.hjow.commons.ui.graphics;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 import org.duckdns.hjow.commons.json.JsonObject;
+import org.duckdns.hjow.commons.util.DataUtil;
 
 /** 2D 좌표 */
 public class Coordinate2D implements Serializable {
@@ -38,5 +40,14 @@ public class Coordinate2D implements Serializable {
 		json.put("x", String.valueOf(getX()));
 		json.put("y", String.valueOf(getY()));
 		return json;
+	}
+	
+	/** 다른 좌표와의 거리 계산 */
+	public long getDistance(Coordinate2D others) {
+		BigDecimal dx = new BigDecimal(String.valueOf(getX() - others.getX()));
+		BigDecimal dy = new BigDecimal(String.valueOf(getY() - others.getY()));
+		
+		BigDecimal sum = dx.pow(2).add(dy.pow(2));
+		return DataUtil.sqrt(sum, 50).longValue();
 	}
 }

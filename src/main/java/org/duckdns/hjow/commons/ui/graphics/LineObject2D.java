@@ -1,6 +1,7 @@
 package org.duckdns.hjow.commons.ui.graphics;
 
 import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.geom.Area;
 import java.awt.geom.Line2D;
 
@@ -29,7 +30,11 @@ public class LineObject2D implements Object2D {
 		this.color = color;
 	}
 	@Override
-	public Area area() {
+	public Area area(Graphics2D g) {
 		return new Area(new Line2D.Double((double) from.getX(), (double) from.getY(), (double) to.getX(), (double) to.getY()));
+	}
+	@Override
+	public Area area() {
+		return area(null);
 	}
 }

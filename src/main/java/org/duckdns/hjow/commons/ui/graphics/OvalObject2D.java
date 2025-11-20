@@ -1,6 +1,7 @@
 package org.duckdns.hjow.commons.ui.graphics;
 
 import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 
@@ -37,6 +38,10 @@ public class OvalObject2D implements Object2D {
 	}
 	@Override
 	public Area area() {
+		return area(null);
+	}
+	@Override
+	public Area area(Graphics2D g) {
 		return new Area(new Ellipse2D.Double((double) getX(), (double)getY(), (double)getR(), (double)getR()));
 	}
 }
