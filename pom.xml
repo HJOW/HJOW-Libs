@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.duckdns.hjow</groupId>
   <artifactId>hjow-commons</artifactId>
-  <version>0.0.33</version>
+  <version>0.0.34</version>
   <name>HJOW's common libraries</name>
   <packaging>jar</packaging>
 	<description>자바 기반 프로젝트를 위한 공통 라이브러리입니다.</description>
