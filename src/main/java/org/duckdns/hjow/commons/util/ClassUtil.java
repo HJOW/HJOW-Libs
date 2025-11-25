@@ -24,6 +24,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -37,6 +38,7 @@ import java.util.jar.JarFile;
 import org.duckdns.hjow.commons.core.Disposeable;
 import org.duckdns.hjow.commons.core.Releasable;
 import org.duckdns.hjow.commons.exception.KnownRuntimeException;
+import org.duckdns.hjow.commons.util.classwrapper.ClassWrapper;
 
 /**
  * 리플렉션을 유용하게 다루는데 사용할 만한 메소드들을 모았습니다.
@@ -45,6 +47,9 @@ import org.duckdns.hjow.commons.exception.KnownRuntimeException;
  *
  */
 public class ClassUtil {
+	public static final ClassLoader ROOT_CLASS_LOADER = Thread.currentThread().getContextClassLoader();
+	private static final List<URLClassLoader> urlClassLoaders = new ArrayList<URLClassLoader>();
+	
 	/** 자바 버전 반환 */
     public static int getJavaMajorVersion() {
         String ver = System.getProperty("java.version");
@@ -80,6 +85,7 @@ public class ClassUtil {
     /**
      * 클래스 풀네임 (패키지명 포함)과 class 파일이 있는 디렉토리를 입력하여 해당 클래스 객체를 읽어냅니다.
      * 
+     * 
      * @param className : 클래스 풀네임
      * @param directory : class 파일이 위치한 디렉토리
      * @return 클래스 객체 (해당 클래스의 인스턴스가 아님, 그러나 이 클래스 객체를 통해 인스턴스를 생성할 수 있음)
@@ -90,18 +96,12 @@ public class ClassUtil {
             loader = new URLClassLoader(new URL[] {
                     new URL("file://" + directory.getAbsolutePath())
             });
+            urlClassLoaders.add(loader);
             return loader.loadClass(className);
         } catch(MalformedURLException t) {
             throw t;
         } catch(ClassNotFoundException t) {
             throw t;
-        } finally {
-            try { 
-                if(loader != null) {
-                    Method closeMethod = loader.getClass().getMethod("close");
-                    closeMethod.invoke(loader);
-                } 
-            } catch(Throwable t1) {}
         }
     }
     
@@ -508,4 +508,81 @@ public class ClassUtil {
     		throw new RuntimeException(ex.getMessage(), ex);
     	}
     }
+    
+    /** 해당 jar 파일을 통해 클래스를 불러올 수 있는 클래스로더 생성 */
+	public static URLClassLoader newClassLoader(File file) {
+		return newClassLoader(file, ROOT_CLASS_LOADER);
+	}
+	
+	/** 해당 jar 파일을 통해 클래스를 불러올 수 있는 클래스로더 생성 */
+	public static URLClassLoader newClassLoader(File file, ClassLoader parent) {
+		File[] files = new File[1];
+		files[0] = file;
+		return newClassLoader(files, parent);
+	}
+	
+	/** 해당 jar 파일을 통해 클래스를 불러올 수 있는 클래스로더 생성 - 주의 ! jar 파일인 경우 여러 파일을 넣으면 인식하지 못할 수 있음. */
+	public static URLClassLoader newClassLoader(File[] files) {
+		return newClassLoader(files, ROOT_CLASS_LOADER);
+	}
+	
+	/** 해당 jar 파일을 통해 클래스를 불러올 수 있는 클래스로더 생성 - 주의 ! jar 파일인 경우 여러 파일을 넣으면 인식하지 못할 수 있음. */
+	public static URLClassLoader newClassLoader(File[] files, ClassLoader parent) {
+		try {
+			URL[] urls = new URL[files.length];
+			for(int idx=0; idx<urls.length; idx++) {
+				urls[idx] = files[idx].toURI().toURL();
+			}
+			
+			return newClassLoader(urls, parent);
+		} catch(RuntimeException ex) {
+			throw ex;
+		} catch(Exception ex) {
+			throw new RuntimeException(ex.getMessage(), ex);
+		}
+	}
+	
+	/** 해당 jar 파일을 통해 클래스를 불러올 수 있는 클래스로더 생성 */
+	public static URLClassLoader newClassLoader(URL url) {
+		return newClassLoader(url, ROOT_CLASS_LOADER);
+	}
+	
+	/** 해당 jar 파일을 통해 클래스를 불러올 수 있는 클래스로더 생성 */
+	public static URLClassLoader newClassLoader(URL url, ClassLoader parent) {
+		URL[] urls = new URL[1];
+		urls[0] = url;
+		return newClassLoader(urls, parent);
+	}
+	
+	/** 해당 jar 파일을 통해 클래스를 불러올 수 있는 클래스로더 생성 - 주의 ! jar 파일인 경우 여러 파일을 넣으면 인식하지 못할 수 있음. */
+	public static URLClassLoader newClassLoader(URL[] urls) {
+		return newClassLoader(urls, ROOT_CLASS_LOADER);
+	}
+	
+	/** 해당 jar 파일을 통해 클래스를 불러올 수 있는 클래스로더 생성 - 주의 ! jar 파일인 경우 여러 파일을 넣으면 인식하지 못할 수 있음. */
+	public static URLClassLoader newClassLoader(URL[] urls, ClassLoader parent) {
+		try {
+		    URLClassLoader newOne = new URLClassLoader(urls, parent);
+		    urlClassLoaders.add(newOne);
+		    
+		    return newOne;
+		} catch(Exception ex) {
+			throw new RuntimeException(ex.getMessage(), ex);
+		}
+	}
+	
+	/** ClassWrapper 들의 List 로부터 Class 리스트 생성 */
+    public static List<Class<?>> getClassListsFrom(List<ClassWrapper> wrappers) {
+    	List<Class<?>> list = new ArrayList<Class<?>>();
+    	for(ClassWrapper cls : wrappers) {
+    		list.add(cls.getWrappedClass());
+    	}
+    	return list;
+    }
+	
+	/** 모든 URLClassLoader 닫기 */
+	public static synchronized void closeAll() {
+		ClassUtil.closeAll(urlClassLoaders);
+		urlClassLoaders.clear();
+	}
 }
