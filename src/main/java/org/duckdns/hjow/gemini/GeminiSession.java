@@ -173,6 +173,13 @@ public class GeminiSession implements Disposeable {
         return roots;
     }
     
+    /** 질문 패키지 생성 (질문 문장을 Gemini API에 맞도록 구조화) (참고 : https://ai.google.dev/api?hl=ko) - 매번 채팅 시 채팅내용 전체를 매번 보내야 하며, buildContent 메소드를 사용하여 각 채팅 대화상대의 컨텐츠를 다 만들어 넣어야 함 */
+    public static JsonObject buildRequest(List<GeminiSpeak> speaks) {
+    	JsonArray arr = new JsonArray();
+    	for(GeminiSpeak s : speaks) { arr.add(s.toJson()); }
+    	return buildRequest(arr);
+    }
+    
     /** 응답 JSON 에서, 답변 텍스트 추출 (참고 : https://ai.google.dev/api?hl=ko) */
     public static String getResponseMessage(JsonObject responseJson) {
     	JsonArray  candidates   = ((JsonArray) responseJson.get("candidates"));

@@ -579,9 +579,17 @@ public class ClassUtil {
     	}
     	return list;
     }
+    
+    /** 모든 URLClassLoader 닫기 
+     * @see ClassUtil.closeAllURLClassLoaders
+     */
+    @Deprecated
+	public static synchronized void closeAll() {
+		closeAllURLClassLoaders();
+	}
 	
 	/** 모든 URLClassLoader 닫기 */
-	public static synchronized void closeAll() {
+	public static synchronized void closeAllURLClassLoaders() {
 		ClassUtil.closeAll(urlClassLoaders);
 		urlClassLoaders.clear();
 	}
