@@ -70,7 +70,7 @@ public class GeminiModel implements Serializable {
 	/** 요청을 보낼 URL 반환 */
     public URL getURL() {
         try {
-            return new URL("https://generativelanguage.googleapis.com/v1beta/models/[MODEL]:generateContent?key=[KEY]".replace("[MODEL]", getModelCode()).replace("[KEY]", getApiKey()));
+            return new URL("https://generativelanguage.googleapis.com/v1beta/models/[MODEL]:generateContent".replace("[MODEL]", getModelCode()).replace("[KEY]", getApiKey()));
         } catch (MalformedURLException ex) {
             throw new RuntimeException(ex.getMessage(), ex);
         }

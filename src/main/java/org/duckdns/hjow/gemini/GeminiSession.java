@@ -28,22 +28,23 @@ public class GeminiSession implements Disposeable {
     
     /** 접속 */
     protected void connect() {
-    	OutputStream       out1 = null;
-    	OutputStreamWriter out2 = null;
-    	try {
-    		http = (HttpURLConnection) model.getURL().openConnection();
+        OutputStream       out1 = null;
+        OutputStreamWriter out2 = null;
+        try {
+            http = (HttpURLConnection) model.getURL().openConnection();
             http.setDoOutput(true);
-            http.setRequestProperty("Content-Type", "application/json");
             http.setRequestMethod("POST");
+            http.setRequestProperty("Content-Type", "application/json");
+            http.setRequestProperty("x-goog-api-key", model.getApiKey());
             
             out1   = http.getOutputStream();
             out2   = new OutputStreamWriter(out1, "UTF-8");
             writer = new BufferedWriter(out2);
-    	} catch(Exception ex) {
-    		dispose();
-    		ClassUtil.closeAll(out2, out1);
-    		throw new RuntimeException(ex.getMessage(), ex);
-    	}
+        } catch(Exception ex) {
+            dispose();
+            ClassUtil.closeAll(out2, out1);
+            throw new RuntimeException(ex.getMessage(), ex);
+        }
     }
     
     /** 채팅 요청 전송하고 응답 반환 */
@@ -54,8 +55,8 @@ public class GeminiSession implements Disposeable {
         StringBuilder responseCollector = new StringBuilder("");
         boolean firsts = true;
         try {
-        	String json = jsonObject.toJSON();
-        	jsonObject = null;
+            String json = jsonObject.toJSON();
+            jsonObject = null;
             
             StringTokenizer lineTokenizer = new StringTokenizer(json, "\n");
             
@@ -96,73 +97,73 @@ public class GeminiSession implements Disposeable {
             if(causes instanceof RuntimeException) throw (RuntimeException) causes;
             throw new RuntimeException(causes.getMessage(), causes);
         } finally {
-        	dispose();
+            dispose();
         }
     }
     
     /** 채팅 요청 전송하고 응답 반환 */
     public JsonObject request(String question) {
-    	return request(buildRequest(question));
+        return request(buildRequest(question));
     }
     
     /** 현재 설정된 모델 및 KEY 정보 반환 */
     public GeminiModel getModel() {
-    	return model;
+        return model;
     }
     
     /** 모델과 KEY 등을 설정 */
     public void setModel(GeminiModel model) {
-    	model.setLocation(model.getLocation());
-    	model.setModelCode(model.getModelCode());
-    	model.setApiKey(model.getApiKey());
-    	model.setProjectId(model.getProjectId());
+        this.model.setLocation(model.getLocation());
+        this.model.setModelCode(model.getModelCode());
+        this.model.setApiKey(model.getApiKey());
+        this.model.setProjectId(model.getProjectId());
     }
     
     /** 접속 상태 확인 */
     public boolean isAlive() {
-    	return (writer != null);
+        return (writer != null);
     }
     
-	@Override
-	public void dispose() {
-		ClassUtil.closeAll(writer, http);
-		writer = null;
-		http   = null;
-	}
-	
-	/** Map 을 JSON Object 으로 변환 */
-	public static JsonObject convertObject(Map<?, ?> map) {
-		JsonObject json = new JsonObject();
-		Set<?> keys = map.keySet();
-		for(Object k : keys) {
-			String key = k.toString();
-			Object val = map.get(key);
-			if(val instanceof Map<?, ?>)    val = convertObject((Map<?, ?>) val);
-			else if(val instanceof List<?>) val = convertList((List<?>) val);
-			
-			json.put(key, val);
-		}
-		return json;
-	}
-	
-	/** List 를 Json Array 로 변환 */
-	public static JsonArray convertList(List<?> list) {
-		JsonArray arr = new JsonArray();
-		for(Object obj : list) {
-			Object val = obj;
-			if(val instanceof Map<?, ?>)    val = convertObject((Map<?, ?>) val);
-			else if(val instanceof List<?>) val = convertList((List<?>) val);
-			
-			arr.add(val);
-		}
-		
-		return arr;
-	}
-	
-	/** 질문 패키지 생성 (질문 문장을 Gemini API에 맞도록 구조화) (참고 : https://ai.google.dev/api?hl=ko) - 대화 맥락 보관 기능 없음 - 매번 새 채팅이 됨 */
+    @Override
+    public void dispose() {
+        ClassUtil.closeAll(writer, http);
+        writer = null;
+        http   = null;
+    }
+    
+    /** Map 을 JSON Object 으로 변환 */
+    public static JsonObject convertObject(Map<?, ?> map) {
+        JsonObject json = new JsonObject();
+        Set<?> keys = map.keySet();
+        for(Object k : keys) {
+            String key = k.toString();
+            Object val = map.get(key);
+            if(val instanceof Map<?, ?>)    val = convertObject((Map<?, ?>) val);
+            else if(val instanceof List<?>) val = convertList((List<?>) val);
+            
+            json.put(key, val);
+        }
+        return json;
+    }
+    
+    /** List 를 Json Array 로 변환 */
+    public static JsonArray convertList(List<?> list) {
+        JsonArray arr = new JsonArray();
+        for(Object obj : list) {
+            Object val = obj;
+            if(val instanceof Map<?, ?>)    val = convertObject((Map<?, ?>) val);
+            else if(val instanceof List<?>) val = convertList((List<?>) val);
+            
+            arr.add(val);
+        }
+        
+        return arr;
+    }
+    
+    /** 질문 패키지 생성 (질문 문장을 Gemini API에 맞도록 구조화) (참고 : https://ai.google.dev/api?hl=ko) - 대화 맥락 보관 기능 없음 - 매번 새 채팅이 됨 */
     public static JsonObject buildRequest(String question) {
-    	JsonArray contentArray = new JsonArray();
-    	contentArray.add(new GeminiSpeak("user", question).toJson());
+        JsonArray contentArray = new JsonArray();
+        contentArray.add(new GeminiSpeak("user", question).toJson());
         return buildRequest(contentArray);
     }
     
@@ -175,14 +176,14 @@ public class GeminiSession implements Disposeable {
     
     /** 질문 패키지 생성 (질문 문장을 Gemini API에 맞도록 구조화) (참고 : https://ai.google.dev/api?hl=ko) - 매번 채팅 시 채팅내용 전체를 매번 보내야 하며, buildContent 메소드를 사용하여 각 채팅 대화상대의 컨텐츠를 다 만들어 넣어야 함 */
     public static JsonObject buildRequest(List<GeminiSpeak> speaks) {
-    	JsonArray arr = new JsonArray();
-    	for(GeminiSpeak s : speaks) { arr.add(s.toJson()); }
-    	return buildRequest(arr);
+        JsonArray arr = new JsonArray();
+        for(GeminiSpeak s : speaks) { arr.add(s.toJson()); }
+        return buildRequest(arr);
     }
     
     /** 응답 JSON 에서, 답변 텍스트 추출 (참고 : https://ai.google.dev/api?hl=ko) */
     public static String getResponseMessage(JsonObject responseJson) {
-    	JsonArray  candidates   = ((JsonArray) responseJson.get("candidates"));
+        JsonArray  candidates   = ((JsonArray) responseJson.get("candidates"));
         JsonObject candidateOne = (JsonObject) candidates.get(0);
         JsonObject contents     = (JsonObject) candidateOne.get("content");
         JsonArray  parts        = (JsonArray)  contents.get("parts");
@@ -193,8 +194,8 @@ public class GeminiSession implements Disposeable {
     
     /** 질문 요청하고 답변 반환 */
     public static String requestSimple(GeminiModel model, String question) {
-    	GeminiSession session = new GeminiSession();
-    	session.setModel(model);
-    	return getResponseMessage(session.request(question));
+        GeminiSession session = new GeminiSession();
+        session.setModel(model);
+        return getResponseMessage(session.request(question));
     }
 }
