@@ -47,10 +47,10 @@ import org.duckdns.hjow.commons.util.classwrapper.ClassWrapper;
  *
  */
 public class ClassUtil {
-	public static final ClassLoader ROOT_CLASS_LOADER = Thread.currentThread().getContextClassLoader();
-	private static final List<URLClassLoader> urlClassLoaders = new ArrayList<URLClassLoader>();
-	
-	/** 자바 버전 반환 */
+    public static final ClassLoader ROOT_CLASS_LOADER = Thread.currentThread().getContextClassLoader();
+    private static final List<URLClassLoader> urlClassLoaders = new ArrayList<URLClassLoader>();
+    
+    /** 자바 버전 반환 */
     public static int getJavaMajorVersion() {
         String ver = System.getProperty("java.version");
         StringTokenizer dotTokenizer = new StringTokenizer(ver, ".");
@@ -71,15 +71,43 @@ public class ClassUtil {
         return false;
     }
     
+    /** 시스템 OS 및 아키텍처 정보 반환 ( 예: win_x64, linux_x86, mac_arm64 ... ) 절대 null 을 반환하지 않으며, 알 수 없는 경우 UNKNOWN 이 반환 */
+    public static String getSystemInfo() {
+        String osPart, archPart, propVal;
+        osPart   = null;
+        archPart = null;
+        
+        if(ClassUtil.isWindowsOS()) osPart = "win";
+        else {
+            propVal = System.getProperty("os.name").toLowerCase();
+            if(propVal.contains("linux")) osPart = "linux";
+            else if(propVal.contains("mac")) osPart = "mac";
+            else if(propVal.contains("sunos")) osPart = "solaris";
+            else osPart = propVal.replace(" ", "_").trim();
+        }
+        
+        propVal = System.getProperty("os.arch").toLowerCase();
+        if(propVal.equals("amd64")) archPart = "x64";
+        else if(propVal.equals("x86_64")) archPart = "x64";
+        else if(propVal.equals("aarch64")) archPart = "arm64";
+        else archPart = propVal.replace(" ", "_").trim();
+        
+        if(DataUtil.isEmpty(osPart  )) osPart   = "UNKNOWN";
+        if(DataUtil.isEmpty(archPart)) archPart = "UNKNOWN";
+        if(osPart.equals("UNKNOWN") && archPart.equals("UNKNOWN")) return "UNKNOWN";
+        
+        return osPart + "_" + archPart;
+    }
+    
     /** 기본 캐릭터셋 반환 */
     public static String getDefaultCharset() {
-    	return Charset.defaultCharset().toString();
+        return Charset.defaultCharset().toString();
     }
     
     /** Java Home 경로 반환 */
     public static File getJavaHome() {
-    	String javaHome = System.getProperty("java.home");
-    	return new File(javaHome);
+        String javaHome = System.getProperty("java.home");
+        return new File(javaHome);
     }
     
     /**
@@ -207,54 +235,54 @@ public class ClassUtil {
     
     /** 체인형 클래스 로더로 클래스 로딩, 디렉토리 입력 불가 !  */
     public static Class<?> loadChainedClass(File[] jarFile, String className) {
-    	URLChaindClassLoadManager cl = null;
-    	try {
-    		cl = new URLChaindClassLoadManager(jarFile);
-    		return cl.load(className);
-    	} catch(Throwable tx) {
-    		throw new RuntimeException(tx.getMessage(), tx);
-    	} finally {
-    		ClassUtil.closeAll(cl);
-    	}
+        URLChaindClassLoadManager cl = null;
+        try {
+            cl = new URLChaindClassLoadManager(jarFile);
+            return cl.load(className);
+        } catch(Throwable tx) {
+            throw new RuntimeException(tx.getMessage(), tx);
+        } finally {
+            ClassUtil.closeAll(cl);
+        }
     }
     
     /** 체인형 클래스 로더로 클래스 로딩, 디렉토리 입력 불가 !  */
     public static Class<?> loadChainedClass(File[] jarFile, ClassLoader parent, String className) {
-    	URLChaindClassLoadManager cl = null;
-    	try {
-    		cl = new URLChaindClassLoadManager(jarFile, parent);
-    		return cl.load(className);
-    	} catch(Throwable tx) {
-    		throw new RuntimeException(tx.getMessage(), tx);
-    	} finally {
-    		ClassUtil.closeAll(cl);
-    	}
+        URLChaindClassLoadManager cl = null;
+        try {
+            cl = new URLChaindClassLoadManager(jarFile, parent);
+            return cl.load(className);
+        } catch(Throwable tx) {
+            throw new RuntimeException(tx.getMessage(), tx);
+        } finally {
+            ClassUtil.closeAll(cl);
+        }
     }
     
     /** 체인형 클래스 로더로 클래스 로딩, 디렉토리 입력 불가 !  */
     public static Class<?> loadChainedClass(List<File> jarFile, String className) {
-    	URLChaindClassLoadManager cl = null;
-    	try {
-    		cl = new URLChaindClassLoadManager(jarFile);
-    		return cl.load(className);
-    	} catch(Throwable tx) {
-    		throw new RuntimeException(tx.getMessage(), tx);
-    	} finally {
-    		ClassUtil.closeAll(cl);
-    	}
+        URLChaindClassLoadManager cl = null;
+        try {
+            cl = new URLChaindClassLoadManager(jarFile);
+            return cl.load(className);
+        } catch(Throwable tx) {
+            throw new RuntimeException(tx.getMessage(), tx);
+        } finally {
+            ClassUtil.closeAll(cl);
+        }
     }
     
     /** 체인형 클래스 로더로 클래스 로딩, 디렉토리 입력 불가 !  */
     public static Class<?> loadChainedClass(List<File> jarFile, ClassLoader parent, String className) {
-    	URLChaindClassLoadManager cl = null;
-    	try {
-    		cl = new URLChaindClassLoadManager(jarFile, parent);
-    		return cl.load(className);
-    	} catch(Throwable tx) {
-    		throw new RuntimeException(tx.getMessage(), tx);
-    	} finally {
-    		ClassUtil.closeAll(cl);
-    	}
+        URLChaindClassLoadManager cl = null;
+        try {
+            cl = new URLChaindClassLoadManager(jarFile, parent);
+            return cl.load(className);
+        } catch(Throwable tx) {
+            throw new RuntimeException(tx.getMessage(), tx);
+        } finally {
+            ClassUtil.closeAll(cl);
+        }
     }
     
     /** 
@@ -321,276 +349,276 @@ public class ClassUtil {
     
     /** 현재 이 런타임의 클래스패스들을 반환 */
     public static Set<String> getClasspaths() {
-    	String classpaths = System.getProperty("java.class.path");
-    	
-    	Set<String> list = new HashSet<String>();
-    	StringTokenizer classpathTokenizer = new StringTokenizer(classpaths, File.pathSeparator); // File.separator 와는 다름에 주의 !
-    	while(classpathTokenizer.hasMoreTokens()) {
-    		String res = classpathTokenizer.nextToken().trim();
-    		list.add(res);
-    	}
-    	return list;
+        String classpaths = System.getProperty("java.class.path");
+        
+        Set<String> list = new HashSet<String>();
+        StringTokenizer classpathTokenizer = new StringTokenizer(classpaths, File.pathSeparator); // File.separator 와는 다름에 주의 !
+        while(classpathTokenizer.hasMoreTokens()) {
+            String res = classpathTokenizer.nextToken().trim();
+            list.add(res);
+        }
+        return list;
     }
     
     /** 현재 이 런타임 내 모든 클래스 이름들을 반환. 단 자바 런타임의 클래스는 반환되지 않으며, * 기호가 들어간 클래스패스는 제외됨. 또한 서블릿 프로젝트의 WEB-INF / lib 디렉토리 내 jar 파일들 또한 보증하지 못함. */
     public static Set<String> getAllClassNames() {
-    	Set<String> list = new HashSet<String>();
-    	
-    	for(String classPaths : getClasspaths()) {
-    		if(classPaths.contains("*")) continue;
-    		
-    		File file = new File(classPaths);
-    		if(! file.exists()) continue;
-    		
-    		if(file.isDirectory()) {
-    			list.addAll(getClassNamesFromDirectory(file));
-    		} else {
-    			String lower = file.getName().toLowerCase();
-    			if(! lower.endsWith(".jar")) continue;
-    			
-    			list.addAll(getClassNamesFromJar(file));
-    		}
-    	}
-    	
-    	return list;
+        Set<String> list = new HashSet<String>();
+        
+        for(String classPaths : getClasspaths()) {
+            if(classPaths.contains("*")) continue;
+            
+            File file = new File(classPaths);
+            if(! file.exists()) continue;
+            
+            if(file.isDirectory()) {
+                list.addAll(getClassNamesFromDirectory(file));
+            } else {
+                String lower = file.getName().toLowerCase();
+                if(! lower.endsWith(".jar")) continue;
+                
+                list.addAll(getClassNamesFromJar(file));
+            }
+        }
+        
+        return list;
     }
     
     /** 해당 디렉토리로부터 클래스 이름들을 찾아 반환. 이 디렉토리를 해당 클래스패스 경로로 생각하고 인식하므로, 안에 있는 다른 리소스 파일이나 jar 파일은 읽지 않음. */
     public static Set<String> getClassNamesFromDirectory(File dir) {
-    	if(! dir.exists()) throw new KnownRuntimeException("There is no directory ! " + dir.getAbsolutePath());
-    	if(! dir.isDirectory()) throw new KnownRuntimeException("This is not a directory ! " + dir.getAbsolutePath());
-    	
-    	String nowDir = dir.getAbsolutePath();
-    	nowDir = nowDir.replace(File.separator, "/"); // 디렉토리 구분자 /로 통일
-    	if(! nowDir.endsWith("/")) nowDir = nowDir + "/";
-    	
-    	Set<String> list = new HashSet<String>();
-    	list.addAll(getClassNamesFromDirectory(dir, ""));
-    	return list;
+        if(! dir.exists()) throw new KnownRuntimeException("There is no directory ! " + dir.getAbsolutePath());
+        if(! dir.isDirectory()) throw new KnownRuntimeException("This is not a directory ! " + dir.getAbsolutePath());
+        
+        String nowDir = dir.getAbsolutePath();
+        nowDir = nowDir.replace(File.separator, "/"); // 디렉토리 구분자 /로 통일
+        if(! nowDir.endsWith("/")) nowDir = nowDir + "/";
+        
+        Set<String> list = new HashSet<String>();
+        list.addAll(getClassNamesFromDirectory(dir, ""));
+        return list;
     }
     
     /** 외부에서 직접 호출 금지 ! */
     private static Set<String> getClassNamesFromDirectory(File dir, String packageName) {
-    	Set<String> list = new HashSet<String>();
-    	File[] files = dir.listFiles();
-    	
-    	for(File f : files) {
-    		if(f.isDirectory()) {
-    			list.addAll(getClassNamesFromDirectory(f, packageName + f.getName() + "."));
-    		} else {
-    			String name = f.getName();
-    			if(! name.toLowerCase().endsWith(".class")) continue;
-    			name = packageName + name.trim(); // 클래스 풀네임이 필요하므로, 앞에 패키지명 추가
-    			
-    			// 확장자 제거
-    	    	name = name.substring(0, name.length() - 6);
-    	    	
-    	    	// $ 기호 있는 경우 뒷부분 자르기
-    	    	if(name.contains("$")) {
-    	    		int dollorIndex = name.indexOf("$");
-    	    		name = name.substring(0, dollorIndex);
-    	    	}
-    			
-    			list.add(name);
-    		}
-    	}
-    	
-    	return list;
+        Set<String> list = new HashSet<String>();
+        File[] files = dir.listFiles();
+        
+        for(File f : files) {
+            if(f.isDirectory()) {
+                list.addAll(getClassNamesFromDirectory(f, packageName + f.getName() + "."));
+            } else {
+                String name = f.getName();
+                if(! name.toLowerCase().endsWith(".class")) continue;
+                name = packageName + name.trim(); // 클래스 풀네임이 필요하므로, 앞에 패키지명 추가
+                
+                // 확장자 제거
+                name = name.substring(0, name.length() - 6);
+                
+                // $ 기호 있는 경우 뒷부분 자르기
+                if(name.contains("$")) {
+                    int dollorIndex = name.indexOf("$");
+                    name = name.substring(0, dollorIndex);
+                }
+                
+                list.add(name);
+            }
+        }
+        
+        return list;
     }
     
     /** 해당 jar 파일로부터 클래스 이름들을 찾아 반환 */
     public static Set<String> getClassNamesFromJar(File jarFile) {
-    	if(! jarFile.exists()) throw new KnownRuntimeException("There is no jar ! " + jarFile.getAbsolutePath());
-    	if(jarFile.isDirectory()) throw new KnownRuntimeException("This is not a file ! " + jarFile.getAbsolutePath());
-    	Set<String> list = new HashSet<String>();
-    	
-    	JarFile jarInst = null;
-    	try {
-    	    jarInst = new JarFile(jarFile, false, JarFile.OPEN_READ);
-    	    Enumeration<JarEntry> entries = jarInst.entries();
-    	    while(entries.hasMoreElements()) {
-    	    	JarEntry entry = entries.nextElement();
-    	    	String name = entry.getName();
-    	    	name = name.replace("/", ".");
-    	    	
-    	    	// 디렉토리와 리소스들 제외
-    	    	if(! name.endsWith(".class")) continue;
-    	    	if(entry.isDirectory()) continue;
-    	    	// 확장자 제거
-    	    	name = name.substring(0, name.length() - 6);
-    	    	
-    	    	// $ 기호 있는 경우 뒷부분 자르기
-    	    	if(name.contains("$")) {
-    	    		int dollorIndex = name.indexOf("$");
-    	    		name = name.substring(0, dollorIndex);
-    	    	}
-    	    	
-    	    	// 목록에 추가
-    	    	list.add(name);
-    	    }
-    	} catch(Exception ex) {
-    		throw new RuntimeException(ex.getMessage(), ex);
-    	} finally {
-    		ClassUtil.closeAll(jarInst);
-    	}
-    	return list;
+        if(! jarFile.exists()) throw new KnownRuntimeException("There is no jar ! " + jarFile.getAbsolutePath());
+        if(jarFile.isDirectory()) throw new KnownRuntimeException("This is not a file ! " + jarFile.getAbsolutePath());
+        Set<String> list = new HashSet<String>();
+        
+        JarFile jarInst = null;
+        try {
+            jarInst = new JarFile(jarFile, false, JarFile.OPEN_READ);
+            Enumeration<JarEntry> entries = jarInst.entries();
+            while(entries.hasMoreElements()) {
+                JarEntry entry = entries.nextElement();
+                String name = entry.getName();
+                name = name.replace("/", ".");
+                
+                // 디렉토리와 리소스들 제외
+                if(! name.endsWith(".class")) continue;
+                if(entry.isDirectory()) continue;
+                // 확장자 제거
+                name = name.substring(0, name.length() - 6);
+                
+                // $ 기호 있는 경우 뒷부분 자르기
+                if(name.contains("$")) {
+                    int dollorIndex = name.indexOf("$");
+                    name = name.substring(0, dollorIndex);
+                }
+                
+                // 목록에 추가
+                list.add(name);
+            }
+        } catch(Exception ex) {
+            throw new RuntimeException(ex.getMessage(), ex);
+        } finally {
+            ClassUtil.closeAll(jarInst);
+        }
+        return list;
     }
     
     /** 클래스 이름으로 클래스 객체 불러오기, 초기화 (static 블록 호출) 여부 지정 가능. (주의 ! 반환된 Class 객체가 나타내는 대상이 클래스가 아닌, 인터페이스나 어노테이션일 수도 있음.) */
     public static Class<?> forName(String className, boolean initialize) throws ClassNotFoundException {
-    	ClassLoader loader = Thread.currentThread().getContextClassLoader();
-    	return Class.forName(className, initialize, loader);
+        ClassLoader loader = Thread.currentThread().getContextClassLoader();
+        return Class.forName(className, initialize, loader);
     }
     
     /** 해당 클래스/인터페이스의 자식 클래스들 모두 찾기 (반환되는 목록에서는 인터페이스와 어노테이션은 제외됨) */
     public static Set<Class<?>> getChildClasses(Class<?> parent, boolean initialize) {
-    	Set<Class<?>> classSet = new HashSet<Class<?>>();
+        Set<Class<?>> classSet = new HashSet<Class<?>>();
         for(String className : getAllClassNames()) {
-        	try {
-        	    Class<?> classOne = forName(className, false); // 일단 초기화하지 않고 불러오기
-        	    if(classOne.isInterface() ) continue; // 인터페이스 건너뛰기
-        	    if(classOne.isAnnotation()) continue; // 어노테이션 건너뛰기
-        	    
-        	    // 부모관계 아니면 건너뛰기
-        	    if(parent.isInterface()) {
-        	    	if(! parent.isAssignableFrom(classOne)) continue;
-        	    } else {
-        	    	if(! parent.isInstance(classOne)) continue;
-        	    }
-        	    
-        	    if(initialize) classOne = forName(className, true); // 초기화 필요 시, 다시 불러오기
+            try {
+                Class<?> classOne = forName(className, false); // 일단 초기화하지 않고 불러오기
+                if(classOne.isInterface() ) continue; // 인터페이스 건너뛰기
+                if(classOne.isAnnotation()) continue; // 어노테이션 건너뛰기
+                
+                // 부모관계 아니면 건너뛰기
+                if(parent.isInterface()) {
+                    if(! parent.isAssignableFrom(classOne)) continue;
+                } else {
+                    if(! parent.isInstance(classOne)) continue;
+                }
+                
+                if(initialize) classOne = forName(className, true); // 초기화 필요 시, 다시 불러오기
                 classSet.add(classOne);
-        	} catch(ClassNotFoundException ex) {
-        		System.out.println(className + " not found !");
-        	} catch(NoClassDefFoundError ex) {
-        		System.out.println(className + " cannot be load ! " + ex.getMessage());
-        	} catch(UnsupportedClassVersionError ex) {
-        		System.out.println(className + " class version is unsupported !" + ex.getMessage());
-        	} catch(Throwable ex) {
-        	    throw new RuntimeException(ex.getMessage(), ex);
-        	}
+            } catch(ClassNotFoundException ex) {
+                System.out.println(className + " not found !");
+            } catch(NoClassDefFoundError ex) {
+                System.out.println(className + " cannot be load ! " + ex.getMessage());
+            } catch(UnsupportedClassVersionError ex) {
+                System.out.println(className + " class version is unsupported !" + ex.getMessage());
+            } catch(Throwable ex) {
+                throw new RuntimeException(ex.getMessage(), ex);
+            }
         }
         return classSet;
     }
     
     /** 리플렉션을 통해 해당 객체의 메소드 호출 */
     public static Object invokeMethod(Object instance, String methodName, Object ... params) {
-    	try {
-    		Class<?> classObj = instance.getClass();
-    		
-    		if(params == null) params = new Object[0];
-    		Class<?>[] paramClasses = new Class<?>[params.length];
-    		for(int idx=0; idx<paramClasses.length; idx++) {
-    			paramClasses[idx] = params[idx].getClass();
-    		}
-    		
-    		Method mthd = classObj.getMethod(methodName, paramClasses);
-    		return mthd.invoke(instance, params);
-    	} catch(Exception ex) {
-    		throw new RuntimeException(ex.getMessage(), ex);
-    	}
+        try {
+            Class<?> classObj = instance.getClass();
+            
+            if(params == null) params = new Object[0];
+            Class<?>[] paramClasses = new Class<?>[params.length];
+            for(int idx=0; idx<paramClasses.length; idx++) {
+                paramClasses[idx] = params[idx].getClass();
+            }
+            
+            Method mthd = classObj.getMethod(methodName, paramClasses);
+            return mthd.invoke(instance, params);
+        } catch(Exception ex) {
+            throw new RuntimeException(ex.getMessage(), ex);
+        }
     }
     
     /** 리플렉션을 통해 해당 클래스의 static 메소드 호출 */
     public static Object invokeStaticMethod(String classFullName, String methodName, Object ... params) {
-    	try {
-    		Class<?> classObj = Class.forName(classFullName);
-    		
-    		if(params == null) params = new Object[0];
-    		Class<?>[] paramClasses = new Class<?>[params.length];
-    		for(int idx=0; idx<paramClasses.length; idx++) {
-    			paramClasses[idx] = params[idx].getClass();
-    		}
-    		
-    		Method mthd = classObj.getMethod(methodName, paramClasses);
-    		return mthd.invoke(null, params);
-    	} catch(Exception ex) {
-    		throw new RuntimeException(ex.getMessage(), ex);
-    	}
+        try {
+            Class<?> classObj = Class.forName(classFullName);
+            
+            if(params == null) params = new Object[0];
+            Class<?>[] paramClasses = new Class<?>[params.length];
+            for(int idx=0; idx<paramClasses.length; idx++) {
+                paramClasses[idx] = params[idx].getClass();
+            }
+            
+            Method mthd = classObj.getMethod(methodName, paramClasses);
+            return mthd.invoke(null, params);
+        } catch(Exception ex) {
+            throw new RuntimeException(ex.getMessage(), ex);
+        }
     }
     
     /** 해당 jar 파일을 통해 클래스를 불러올 수 있는 클래스로더 생성 */
-	public static URLClassLoader newClassLoader(File file) {
-		return newClassLoader(file, ROOT_CLASS_LOADER);
-	}
-	
-	/** 해당 jar 파일을 통해 클래스를 불러올 수 있는 클래스로더 생성 */
-	public static URLClassLoader newClassLoader(File file, ClassLoader parent) {
-		File[] files = new File[1];
-		files[0] = file;
-		return newClassLoader(files, parent);
-	}
-	
-	/** 해당 jar 파일을 통해 클래스를 불러올 수 있는 클래스로더 생성 - 주의 ! jar 파일인 경우 여러 파일을 넣으면 인식하지 못할 수 있음. */
-	public static URLClassLoader newClassLoader(File[] files) {
-		return newClassLoader(files, ROOT_CLASS_LOADER);
-	}
-	
-	/** 해당 jar 파일을 통해 클래스를 불러올 수 있는 클래스로더 생성 - 주의 ! jar 파일인 경우 여러 파일을 넣으면 인식하지 못할 수 있음. */
-	public static URLClassLoader newClassLoader(File[] files, ClassLoader parent) {
-		try {
-			URL[] urls = new URL[files.length];
-			for(int idx=0; idx<urls.length; idx++) {
-				urls[idx] = files[idx].toURI().toURL();
-			}
-			
-			return newClassLoader(urls, parent);
-		} catch(RuntimeException ex) {
-			throw ex;
-		} catch(Exception ex) {
-			throw new RuntimeException(ex.getMessage(), ex);
-		}
-	}
-	
-	/** 해당 jar 파일을 통해 클래스를 불러올 수 있는 클래스로더 생성 */
-	public static URLClassLoader newClassLoader(URL url) {
-		return newClassLoader(url, ROOT_CLASS_LOADER);
-	}
-	
-	/** 해당 jar 파일을 통해 클래스를 불러올 수 있는 클래스로더 생성 */
-	public static URLClassLoader newClassLoader(URL url, ClassLoader parent) {
-		URL[] urls = new URL[1];
-		urls[0] = url;
-		return newClassLoader(urls, parent);
-	}
-	
-	/** 해당 jar 파일을 통해 클래스를 불러올 수 있는 클래스로더 생성 - 주의 ! jar 파일인 경우 여러 파일을 넣으면 인식하지 못할 수 있음. */
-	public static URLClassLoader newClassLoader(URL[] urls) {
-		return newClassLoader(urls, ROOT_CLASS_LOADER);
-	}
-	
-	/** 해당 jar 파일을 통해 클래스를 불러올 수 있는 클래스로더 생성 - 주의 ! jar 파일인 경우 여러 파일을 넣으면 인식하지 못할 수 있음. */
-	public static URLClassLoader newClassLoader(URL[] urls, ClassLoader parent) {
-		try {
-		    URLClassLoader newOne = new URLClassLoader(urls, parent);
-		    urlClassLoaders.add(newOne);
-		    
-		    return newOne;
-		} catch(Exception ex) {
-			throw new RuntimeException(ex.getMessage(), ex);
-		}
-	}
-	
-	/** ClassWrapper 들의 List 로부터 Class 리스트 생성 */
+    public static URLClassLoader newClassLoader(File file) {
+        return newClassLoader(file, ROOT_CLASS_LOADER);
+    }
+    
+    /** 해당 jar 파일을 통해 클래스를 불러올 수 있는 클래스로더 생성 */
+    public static URLClassLoader newClassLoader(File file, ClassLoader parent) {
+        File[] files = new File[1];
+        files[0] = file;
+        return newClassLoader(files, parent);
+    }
+    
+    /** 해당 jar 파일을 통해 클래스를 불러올 수 있는 클래스로더 생성 - 주의 ! jar 파일인 경우 여러 파일을 넣으면 인식하지 못할 수 있음. */
+    public static URLClassLoader newClassLoader(File[] files) {
+        return newClassLoader(files, ROOT_CLASS_LOADER);
+    }
+    
+    /** 해당 jar 파일을 통해 클래스를 불러올 수 있는 클래스로더 생성 - 주의 ! jar 파일인 경우 여러 파일을 넣으면 인식하지 못할 수 있음. */
+    public static URLClassLoader newClassLoader(File[] files, ClassLoader parent) {
+        try {
+            URL[] urls = new URL[files.length];
+            for(int idx=0; idx<urls.length; idx++) {
+                urls[idx] = files[idx].toURI().toURL();
+            }
+            
+            return newClassLoader(urls, parent);
+        } catch(RuntimeException ex) {
+            throw ex;
+        } catch(Exception ex) {
+            throw new RuntimeException(ex.getMessage(), ex);
+        }
+    }
+    
+    /** 해당 jar 파일을 통해 클래스를 불러올 수 있는 클래스로더 생성 */
+    public static URLClassLoader newClassLoader(URL url) {
+        return newClassLoader(url, ROOT_CLASS_LOADER);
+    }
+    
+    /** 해당 jar 파일을 통해 클래스를 불러올 수 있는 클래스로더 생성 */
+    public static URLClassLoader newClassLoader(URL url, ClassLoader parent) {
+        URL[] urls = new URL[1];
+        urls[0] = url;
+        return newClassLoader(urls, parent);
+    }
+    
+    /** 해당 jar 파일을 통해 클래스를 불러올 수 있는 클래스로더 생성 - 주의 ! jar 파일인 경우 여러 파일을 넣으면 인식하지 못할 수 있음. */
+    public static URLClassLoader newClassLoader(URL[] urls) {
+        return newClassLoader(urls, ROOT_CLASS_LOADER);
+    }
+    
+    /** 해당 jar 파일을 통해 클래스를 불러올 수 있는 클래스로더 생성 - 주의 ! jar 파일인 경우 여러 파일을 넣으면 인식하지 못할 수 있음. */
+    public static URLClassLoader newClassLoader(URL[] urls, ClassLoader parent) {
+        try {
+            URLClassLoader newOne = new URLClassLoader(urls, parent);
+            urlClassLoaders.add(newOne);
+            
+            return newOne;
+        } catch(Exception ex) {
+            throw new RuntimeException(ex.getMessage(), ex);
+        }
+    }
+    
+    /** ClassWrapper 들의 List 로부터 Class 리스트 생성 */
     public static List<Class<?>> getClassListsFrom(List<ClassWrapper> wrappers) {
-    	List<Class<?>> list = new ArrayList<Class<?>>();
-    	for(ClassWrapper cls : wrappers) {
-    		list.add(cls.getWrappedClass());
-    	}
-    	return list;
+        List<Class<?>> list = new ArrayList<Class<?>>();
+        for(ClassWrapper cls : wrappers) {
+            list.add(cls.getWrappedClass());
+        }
+        return list;
     }
     
     /** 모든 URLClassLoader 닫기 
      * @see ClassUtil.closeAllURLClassLoaders
      */
     @Deprecated
-	public static synchronized void closeAll() {
-		closeAllURLClassLoaders();
-	}
-	
-	/** 모든 URLClassLoader 닫기 */
-	public static synchronized void closeAllURLClassLoaders() {
-		ClassUtil.closeAll(urlClassLoaders);
-		urlClassLoaders.clear();
-	}
+    public static synchronized void closeAll() {
+        closeAllURLClassLoaders();
+    }
+    
+    /** 모든 URLClassLoader 닫기 */
+    public static synchronized void closeAllURLClassLoaders() {
+        ClassUtil.closeAll(urlClassLoaders);
+        urlClassLoaders.clear();
+    }
 }
