@@ -63,41 +63,52 @@ public class Coordinate3D implements Serializable {
         double dx = getX() - camera.getX();
         double dy = getY() - camera.getY();
         double dz = getZ() - camera.getZ();
-        
-        // yaw (Y축 회전)
-        double cosY = Math.cos(yaw);
-        double sinY = Math.sin(yaw);
-        double tx = dx * cosY - dx * sinY;
-        double tz = dx * sinY + dz * cosY;
-        dx = tx;
-        dz = tz;
-        
-        // pitch (X축 회전)
-        double cosP = Math.cos(pitch);
-        double sinP = Math.sin(pitch);
-        double ty = dy * cosP - dz * sinP;
-        tz = dy * sinP + dz * cosP;
-        dy = ty;
-        dz = tz;
-        
-        double cx = dx;
-        double cy = dy;
-        double cz = dz;
-        
-        if(cz <= 0) return null; // 카메라 뒤에 있는 경우 제외
-        
+
+        // Rotate point around camera
+        // Yaw (Y-axis rotation)
+        double cosYaw = Math.cos(yaw);
+        double sinYaw = Math.sin(yaw);
+        double rotatedX = dx * cosYaw + dz * sinYaw;
+        double rotatedZ = -dx * sinYaw + dz * cosYaw;
+
+        // Pitch (X-axis rotation)
+        double cosPitch = Math.cos(pitch);
+        double sinPitch = Math.sin(pitch);
+        double rotatedY = dy * cosPitch - rotatedZ * sinPitch;
+        rotatedZ = dy * sinPitch + rotatedZ * cosPitch;
+
+        // Roll is not used in this case
+
+        double cx = rotatedX;
+        double cy = rotatedY;
+        double cz = rotatedZ;
+
+        if(cz <= 0) return null; // Behind the camera
+
+        // Project to 2D
         double px = focalLength * cx / cz;
         double py = focalLength * cy / cz;
-        
+
+        // Convert to screen coordinates
         double u = px + screenCenterX;
         double v = py + screenCenterY;
-        
+
         return new Coordinate2D((long) u, (long) v);
 	}
 	
 	@Override
 	public String toString() {
 		return "(" + getX() + ", " + getY() + ", " + getZ() + ")";
+	}
+	
+	@Override
+	public boolean equals(Object others) {
+		if(others == null) return false;
+		if(others instanceof Coordinate3D) {
+			Coordinate3D o = (Coordinate3D) others;
+			return (o.getX() == getX() && o.getY() == getY() && o.getZ() == getZ());
+		}
+		return false;
 	}
 	
 	/** JSON 객체로 변환 */

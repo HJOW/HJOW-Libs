@@ -34,6 +34,16 @@ public class Coordinate2D implements Serializable {
 		return "(" + getX() + ", " + getY() + ")";
 	}
 	
+	@Override
+	public boolean equals(Object others) {
+		if(others == null) return false;
+		if(others instanceof Coordinate2D) {
+			Coordinate2D o = (Coordinate2D) others;
+			return (o.getX() == getX() && o.getY() == getY());
+		}
+		return false;
+	}
+	
 	/** JSON 객체로 변환 */
 	public JsonObject toJSON() {
 		JsonObject json = new JsonObject();
